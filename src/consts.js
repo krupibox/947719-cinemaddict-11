@@ -25,3 +25,9 @@ export const Range = {
   MAX_DURATION: 59,
   GENRES: 3
 };
+
+export const FilmList = {
+  TOTAL: 17,
+  EXTRA: 2
+}
+
