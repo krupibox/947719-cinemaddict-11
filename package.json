@@ -7,7 +7,7 @@
     "build": "webpack --env.type=prod",
     "start": "webpack-dev-server --open --env.type=dev",
     "eslint": "eslint src/**/*.js",
-    "test": "npm run eslint"
+    "test": "npm run eslint -- --fix"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
