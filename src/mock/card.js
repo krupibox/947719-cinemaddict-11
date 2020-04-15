@@ -8,9 +8,17 @@ import {
   generateComments,
   getRandomDate,
   getFormatDate
-} from './utils';
-import {GENRE, Range} from '../consts';
-import {WORDS, POSTERS} from './fish';
+} from '../utils';
+
+import {
+  GENRE,
+  Range
+} from '../consts';
+
+import {
+  WORDS,
+  POSTERS
+} from './fish';
 
 const generateCard = (index) => {
   const filmName = generateText(Range.MIN_TITLE, Range.MAX_TITLE, WORDS);
@@ -38,4 +46,6 @@ const generateCard = (index) => {
   };
 };
 
-export {generateCard};
+export {
+  generateCard
+};
