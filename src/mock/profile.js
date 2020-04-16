@@ -1,6 +1,11 @@
-import {NICKNAMES} from './fish';
+import {
+  NICKNAMES
+} from './fish';
 
-import {getRandomArrayItem, getTextSentenceCase} from './utils';
+import {
+  getRandomArrayItem,
+  getTextSentenceCase
+} from '../utils';
 
 const generateProfile = () => {
   return {
@@ -8,4 +13,6 @@ const generateProfile = () => {
   };
 };
 
-export {generateProfile};
+export {
+  generateProfile
+};

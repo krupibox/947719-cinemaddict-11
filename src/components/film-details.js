@@ -1,5 +1,7 @@
-export const createFilmDetailsTemplate = (details) => {
-  const {title, rating, director, writers, actors, releaseDate, duration, country, genres, description} = details;
+import {createElement} from '../utils';
+
+const createFilmDetailsTemplate = (details) => {
+  const {title, rating, director, writers, actors, releaseDate, duration, country, genres, poster, description} = details;
 
   return `<section class="film-details">
             <form class="film-details__inner" action="" method="get">
@@ -9,7 +11,7 @@ export const createFilmDetailsTemplate = (details) => {
                 </div>
                 <div class="film-details__info-wrap">
                   <div class="film-details__poster">
-                    <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+                    <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
 
                     <p class="film-details__age">18+</p>
                   </div>
@@ -171,3 +173,27 @@ export const createFilmDetailsTemplate = (details) => {
             </form>
           </section>`;
 };
+
+
+export default class FilmDetailsComponent {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

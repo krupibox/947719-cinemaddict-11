@@ -1,3 +1,8 @@
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
 export const GENRE = [
   `Western`,
   `Drama`,
@@ -26,8 +31,14 @@ export const Range = {
   GENRES: 3
 };
 
-export const FilmList = {
+export const Films = {
   TOTAL: 17,
   EXTRA: 2
 }
+
+export const FILM_CARD_ELEMENTS = [
+  `film-card__poster`,
+  `film-card__title`,
+  `film-card__comments`
+];
 
