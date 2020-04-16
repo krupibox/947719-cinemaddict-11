@@ -1,17 +1,14 @@
-import {createElement} from '../utils';
+import { createElement } from '../../utils';
+import { createProfileTemplate } from './profile-tpl';
 
-const createButtonShowMoreTemplate = () => {
-  return `<button class="films-list__show-more">Show more</button>`;
-};
-
-export default class ShowMoreButtonComponent {
+export default class ProfileComponent {
   constructor(profile) {
     this._profile = profile;
     this._element = null;
   }
 
   getTemplate() {
-    return createButtonShowMoreTemplate(this._profile);
+    return createProfileTemplate(this._profile);
   }
 
   getElement() {
