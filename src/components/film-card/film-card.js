@@ -10,4 +10,8 @@ export default class FilmsSectionComponent extends AbstractComponent {
   getTemplate() {
     return createFilmCardTemplate(this._card);
   }
+
+  setClickHandler(cb)  {
+    this.getElement().addEventListener(`click`, cb);
+  }
 }
