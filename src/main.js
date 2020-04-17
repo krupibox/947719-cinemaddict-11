@@ -26,17 +26,17 @@ const filmListContainer = filmsSectionComponent.getElement().querySelector(`.fil
 const filmListTopRated = filmsSectionComponent.getElement().querySelector(`.films .films-list--extra .films-list__container`);
 const filmListMostCommented = filmsSectionComponent.getElement().querySelector(`.films .films-list--extra:last-of-type .films-list__container`);
 
-render(siteHeader, new ProfileComponent(generateProfile()).getElement(), RenderPosition.BEFOREEND);
-render(siteMain, new NavigationComponent(films).getElement(), RenderPosition.BEFOREEND);
-render(siteMain, new SortingComponent(films).getElement(), RenderPosition.BEFOREEND);
-render(siteMain, filmsSectionComponent.getElement(), RenderPosition.BEFOREEND);
+render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
+render(siteMain, new NavigationComponent(films), RenderPosition.BEFOREEND);
+render(siteMain, new SortingComponent(films), RenderPosition.BEFOREEND);
+render(siteMain, filmsSectionComponent, RenderPosition.BEFOREEND);
 
 const renderCard = (container, film) => {
   const filmCardComponent = new FilmCardComponent(film);
   const filmDetailComponent = new FilmDetailsComponent(film);
   const closeButtonElement = filmDetailComponent.getElement().querySelector(`.film-details__close-btn`);
 
-  render(container, filmCardComponent.getElement(), RenderPosition.BEFOREEND);
+  render(container, filmCardComponent, RenderPosition.BEFOREEND);
 
   filmCardComponent.getElement().addEventListener(`click`, (event) => {
     if (FILM_CARD_ELEMENTS.some((element) => event.target.classList.contains(element))) {
@@ -44,7 +44,7 @@ const renderCard = (container, film) => {
 
       oldFilmCard
         ? siteMain.replaceChild(filmDetailComponent.getElement(), oldFilmCard)
-        : render(siteMain, filmDetailComponent.getElement(), RenderPosition.BEFOREEND);
+        : render(siteMain, filmDetailComponent, RenderPosition.BEFOREEND);
 
       document.addEventListener(`keydown`, onEscapeKeyDown);
     }
@@ -67,11 +67,11 @@ let CardCount = {
 
 (films.length > 0)
   ? films.slice(0, CardCount.begin).forEach((_, index) => renderCard(filmListContainer, films[index]))
-  : render(filmListContainer, new NoFilmsComponent().getElement(), RenderPosition.BEFOREEND);
+  : render(filmListContainer, new NoFilmsComponent(), RenderPosition.BEFOREEND);
 
 const showMoreButtonComponent = new ShowMoreButtonComponent();
 
-(films.length > CardCount.begin) && render(filmList, showMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+(films.length > CardCount.begin) && render(filmList, showMoreButtonComponent, RenderPosition.BEFOREEND);
 
 showMoreButtonComponent.getElement().addEventListener(`click`, () => {
   films.slice(CardCount.begin, CardCount.end).forEach((card) => renderCard(filmListContainer, card));
@@ -100,4 +100,4 @@ const filmsMaxComments = films.slice().sort((a, b) => b.comments.length - a.comm
   films.slice(0, Films.EXTRA)
     .forEach((_, index) => renderCard(filmListMostCommented, filmsMaxComments[index]));
 
-render(siteFooter, new FilmsStatisticsComponent(films).getElement(), RenderPosition.BEFOREEND);
+render(siteFooter, new FilmsStatisticsComponent(films), RenderPosition.BEFOREEND);
