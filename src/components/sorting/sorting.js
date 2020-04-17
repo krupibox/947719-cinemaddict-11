@@ -1,23 +1,19 @@
-import {createElement} from '../utils';
+import { createElement } from '../../utils';
+import { createSortingTemplate } from './sorting-tpl';
 
-const createNoFilmsTemplate = () => {
-  return `<h2 class="films-list__title">There are no movies in our database</h2>`;
-};
-
-export default class NoFilms {
+export default class SortingComponent {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createNoFilmsTemplate();
+    return createSortingTemplate();
   }
 
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
-
     return this._element;
   }
 
@@ -25,3 +21,4 @@ export default class NoFilms {
     this._element = null;
   }
 }
+

@@ -1,10 +1,5 @@
-import {createElement} from '../utils';
-
-const createFilmsStatistics = (movies) => {
-  return `<section class="footer__statistics">
-            <p>${movies.length} movies inside</p>
-          </section>`;
-};
+import { createElement } from '../../utils';
+import { createFilmsStatistics } from './film-statistics-tpl';
 
 export default class FilmsStatisticsComponent {
   constructor(profile) {
