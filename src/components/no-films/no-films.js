@@ -1,24 +1,8 @@
-import { createElement } from '../../utils';
 import { createNoFilmsTemplate } from './no-films-tpl';
+import AbstractComponent from '../abstract';
 
-export default class NoFilmsComponent {
-  constructor() {
-    this._element = null;
-  }
-
+export default class NoFilmsComponent extends AbstractComponent {
   getTemplate() {
     return createNoFilmsTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,25 +1,13 @@
-import { createElement } from '../../utils';
 import { createFilmCardTemplate } from './film-card-tpl';
+import AbstractComponent from '../abstract';
 
-export default class FilmsSectionComponent {
+export default class FilmsSectionComponent extends AbstractComponent {
   constructor(card) {
+    super();
     this._card = card;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._card);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,25 +1,13 @@
-import { createElement } from '../../utils';
 import { createNavigationTemplate } from './navigation-tpl';
+import AbstractComponent from '../abstract';
 
-export default class NavigationComponent {
+export default class NavigationComponent extends AbstractComponent {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return createNavigationTemplate(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
