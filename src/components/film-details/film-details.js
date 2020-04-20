@@ -1,4 +1,4 @@
-import { createFilmDetailsTemplate } from './film-details-tpl';
+import {createFilmDetailsTemplate} from './film-details-tpl';
 import AbstractComponent from '../abstract';
 
 export default class FilmDetailsComponent extends AbstractComponent {
@@ -10,12 +10,12 @@ export default class FilmDetailsComponent extends AbstractComponent {
   getCloseButton() {
     return this.getElement().querySelector(`.film-details__close-btn`);
   }
-  
+
   getTemplate() {
     return createFilmDetailsTemplate(this._card);
   }
 
-  setClickHandler(cb)  {
+  setClickHandler(cb) {
     this.getElement().addEventListener(`click`, cb);
   }
 }

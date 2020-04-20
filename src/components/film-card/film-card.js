@@ -1,4 +1,4 @@
-import { createFilmCardTemplate } from './film-card-tpl';
+import {createFilmCardTemplate} from './film-card-tpl';
 import AbstractComponent from '../abstract';
 
 export default class FilmsSectionComponent extends AbstractComponent {
@@ -11,7 +11,7 @@ export default class FilmsSectionComponent extends AbstractComponent {
     return createFilmCardTemplate(this._card);
   }
 
-  setClickHandler(cb)  {
+  setClickHandler(cb) {
     this.getElement().addEventListener(`click`, cb);
   }
 }

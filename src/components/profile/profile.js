@@ -1,4 +1,4 @@
-import { createProfileTemplate } from './profile-tpl';
+import {createProfileTemplate} from './profile-tpl';
 import AbstractComponent from '../abstract';
 
 export default class ProfileComponent extends AbstractComponent {

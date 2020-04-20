@@ -34,7 +34,7 @@ export const Range = {
 export const Films = {
   TOTAL: 17,
   EXTRA: 2
-}
+};
 
 export const FILM_CARD_ELEMENTS = [
   `film-card__poster`,

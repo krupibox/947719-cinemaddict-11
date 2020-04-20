@@ -1,4 +1,4 @@
-import { createNavigationTemplate } from './navigation-tpl';
+import {createNavigationTemplate} from './navigation-tpl';
 import AbstractComponent from '../abstract';
 
 export default class NavigationComponent extends AbstractComponent {

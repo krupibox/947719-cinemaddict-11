@@ -20,7 +20,7 @@ import {
   POSTERS
 } from './fish';
 
-const generateCard = (index) => {
+export const generateFilm = (index) => {
   const filmName = generateText(Range.MIN_TITLE, Range.MAX_TITLE, WORDS);
 
   return {
@@ -46,6 +46,3 @@ const generateCard = (index) => {
   };
 };
 
-export {
-  generateCard
-};
