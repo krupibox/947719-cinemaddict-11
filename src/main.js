@@ -1,6 +1,5 @@
 import ProfileComponent from './components/profile/profile';
 import NavigationComponent from './components/navigation/navigation';
-import SortingComponent from './components/sorting/sorting';
 import FilmsSectionComponent from './components/film-section/film-section';
 import FilmsStatisticsComponent from './components/film-statistics/films-statistics';
 import PageController from './controllers/page-controller';
@@ -19,7 +18,6 @@ const filmsSectionContainer = new FilmsSectionComponent();
 
 render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
 render(siteMain, new NavigationComponent(films), RenderPosition.BEFOREEND);
-render(siteMain, new SortingComponent(films), RenderPosition.BEFOREEND);
 render(siteMain, filmsSectionContainer, RenderPosition.BEFOREEND);
 
 const filmsSortedByMaxComments = films.slice().sort((a, b) => b.comments.length - a.comments.length);

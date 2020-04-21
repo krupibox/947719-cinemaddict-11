@@ -36,9 +36,14 @@ export const Films = {
   EXTRA: 2
 };
 
+export const SortType = {
+  RATING: `rating`,
+  DATE: `date`,
+  DEFAULT: `default`,
+};
+
 export const FILM_CARD_ELEMENTS = [
   `film-card__poster`,
   `film-card__title`,
   `film-card__comments`
 ];
-
