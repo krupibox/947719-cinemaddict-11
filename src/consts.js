@@ -47,4 +47,3 @@ export const FILM_CARD_ELEMENTS = [
   `film-card__title`,
   `film-card__comments`
 ];
-

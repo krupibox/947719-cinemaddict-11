@@ -6,9 +6,9 @@ import ShowMoreButtonComponent from '../components/show-more-button/show-more-bu
 import {render, isEscPressed} from '../utils';
 import {Films, RenderPosition, SortType, FILM_CARD_ELEMENTS} from '../consts';
 
-let CardCount = {
-  begin: 5,
-  end: 10
+const CardCount = {
+  BEGIN: 5,
+  END: 10
 };
 
 export default class PageController {
@@ -34,7 +34,7 @@ export default class PageController {
 
     this._renderFilms(this._allFilms);
 
-    if (this._allFilms.length > CardCount.begin) {
+    if (this._allFilms.length > CardCount.BEGIN) {
       render(this._filmsList, this._showMoreButtonComponent, RenderPosition.BEFOREEND);
     }
 
@@ -47,7 +47,7 @@ export default class PageController {
     if (films.length > 0) {
       this._filmsListContainer.innerHTML = ``;
 
-      films.slice(0, CardCount.begin)
+      films.slice(0, CardCount.BEGIN)
         .forEach((_, index) => this._renderFilm(this._filmsListContainer, films[index]));
     } else {
       render(this._filmsListContainer, new NoFilmsComponent(), RenderPosition.BEFOREEND);
@@ -125,12 +125,12 @@ export default class PageController {
   }
 
   _onShowMoreButtonClick() {
-    this._allFilms.slice(CardCount.begin, CardCount.end).forEach((card) => this._renderFilm(this._filmsListContainer, card));
-    let filmsCounter = this._allFilms.slice(CardCount.begin, CardCount.end).length;
+    this._allFilms.slice(CardCount.BEGIN, CardCount.END).forEach((card) => this._renderFilm(this._filmsListContainer, card));
+    let filmsCounter = this._allFilms.slice(CardCount.BEGIN, CardCount.END).length;
 
-    if (CardCount.end < this._allFilms.length) {
-      CardCount.begin += filmsCounter;
-      CardCount.end += filmsCounter;
+    if (CardCount.END < this._allFilms.length) {
+      CardCount.BEGIN += filmsCounter;
+      CardCount.END += filmsCounter;
     } else {
       this._showMoreButtonComponent.getElement().remove();
       this._showMoreButtonComponent.removeElement();
