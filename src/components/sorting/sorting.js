@@ -1,24 +1,8 @@
-import { createElement } from '../../utils';
-import { createSortingTemplate } from './sorting-tpl';
+import {createSortingTemplate} from './sorting-tpl';
+import AbstractComponent from '../abstract';
 
-export default class SortingComponent {
-  constructor() {
-    this._element = null;
-  }
-
+export default class SortingComponent extends AbstractComponent {
   getTemplate() {
     return createSortingTemplate();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-
