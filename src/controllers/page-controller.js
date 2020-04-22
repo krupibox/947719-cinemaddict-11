@@ -3,8 +3,8 @@ import FilmCardComponent from '../components/film-card/film-card';
 import FilmDetailsComponent from '../components/film-details/film-details';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
-import {render, isEscPressed} from '../utils';
-import {Films, RenderPosition, SortType, FILM_CARD_ELEMENTS} from '../consts';
+import { render, isEscPressed } from '../utils';
+import { Films, RenderPosition, SortType, FILM_CARD_ELEMENTS } from '../consts';
 
 const CardCount = {
   BEGIN: 5,
@@ -54,39 +54,42 @@ export default class PageController {
     }
   }
 
+  _onFilmCardClick(evt, componentDetailFilm) {
+
+    const onFilmDetailEsc = () => {
+      document.removeEventListener(`keydown`, onEscapeKeyDown);
+      componentDetailFilm.getElement().remove();
+    };
+
+    const onEscapeKeyDown = () => isEscPressed && onFilmDetailEsc();
+
+    if (FILM_CARD_ELEMENTS.some((element) => evt.target.classList.contains(element))) {
+
+      const siteMain = document.body.querySelector(`.main`);
+      const oldFilmCard = siteMain.querySelector(`.film-details`);
+
+      if (oldFilmCard) {
+        siteMain.replaceChild(componentDetailFilm.getElement(), oldFilmCard);
+      }
+
+      render(siteMain, componentDetailFilm, RenderPosition.BEFOREEND);
+      document.addEventListener(`keydown`, onEscapeKeyDown);
+    }
+  };
+
+
   _renderFilm(container, film) {
     const filmCardComponent = new FilmCardComponent(film);
     const filmDetailComponent = new FilmDetailsComponent(film);
-
-    const onFilmCardClick = (evt) => {
-      if (FILM_CARD_ELEMENTS.some((element) => evt.target.classList.contains(element))) {
-
-        const siteMain = document.querySelector(`.main`);
-        const oldFilmCard = siteMain.querySelector(`.film-details`);
-
-        if (oldFilmCard) {
-          siteMain.replaceChild(filmDetailComponent.getElement(), oldFilmCard);
-        }
-
-        render(siteMain, filmDetailComponent, RenderPosition.BEFOREEND);
-        document.addEventListener(`keydown`, onEscapeKeyDown);
-      }
-    };
 
     const onCloseButtonClick = () => {
       filmDetailComponent.getElement().remove();
       filmDetailComponent.removeElement();
     };
 
-    const onFilmDetailEsc = () => {
-      document.removeEventListener(`keydown`, onEscapeKeyDown);
-      filmDetailComponent.getElement().remove();
-    };
-
-    const onEscapeKeyDown = () => isEscPressed && onFilmDetailEsc();
-
-    filmCardComponent.setClickHandler(onFilmCardClick);
+    filmCardComponent.setClickHandler((evt) => this._onFilmCardClick(evt, filmDetailComponent));
     filmDetailComponent.setClickHandler(onCloseButtonClick);
+
     render(container, filmCardComponent, RenderPosition.BEFOREEND);
   }
 
