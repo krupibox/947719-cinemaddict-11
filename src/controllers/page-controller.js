@@ -1,10 +1,9 @@
 import SortComponent from '../components/sort/sort';
-import FilmCardComponent from '../components/film-card/film-card';
-import FilmDetailsComponent from '../components/film-details/film-details';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
-import { render, isEscPressed } from '../utils';
-import { Films, RenderPosition, SortType, FILM_CARD_ELEMENTS } from '../consts';
+import FilmController from '../controllers/film-controller';
+import { render } from '../utils';
+import { Films, RenderPosition, SortType } from '../consts';
 
 const CardCount = {
   BEGIN: 5,
@@ -21,6 +20,9 @@ export default class PageController {
     this._filmsListContainerExtra = this._container.getFilmsListContainerTopRatedElement();
     this._filmsListMostCommented = this._container.getFilmsListContainerMostCommentedElement();
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
+    this._filmListContainerController = new FilmController(this._filmsListContainer)
+    this._filmsListContainerExtraController = new FilmController(this._filmsListContainerExtra)
+    this._filmsListMostCommentedController = new FilmController(this._filmsListMostCommented)
     this._sortComponent = new SortComponent(this._allFilms);
     this._onShowMoreButtonClick = this._onShowMoreButtonClick.bind(this);
     this._onSortType = this._onSortType.bind(this);
@@ -48,63 +50,26 @@ export default class PageController {
       this._filmsListContainer.innerHTML = ``;
 
       films.slice(0, CardCount.BEGIN)
-        .forEach((_, index) => this._renderFilm(this._filmsListContainer, films[index]));
+        .forEach((_, index) => this._filmListContainerController.render(films[index]));
     } else {
       render(this._filmsListContainer, new NoFilmsComponent(), RenderPosition.BEFOREEND);
     }
-  }
-
-  _onFilmCardClick(evt, componentDetailFilm) {
-
-    const onFilmDetailEsc = () => {
-      document.removeEventListener(`keydown`, onEscapeKeyDown);
-      componentDetailFilm.getElement().remove();
-    };
-
-    const onEscapeKeyDown = () => isEscPressed && onFilmDetailEsc();
-
-    if (FILM_CARD_ELEMENTS.some((element) => evt.target.classList.contains(element))) {
-
-      const siteMain = document.body.querySelector(`.main`);
-      const oldFilmCard = siteMain.querySelector(`.film-details`);
-
-      if (oldFilmCard) {
-        siteMain.replaceChild(componentDetailFilm.getElement(), oldFilmCard);
-      }
-
-      render(siteMain, componentDetailFilm, RenderPosition.BEFOREEND);
-      document.addEventListener(`keydown`, onEscapeKeyDown);
-    }
-  };
-
-
-  _renderFilm(container, film) {
-    const filmCardComponent = new FilmCardComponent(film);
-    const filmDetailComponent = new FilmDetailsComponent(film);
-
-    const onCloseButtonClick = () => {
-      filmDetailComponent.getElement().remove();
-      filmDetailComponent.removeElement();
-    };
-
-    filmCardComponent.setClickHandler((evt) => this._onFilmCardClick(evt, filmDetailComponent));
-    filmDetailComponent.setClickHandler(onCloseButtonClick);
-
-    render(container, filmCardComponent, RenderPosition.BEFOREEND);
   }
 
   _renderMaxRatingFilms() {
     const filmsMaxRating = this._allFilms.slice().sort((a, b) => b.rating - a.rating);
 
     if (filmsMaxRating.length > 0) {
-      this._allFilms.slice(0, Films.EXTRA).forEach((_, index) => this._renderFilm(this._filmsListContainerExtra, this._comments[index]));
+      this._allFilms.slice(0, Films.EXTRA)
+      .forEach((_, index) => this._filmsListContainerExtraController.render(this._comments[index]));
     }
 
   }
 
   _renderMostCommentedFilms() {
     if (this._allFilms.length > 0 && this._comments[0].comments.length > 0) {
-      this._allFilms.slice(0, Films.EXTRA).forEach((_, index) => this._renderFilm(this._filmsListMostCommented, this._comments[index]));
+      this._allFilms.slice(0, Films.EXTRA)
+      .forEach((_, index) => this._filmsListMostCommentedController.render(this._comments[index]));
     }
   }
 
