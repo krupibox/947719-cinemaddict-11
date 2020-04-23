@@ -14,4 +14,19 @@ export default class FilmsSectionComponent extends AbstractComponent {
   setClickHandler(cb) {
     this.getElement().addEventListener(`click`, cb);
   }
+
+  setOnButtonWatchListClick(cb) {
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, cb);
+  }
+
+  setOnButtonWatchedClick(cb) {
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, cb);
+  }
+
+  setOnButtonFavoriteClick(cb) {
+    this.getElement().querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, cb);
+  }
 }
