@@ -15,7 +15,7 @@ export default class FilmDetailsComponent extends AbstractComponent {
     return createFilmDetailsTemplate(this._card);
   }
 
-  setClickHandler(cb) {
+  setButtonCloseClickHandler(cb) {
     this.getElement().addEventListener(`click`, cb);
   }
 }

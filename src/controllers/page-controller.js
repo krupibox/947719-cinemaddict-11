@@ -93,7 +93,7 @@ export default class PageController {
   }
 
   _onShowMoreButtonClick() {
-    this._allFilms.slice(CardCount.BEGIN, CardCount.END).forEach((card) => this._renderFilm(this._filmsListContainer, card));
+    this._allFilms.slice(CardCount.BEGIN, CardCount.END).forEach((card) => this._filmListContainerController.render(card));
     let filmsCounter = this._allFilms.slice(CardCount.BEGIN, CardCount.END).length;
 
     if (CardCount.END < this._allFilms.length) {

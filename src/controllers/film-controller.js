@@ -4,21 +4,28 @@ import { render, isEscPressed } from '../utils';
 import { RenderPosition, FILM_CARD_ELEMENTS } from '../consts';
 
 export default class FilmController {
-    constructor(container) {
+    constructor(container, onDataChange) {
         this._container = container;
+        this._onDataChange = onDataChange;
+        // this._onButtonControlClick = this._onButtonControlClick.bind(this);
+    }
+
+    _onButtonControlClick(evt) {
+        console.log(this);
+        evt.preventDefault();
+        console.log(evt.target.textContent);
     }
 
     render(film) {
         const filmCardComponent = new FilmCardComponent(film);
         const filmDetailComponent = new FilmDetailsComponent(film);
 
-        const onCloseButtonClick = () => {
-            filmDetailComponent.getElement().remove();
-            filmDetailComponent.removeElement();
-        };
+        filmCardComponent.setButtonWatchListClickHandler(this._onButtonControlClick);
+        filmCardComponent.setButtonWatchedClickHandler(this._onButtonControlClick);
+        filmCardComponent.setButtonFavoriteClickHandler(this._onButtonControlClick);
+        filmCardComponent.setCardClickHandler((evt) => this._onFilmCardClick(evt, filmDetailComponent));
 
-        filmCardComponent.setClickHandler((evt) => this._onFilmCardClick(evt, filmDetailComponent));
-        filmDetailComponent.setClickHandler(onCloseButtonClick);
+        filmDetailComponent.setButtonCloseClickHandler(() => this._onCloseButtonClick(filmDetailComponent));
 
         render(this._container, filmCardComponent, RenderPosition.BEFOREEND);
     }
@@ -44,5 +51,10 @@ export default class FilmController {
             render(siteMain, componentDetailFilm, RenderPosition.BEFOREEND);
             document.addEventListener(`keydown`, onEscapeKeyDown);
         }
+    };
+
+    _onCloseButtonClick(componentDetailFilm) {
+        componentDetailFilm.getElement().remove();
+        componentDetailFilm.removeElement();
     };
 }

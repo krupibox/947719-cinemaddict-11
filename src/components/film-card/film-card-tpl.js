@@ -1,6 +1,6 @@
 export const createFilmCardTemplate = (card) => {
   const { title, rating, year, duration, genres, poster, description, comments } = card;
-  const isWatchlist = true, isWatched = true, isFavorite = true;
+  const isWatchlist = false, isWatched = true, isFavorite = true;
   const ITEM_ACTIVE = `film-card__controls-item--active`;
 
   return `<article class="film-card">
