@@ -4,22 +4,27 @@ import { render, isEscPressed } from '../utils';
 import { RenderPosition, FILM_CARD_ELEMENTS } from '../consts';
 
 export default class FilmController {
-    constructor(container, onDataChange) {
+    constructor(container, onDataChange, onViewChange) {
         this._container = container;
         this._onDataChange = onDataChange;
+        this._filmCardComponent = null;
+    }
+
+    setDefaultView() {
+        // для скрытия попапа с подробной информацией о фильме.
     }
 
     render(film) {
         this._film = film;
-        const filmCardComponent = new FilmCardComponent(film);
-        this._filmCardComponent = filmCardComponent;
+
+        const oldFilmCardComponent = this._filmCardComponent;
+        this._filmCardComponent = new FilmCardComponent(film);
         const filmDetailComponent = new FilmDetailsComponent(film);
 
-        filmCardComponent.setButtonWatchListClickHandler((evt) => {
+        this._filmCardComponent.setButtonWatchListClickHandler((evt) => {
             evt.preventDefault();
             evt.stopPropagation();
-            // тут мы отправляем изменненные данные обратно в pageController
-            // this - передать текущий контроллер
+
             this._onDataChange(
                 this,
                 this._film,
@@ -27,13 +32,38 @@ export default class FilmController {
             )
         });
 
-        // filmCardComponent.setButtonWatchedClickHandler(this._onDataChange);
-        // filmCardComponent.setButtonFavoriteClickHandler(this._onDataChange);
-        filmCardComponent.setCardClickHandler((evt) => this._onFilmCardClick(evt, filmDetailComponent));
+        this._filmCardComponent.setButtonWatchedClickHandler((evt) => {
+            evt.preventDefault();
+            evt.stopPropagation();
 
+            this._onDataChange(
+                this,
+                this._film,
+                Object.assign({}, this._film, { isWatched: !this._film.isWatched})
+            )
+        });
+
+        this._filmCardComponent.setButtonFavoriteClickHandler((evt) => {
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            this._onDataChange(
+                this,
+                this._film,
+                Object.assign({}, this._film, { isFavorite: !this._film.isFavorite})
+            )
+        });
+ 
+        this._filmCardComponent.setCardClickHandler((evt) => this._onFilmCardClick(evt, filmDetailComponent));
         filmDetailComponent.setButtonCloseClickHandler(() => this._onCloseButtonClick(filmDetailComponent));
 
-        render(this._container, filmCardComponent, RenderPosition.BEFOREEND);
+        if (oldFilmCardComponent) {
+            oldFilmCardComponent.getElement().parentElement
+                .replaceChild(this._filmCardComponent.getElement(), oldFilmCardComponent.getElement());
+            return;
+        }
+
+        render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
     }
 
     _onFilmCardClick(evt, componentDetailFilm) {
@@ -47,12 +77,10 @@ export default class FilmController {
 
         if (FILM_CARD_ELEMENTS.some((element) => evt.target.classList.contains(element))) {
             const siteMain = document.body.querySelector(`.main`);
-            const oldFilmCard = siteMain.querySelector(`.film-details`);
+            const oldFilmDetailCard = siteMain.querySelector(`.film-details`);
 
-            if (oldFilmCard) {
-                siteMain.replaceChild(componentDetailFilm.getElement(), oldFilmCard);
-                console.log(componentDetailFilm);
-
+            if (oldFilmDetailCard) {
+                siteMain.replaceChild(componentDetailFilm.getElement(), oldFilmDetailCard);
             }
 
             render(siteMain, componentDetailFilm, RenderPosition.BEFOREEND);

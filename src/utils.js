@@ -23,6 +23,22 @@ export const remove = (component) => {
   component.removeElement();
 };
 
+export const replaceElement = (newElement, oldElement) => {
+  const parentElement = oldElement.parentElement;
+
+  const isExist = !!(parentElement && newElement && oldElement);
+  if (isExist && parentElement.contains(oldElement)) {
+    const {scrollTop, scrollLeft} = oldElement;
+
+    newElement.style.animationDuration = `0s`;
+
+    parentElement.replaceChild(newElement, oldElement);
+
+    newElement.scrollLeft = scrollLeft;
+    newElement.scrollTop = scrollTop;
+  }
+};
+
 export const getRandomWords = (data) => data[Math.floor(Math.random() * data.length)];
 export const getRandomIntegerNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 export const getRandomFloatNumber = (min, max) => Math.floor((Math.random() * ((max - min)) + 1) * 10) / 10;

@@ -46,18 +46,14 @@ export default class PageController {
   }
 
   _onDataChange(filmController, oldFilm, newFilm) {
-    // Задача метода — обновить моки и вызывать
-    // метод render у конкретного экземпляра MovieController с обновлёнными данными.
-
     const index = this._films.indexOf(oldFilm);
 
     if (index === -1) {
       return;
     }
-
+    
     this._films[index] = newFilm;
     filmController.render(this._films[index]);
-
   }
 
   _renderFilms(films) {
@@ -66,6 +62,8 @@ export default class PageController {
 
       films.slice(0, CardCount.BEGIN)
         .forEach((_, index) => {
+
+          // _onViewChange
           const filmListContainerController = new FilmController(this._filmsListContainer, this._onDataChange);
 
           filmListContainerController.render(films[index]);
