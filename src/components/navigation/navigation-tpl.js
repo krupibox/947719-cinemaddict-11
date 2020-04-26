@@ -2,7 +2,7 @@ export const createNavigationTemplate = (filters) => {
 
   const countFavorite = filters.filter((status) => status.isFavorite);
   const countWatched = filters.filter((status) => status.isWatched);
-  const countWatchlistAdded = filters.filter((status) => status.isWatchlistAdded);
+  const countWatchlistAdded = filters.filter((status) => status.isWatchlist);
 
   return `<nav class="main-navigation">
               <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>

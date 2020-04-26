@@ -1,14 +1,16 @@
-import {createFilmDetailsTemplate} from './film-details-tpl';
-import AbstractComponent from '../abstract';
+import { createFilmDetailsTemplate } from './film-details-tpl';
+import AbstractSmartComponent from '../abstract-smart-component';
 
-export default class FilmDetailsComponent extends AbstractComponent {
+export default class FilmDetailsComponent extends AbstractSmartComponent {
   constructor(card) {
     super();
     this._card = card;
+
+    // this._subscribeOnEvents();
   }
 
-  getCloseButton() {
-    return this.getElement().querySelector(`.film-details__close-btn`);
+  rerender() {
+    super.rerender();
   }
 
   getTemplate() {
@@ -16,6 +18,29 @@ export default class FilmDetailsComponent extends AbstractComponent {
   }
 
   setButtonCloseClickHandler(cb) {
-    this.getElement().addEventListener(`click`, cb);
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
   }
+
+
+    setButtonWatchListClickHandler(cb) {
+      this.getElement().querySelector(`.film-details__control-label--watchlist`)
+        .addEventListener(`click`, cb);
+
+        this.rerender();
+    }
+
+    setButtonWatchedClickHandler(cb) {
+      this.getElement().querySelector(`.film-details__control-label--watched`)
+        .addEventListener(`click`, cb);
+
+        this.rerender();
+    }
+
+    setButtonFavoriteClickHandler(cb) {
+      this.getElement().querySelector(`.film-details__control-label--favorite`)
+        .addEventListener(`click`, cb);
+
+        this.rerender();
+    }
+
 }
