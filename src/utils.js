@@ -23,6 +23,10 @@ export const remove = (component) => {
   component.removeElement();
 };
 
+export const replace = (newComponent, oldComponent) => {
+  replaceElement(newComponent.getElement(), oldComponent.getElement());
+};
+
 export const replaceElement = (newElement, oldElement) => {
   const parentElement = oldElement.parentElement;
 

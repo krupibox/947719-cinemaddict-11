@@ -6,15 +6,28 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     super();
     this._card = card;
 
-    // this._subscribeOnEvents();
+    this._isWatchlist = card.isWatchlist,
+    this._isWatched = card._isWatched,
+    this._isFavorite = card._isFavorite
+
+    this._subscribeOnEvents();    
   }
 
   rerender() {
     super.rerender();
   }
 
+  recoveryListeners() {
+    // this.setSubmitHandler(this._submitHandler);
+    this._subscribeOnEvents();
+  }
+
   getTemplate() {
-    return createFilmDetailsTemplate(this._card);
+    return createFilmDetailsTemplate(this._card, {
+      isWatchlist: this._isWatchlist,
+      isWatched: this._isWatched,
+      isFavorite: this._isFavorite,
+    });
   }
 
   setButtonCloseClickHandler(cb) {
@@ -22,25 +35,57 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
   }
 
 
-    setButtonWatchListClickHandler(cb) {
-      this.getElement().querySelector(`.film-details__control-label--watchlist`)
-        .addEventListener(`click`, cb);
+  setButtonWatchListClickHandler(cb) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, cb);
+
+    this.rerender();
+  }
+
+  setButtonWatchedClickHandler(cb) {
+    this.getElement().querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, cb);
+
+    this.rerender();
+  }
+
+  setButtonFavoriteClickHandler(cb) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, cb);
+
+    this.rerender();
+  }
+
+  // WIP
+
+  _subscribeOnEvents() {
+
+    const element = this.getElement();
+    
+    element.querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, () => {
+        this._isWatchlist = !this._isWatchlist;
+
+        console.log(this);
+        
+        this.rerender();
+      });
+
+      element.querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, () => {
+        this._isWatched = !this._isWatched;
 
         this.rerender();
-    }
+      });
 
-    setButtonWatchedClickHandler(cb) {
-      this.getElement().querySelector(`.film-details__control-label--watched`)
-        .addEventListener(`click`, cb);
 
-        this.rerender();
-    }
-
-    setButtonFavoriteClickHandler(cb) {
-      this.getElement().querySelector(`.film-details__control-label--favorite`)
-        .addEventListener(`click`, cb);
+      element.querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, () => {
+        this._isFavorite = !this._isFavorite;
 
         this.rerender();
-    }
+      });
+
+  }
 
 }
