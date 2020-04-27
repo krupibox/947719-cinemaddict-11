@@ -2,7 +2,7 @@ import SortComponent from '../components/sort/sort';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
 import FilmController from '../controllers/film-controller';
-import { render } from '../utils';
+import { render } from '../utils/render';
 import { Films, RenderPosition, SortType } from '../consts';
 
 const CardCount = {
@@ -11,11 +11,8 @@ const CardCount = {
 };
 
 const renderFilms = (filmListElement, films, onDataChange, onViewChange) => films.map((film) => {
-
-  // Instance of FilmController
   const filmController = new FilmController(filmListElement, onDataChange, onViewChange);
 
-  // FilmController`s render method
   filmController.render(film);
 
   return filmController;
@@ -48,7 +45,7 @@ export default class PageController {
 
     this._sortComponent.setClickHandler(this._onSortType);
 
-    this._renderFilms(this._films);
+    this._renderFilms(this._films);    
 
     if (this._films.length > CardCount.BEGIN) {
       render(this._filmsList, this._showMoreButtonComponent, RenderPosition.BEFOREEND);
@@ -57,17 +54,6 @@ export default class PageController {
     this._showMoreButtonComponent.setClickHandler(this._onShowMoreButtonClick);
     this._renderMaxRatingFilms();
     this._renderMostCommentedFilms();
-  }
-
-  _onDataChange(filmController, oldFilm, newFilm) {
-    const index = this._films.indexOf(oldFilm);
-
-    if (index === -1) {
-      return;
-    }
-
-    this._films[index] = newFilm;
-    filmController.render(this._films[index]);
   }
 
   _renderFilms(films) {
@@ -157,7 +143,18 @@ export default class PageController {
     }
   }
 
-  _onViewChange() {
-    this._showedTaskControllers.forEach((it) => it.setDefaultView());
+  _onDataChange(filmController, oldFilm, newFilm) {
+    const index = this._films.indexOf(oldFilm);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._films[index] = newFilm;
+    filmController.render(this._films[index]);
+  }
+
+  _onViewChange() {    
+    this._showedFilmControllers.forEach((controller) => controller.setDefaultView());
   }
 }

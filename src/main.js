@@ -3,11 +3,11 @@ import NavigationComponent from './components/navigation/navigation';
 import FilmsSectionComponent from './components/film-section/film-section';
 import FilmsStatisticsComponent from './components/film-statistics/films-statistics';
 import PageController from './controllers/page-controller';
-import {Films, RenderPosition} from './consts';
-import {render} from './utils';
+import { Films, RenderPosition } from './consts';
+import { render } from './utils/render';
 
-import {generateFilm} from './mock/film';
-import {generateProfile} from './mock/profile';
+import { generateFilm } from './mock/film';
+import { generateProfile } from './mock/profile';
 
 const films = [...Array(Films.TOTAL)].map((_, index) => generateFilm(index));
 

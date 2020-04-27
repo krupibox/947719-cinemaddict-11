@@ -8,7 +8,7 @@ import {
   generateComments,
   getRandomDate,
   getFormatDate
-} from '../utils';
+} from '../utils/utils';
 
 import {
   GENRE,

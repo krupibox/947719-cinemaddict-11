@@ -3,6 +3,11 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`
 };
 
+export const ViewMode = {
+  DEFAULT: `default`,
+  DETAILS: `details`,
+};
+
 export const GENRE = [
   `Western`,
   `Drama`,

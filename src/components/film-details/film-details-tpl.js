@@ -15,6 +15,8 @@ export const createFilmDetailsTemplate = (details) => {
     isWatched,
     isFavorite } = details;
 
+  const threeGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
+
   return `<section class="film-details">
               <form class="film-details__inner" action="" method="get">
                 <div class="form-details__top-container">
@@ -68,9 +70,7 @@ export const createFilmDetailsTemplate = (details) => {
                         <tr class="film-details__row">
                           <td class="film-details__term">Genres</td>
                           <td class="film-details__cell">
-                            <span class="film-details__genre">${genres[0]}</span>
-                            <span class="film-details__genre">${genres[1]}</span>
-                            <span class="film-details__genre">${genres[2]}</span>
+                          ${threeGenres}
                         </tr>
                       </table>
   
@@ -81,7 +81,7 @@ export const createFilmDetailsTemplate = (details) => {
                   </div>
   
                   <section class="film-details__controls">
-                    <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist && `checked`}>
+                    <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist ? `checked` : ``}>
                     <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
   
                     <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>

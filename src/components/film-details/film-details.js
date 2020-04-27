@@ -7,19 +7,12 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._card = card;
 
     this._isWatchlist = card.isWatchlist,
-    this._isWatched = card._isWatched,
-    this._isFavorite = card._isFavorite
-
-    this._subscribeOnEvents();    
+      this._isWatched = card._isWatched,
+      this._isFavorite = card._isFavorite
   }
 
   rerender() {
     super.rerender();
-  }
-
-  recoveryListeners() {
-    // this.setSubmitHandler(this._submitHandler);
-    this._subscribeOnEvents();
   }
 
   getTemplate() {
@@ -32,60 +25,44 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   setButtonCloseClickHandler(cb) {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
-  }
 
+    this._onCloseButtonClick = cb;
+  }
 
   setButtonWatchListClickHandler(cb) {
     this.getElement().querySelector(`.film-details__control-label--watchlist`)
       .addEventListener(`click`, cb);
 
-    this.rerender();
+    this._onButtonWatchListClick = cb;
   }
 
   setButtonWatchedClickHandler(cb) {
     this.getElement().querySelector(`.film-details__control-label--watched`)
       .addEventListener(`click`, cb);
 
-    this.rerender();
+    this._onButtonWatchedClick = cb;
   }
 
   setButtonFavoriteClickHandler(cb) {
     this.getElement().querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, cb);
 
-    this.rerender();
+    this._onButtonFavoriteClick = cb;
   }
 
-  // WIP
-
-  _subscribeOnEvents() {
-
+  recoveryListeners() {
     const element = this.getElement();
-    
+
+    element.querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, this._onCloseButtonClick);
+
     element.querySelector(`.film-details__control-label--watchlist`)
-      .addEventListener(`click`, () => {
-        this._isWatchlist = !this._isWatchlist;
+      .addEventListener(`click`, this._onButtonWatchListClick);
 
-        console.log(this);
-        
-        this.rerender();
-      });
+    element.querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, this._onButtonWatchedClick);
 
-      element.querySelector(`.film-details__control-label--watched`)
-      .addEventListener(`click`, () => {
-        this._isWatched = !this._isWatched;
-
-        this.rerender();
-      });
-
-
-      element.querySelector(`.film-details__control-label--favorite`)
-      .addEventListener(`click`, () => {
-        this._isFavorite = !this._isFavorite;
-
-        this.rerender();
-      });
-
+    element.querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, this._onButtonFavoriteClick);
   }
-
 }
