@@ -1,18 +1,9 @@
-import {
-  NICKNAMES
-} from './fish';
+import {NICKNAMES} from './fish';
+import {getRandomArrayItem, getTextSentenceCase} from './utils';
 
-import {
-  getRandomArrayItem,
-  getTextSentenceCase
-} from '../utils/utils';
-
-const generateProfile = () => {
+export const generateProfile = () => {
   return {
     rating: getTextSentenceCase(getRandomArrayItem(NICKNAMES).alias),
   };
 };
 
-export {
-  generateProfile
-};

@@ -6,9 +6,10 @@ import {
   getRandomGenres,
   generateText,
   generateComments,
-  getRandomDate,
-  getFormatDate
-} from '../utils/utils';
+  getRandomDate
+} from './utils';
+
+import {getFormatDate, getTimeFromMins} from '../utils/moment';
 
 import {
   GENRE,
@@ -29,7 +30,7 @@ export const generateFilm = (index) => {
     original: filmName,
     rating: getRandomFloatNumber(Range.MIN_RATING, Range.MAX_RATING),
     year: getRandomIntegerNumber(Range.MIN_YEAR, Range.MAX_YEAR),
-    duration: `1h ${getRandomIntegerNumber(Range.MIN_DURATION, Range.MAX_DURATION)}m`,
+    duration: getTimeFromMins(getRandomIntegerNumber(Range.MIN_DURATION, Range.MAX_DURATION)),
     genres: getRandomGenres(GENRE),
     poster: getRandomArrayItem(POSTERS),
     description: generateText(Range.MIN_DESCRIPTION, Range.MAX_DESCRIPTION, WORDS),
@@ -45,4 +46,3 @@ export const generateFilm = (index) => {
     comments: generateComments(Range.MIN_COMMENTS, Range.MAX_COMMENTS, WORDS)
   };
 };
-
