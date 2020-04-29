@@ -2,7 +2,6 @@ import FilmCardComponent from '../components/film-card/film-card';
 import FilmDetailsComponent from '../components/film-details/film-details';
 import {render, replace} from '../utils/render';
 import {RenderPosition, FILM_CARD_ELEMENTS, ViewMode} from '../consts';
-import {isEscPressed} from '../utils/utils';
 
 export default class FilmController {
   constructor(container, onDataChange, onViewChange) {
@@ -16,7 +15,6 @@ export default class FilmController {
     this._filmDetailsComponent = null;
     this._filmDetailsContainer = document.body;
     this._onCloseButtonClick = this._onCloseButtonClick.bind(this);
-    this._onFilmDetailsEsc = this._onFilmDetailsEsc.bind(this);
     this._onEscapeKeyDown = this._onEscapeKeyDown.bind(this);
   }
 
@@ -88,23 +86,22 @@ export default class FilmController {
       }
 
       this._onViewChange();
+
       this._createFilmDetailsComponent();
       render(this._filmDetailsContainer, this._filmDetailsComponent, RenderPosition.BEFOREEND);
 
       document.addEventListener(`keydown`, this._onEscapeKeyDown);
-
       this._viewMode = ViewMode.DETAILS;
     }
   }
 
-  _onEscapeKeyDown() {
-    return isEscPressed && this._onFilmDetailsEsc();
-  }
+  _onEscapeKeyDown(evt) {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
 
-  _onFilmDetailsEsc() {
-    document.removeEventListener(`keydown`, this._onEscapeKeyDown);
-    this._onViewChange();
-    this._viewMode = ViewMode.DEFAULT;
+      this._onViewChange();
+      document.removeEventListener(`keydown`, this._onEscapeKeyDown);
+      this._viewMode = ViewMode.DEFAULT;
+    }
   }
 
   _onCloseButtonClick(evt) {
@@ -112,6 +109,6 @@ export default class FilmController {
     this._filmDetailsComponent.getElement().remove();
     this._filmDetailsComponent.removeElement();
     this._viewMode = ViewMode.DEFAULT;
-    document.removeEventListener(`keydown`, this._onFilmDetailsEsc);
+    document.removeEventListener(`keydown`, this._onEscapeKeyDown);
   }
 }

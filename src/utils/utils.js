@@ -47,4 +47,3 @@ export const getFormatDate = (date) => {
   return `${dd} ${mm} ${yy}`;
 };
 
-export const isEscPressed = (evt) => evt.key === `Escape` || evt.key === `Esc`;
