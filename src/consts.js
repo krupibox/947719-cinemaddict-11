@@ -3,6 +3,11 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`
 };
 
+export const ViewMode = {
+  DEFAULT: `default`,
+  DETAILS: `details`,
+};
+
 export const GENRE = [
   `Western`,
   `Drama`,
@@ -47,3 +52,10 @@ export const FILM_CARD_ELEMENTS = [
   `film-card__title`,
   `film-card__comments`
 ];
+
+export const TypeEmoji = {
+  'emoji-smile': `./images/emoji/smile.png`,
+  'emoji-sleeping': `./images/emoji/sleeping.png`,
+  'emoji-gpuke': `./images/emoji/puke.png`,
+  'emoji-angry': `./images/emoji/angry.png`
+};

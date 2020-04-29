@@ -1,5 +1,21 @@
 export const createFilmDetailsTemplate = (details) => {
-  const {title, rating, director, writers, actors, releaseDate, duration, country, genres, poster, description} = details;
+  const {
+    title,
+    rating,
+    director,
+    writers,
+    actors,
+    releaseDate,
+    duration,
+    country,
+    genres,
+    poster,
+    description,
+    isWatchlist,
+    isWatched,
+    isFavorite } = details;
+
+  const threeGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
   return `<section class="film-details">
               <form class="film-details__inner" action="" method="get">
@@ -54,9 +70,7 @@ export const createFilmDetailsTemplate = (details) => {
                         <tr class="film-details__row">
                           <td class="film-details__term">Genres</td>
                           <td class="film-details__cell">
-                            <span class="film-details__genre">${genres[0]}</span>
-                            <span class="film-details__genre">${genres[1]}</span>
-                            <span class="film-details__genre">${genres[2]}</span>
+                          ${threeGenres}
                         </tr>
                       </table>
   
@@ -67,13 +81,13 @@ export const createFilmDetailsTemplate = (details) => {
                   </div>
   
                   <section class="film-details__controls">
-                    <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+                    <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist ? `checked` : ``}>
                     <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
   
-                    <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+                    <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>
                     <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
   
-                    <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+                    <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite ? `checked` : ``}>
                     <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
                   </section>
                 </div>
@@ -138,7 +152,7 @@ export const createFilmDetailsTemplate = (details) => {
                     </ul>
   
                     <div class="film-details__new-comment">
-                      <div for="add-emoji" class="film-details__add-emoji-label"></div>
+                      <div for="add-emoji" class="film-details__add-emoji-label"><img src="" width="55" height="55" alt=""></div>
   
                       <label class="film-details__comment-label">
                         <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>

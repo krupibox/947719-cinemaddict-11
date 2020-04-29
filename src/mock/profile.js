@@ -5,7 +5,7 @@ import {
 import {
   getRandomArrayItem,
   getTextSentenceCase
-} from '../utils';
+} from '../utils/utils';
 
 const generateProfile = () => {
   return {
