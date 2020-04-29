@@ -1,5 +1,6 @@
 import { createFilmDetailsTemplate } from './film-details-tpl';
 import AbstractSmartComponent from '../abstract-smart-component';
+import { TypeEmoji } from '../../consts';
 
 export default class FilmDetailsComponent extends AbstractSmartComponent {
   constructor(card) {
@@ -48,6 +49,22 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
       .addEventListener(`click`, cb);
 
     this._onButtonFavoriteClick = cb;
+  }
+
+  setEmojiClickHandler(cb) {
+    this.getElement().querySelector(`.film-details__emoji-list`)
+      .addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+
+        const emoji = this.getElement().querySelector(`.film-details__add-emoji-label > img`);
+
+        if (evt.target.parentNode.classList.contains(`film-details__emoji-label`)) {
+          const emojiName = evt.target.parentNode.htmlFor;
+          emoji.src = TypeEmoji[emojiName];
+          emoji.alt = emojiName;
+        }
+
+      });
   }
 
   recoveryListeners() {
