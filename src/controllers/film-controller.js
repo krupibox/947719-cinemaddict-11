@@ -1,7 +1,7 @@
 import FilmCardComponent from '../components/film-card/film-card';
 import FilmDetailsComponent from '../components/film-details/film-details';
 import {render, replace} from '../utils/render';
-import {RenderPosition, FILM_CARD_ELEMENTS, ViewMode} from '../consts';
+import {RenderPosition, FILM_CARD_ELEMENTS, ViewMode, TypeEmoji} from '../consts';
 
 export default class FilmController {
   constructor(container, onDataChange, onViewChange) {
@@ -72,7 +72,9 @@ export default class FilmController {
     this._filmDetailsComponent.setButtonWatchedClickHandler((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
     this._filmDetailsComponent.setButtonFavoriteClickHandler((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
 
-    this._filmDetailsComponent.setEmojiClickHandler();
+    this._filmDetailsComponent.setButtonCloseClickHandler((evt) => this._onCloseButtonClick(evt));
+
+    this._filmDetailsComponent.setEmojiClickHandler((evt) => this._onEmojiClickHandler(evt));
   }
 
   _onFilmCardClick(evt) {
@@ -92,6 +94,17 @@ export default class FilmController {
 
       document.addEventListener(`keydown`, this._onEscapeKeyDown);
       this._viewMode = ViewMode.DETAILS;
+    }
+  }
+
+  _onEmojiClickHandler(evt) {
+    evt.preventDefault();
+
+    const emoji = this._filmDetailsComponent.getElement().querySelector(`.film-details__add-emoji-label > img`);
+    if (evt.target.parentNode.classList.contains(`film-details__emoji-label`)) {
+      const emojiName = evt.target.parentNode.htmlFor;
+      emoji.src = TypeEmoji[emojiName];
+      emoji.alt = emojiName;
     }
   }
 

@@ -1,6 +1,5 @@
 import { createFilmDetailsTemplate } from './film-details-tpl';
 import AbstractSmartComponent from '../abstract-smart-component';
-import { TypeEmoji } from '../../consts';
 
 export default class FilmDetailsComponent extends AbstractSmartComponent {
   constructor(card) {
@@ -8,8 +7,8 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._card = card;
 
     this._isWatchlist = card.isWatchlist,
-      this._isWatched = card._isWatched,
-      this._isFavorite = card._isFavorite
+    this._isWatched = card._isWatched,
+    this._isFavorite = card._isFavorite
   }
 
   rerender() {
@@ -53,18 +52,9 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   setEmojiClickHandler(cb) {
     this.getElement().querySelector(`.film-details__emoji-list`)
-      .addEventListener(`click`, (evt) => {
-        evt.preventDefault();
+      .addEventListener(`click`, cb);
 
-        const emoji = this.getElement().querySelector(`.film-details__add-emoji-label > img`);
-
-        if (evt.target.parentNode.classList.contains(`film-details__emoji-label`)) {
-          const emojiName = evt.target.parentNode.htmlFor;
-          emoji.src = TypeEmoji[emojiName];
-          emoji.alt = emojiName;
-        }
-
-      });
+    this._onEmojiClickHandler = cb;
   }
 
   recoveryListeners() {
@@ -81,5 +71,8 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
     element.querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, this._onButtonFavoriteClick);
+
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`click`, this._onEmojiClickHandler);
   }
 }
