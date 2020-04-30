@@ -31,8 +31,8 @@ export const Range = {
   MAX_COMMENTS: 15,
   MIN_YEAR: 1900,
   MAX_YEAR: 2019,
-  MIN_DURATION: 30,
-  MAX_DURATION: 59,
+  MIN_DURATION: 60,
+  MAX_DURATION: 90,
   GENRES: 3
 };
 
