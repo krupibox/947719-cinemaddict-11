@@ -9,7 +9,8 @@ import {
   getRandomDate
 } from './utils';
 
-import {getFormatDate, getTimeFromMins} from '../utils/moment';
+import {getFormatDate} from '../utils/get-format-date';
+import {getTimeFromMins} from '../utils/get-time-from-mins';
 
 import {
   GENRE,
