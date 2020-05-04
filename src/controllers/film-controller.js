@@ -1,6 +1,7 @@
 import FilmCardComponent from '../components/film-card/film-card';
 import FilmDetailsComponent from '../components/film-details/film-details';
 import {render, replace} from '../utils/render';
+import {isEscape} from '../utils/is-escape';
 import {RenderPosition, FILM_CARD_ELEMENTS, ViewMode, TypeEmoji} from '../consts';
 
 export default class FilmController {
@@ -108,8 +109,8 @@ export default class FilmController {
     }
   }
 
-  _onEscapeKeyDown(evt) {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
+  _onEscapeKeyDown() {
+    if (isEscape) {
 
       this._onViewChange();
       document.removeEventListener(`keydown`, this._onEscapeKeyDown);
