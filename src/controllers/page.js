@@ -40,6 +40,9 @@ export default class PageController {
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
 
+    this._onFilterChange = this._onFilterChange.bind(this);
+    this._filmsModel.setOnDataChange(this._onFilterChange);
+
   }
 
   render() {
@@ -53,8 +56,9 @@ export default class PageController {
 
     this._sortComponent.setClickHandler(this._onSortType);
 
-    this._renderFilms(films);
+    this._renderFilms(CardCount.BEGIN, films);
 
+    // Move to private method
     if (films.length > CardCount.BEGIN) {
       render(this._filmsList, this._showMoreButtonComponent, RenderPosition.BEFOREEND);
     }
@@ -65,11 +69,11 @@ export default class PageController {
     this._renderMostCommentedFilms(films);
   }
 
-  _renderFilms(films) {
+  _renderFilms(count, films) {
     if (films.length > 0) {
       const newFilms = renderFilms(
           this._filmsListContainer,
-          films.slice(0, CardCount.BEGIN),
+          films.slice(0, count),
           this._onDataChange,
           this._onViewChange
       );
@@ -78,7 +82,6 @@ export default class PageController {
 
       return;
     }
-
   }
 
   _renderMaxRatingFilms(films) {
@@ -111,8 +114,20 @@ export default class PageController {
     }
   }
 
-  _onSortType(sortType) {
+  _updateFilms(count, updatedFilms = this._filmsModel.getFilms()) {
+    this._removeFilms();
+    this._renderFilms(count, updatedFilms);
+    this._renderShowMoreBtn(updatedMovies);
+    this._renderTopComments();
+    this._renderTopRated();
+  }
 
+  _removeFilms() {
+    this._filmsListContainer.innerHTML = ``;
+    this._showedFilmControllers = [];
+  }
+
+  _onSortType(sortType) {
     let filmsSorted = this._filmsModel.getFilms();
 
     switch (sortType) {
@@ -127,8 +142,7 @@ export default class PageController {
         break;
     }
 
-    this._filmsListContainer.innerHTML = ``;
-    this._showedFilmControllers = [];
+    this._removeFilms();
     this._renderFilms(filmsSorted.slice());
   }
 
@@ -162,6 +176,11 @@ export default class PageController {
     if (isSuccess) {
       filmController.render(newFilm);
     }
+  }
+
+  _onFilterChange() {
+    this._updateFilms(CardCount.BEGIN);
+    this._sortComponent.setDefaultView();
   }
 
   _onViewChange() {

@@ -1,8 +1,8 @@
 import ProfileComponent from './components/profile/profile';
-import NavigationComponent from './components/navigation/navigation';
 import FilmsSectionComponent from './components/film-section/film-section';
 import FilmsStatisticsComponent from './components/film-statistics/films-statistics';
 import FilmsModel from "./models/films.js";
+import FilterController from './controllers/filter';
 import PageController from './controllers/page';
 import { Films, RenderPosition } from './consts';
 import { render } from './utils/render';
@@ -17,14 +17,21 @@ filmsModel.setFilms(films);
 const siteHeader = document.querySelector(`.header`);
 const siteMain = document.querySelector(`.main`);
 const siteFooter = document.querySelector(`.footer`);
-const filmsSectionContainer = new FilmsSectionComponent();
+const siteSection = new FilmsSectionComponent();
 
 render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
-render(siteMain, new NavigationComponent(films), RenderPosition.BEFOREEND);
-render(siteMain, filmsSectionContainer, RenderPosition.BEFOREEND);
 
-const pageController = new PageController(filmsSectionContainer, filmsModel);
+const filterController = new FilterController(siteMain, filmsModel);
+// send cb to filterController
+// filterController.setOnFilterChange(() => console.log(`filterController.setOnFilterChange`));
 
+// render(this._container.getElement(), this._sortComponent, RenderPosition.BEFOREBEGIN);
+
+filterController.render();
+
+render(siteMain, siteSection, RenderPosition.BEFOREEND);
+
+const pageController = new PageController(siteSection, filmsModel);
 pageController.render();
 
 render(siteFooter, new FilmsStatisticsComponent(films), RenderPosition.BEFOREEND);

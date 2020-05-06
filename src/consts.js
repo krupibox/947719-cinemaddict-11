@@ -59,3 +59,11 @@ export const TypeEmoji = {
   'emoji-gpuke': `./images/emoji/puke.png`,
   'emoji-angry': `./images/emoji/angry.png`
 };
+
+export const FilterTypes = {
+  ALL: `All movies`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`,
+  STATS: `Stats`
+};
