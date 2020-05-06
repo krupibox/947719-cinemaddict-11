@@ -3,7 +3,7 @@ import NavigationComponent from './components/navigation/navigation';
 import FilmsSectionComponent from './components/film-section/film-section';
 import FilmsStatisticsComponent from './components/film-statistics/films-statistics';
 import FilmsModel from "./models/films.js";
-import PageController from './controllers/page-controller';
+import PageController from './controllers/page';
 import { Films, RenderPosition } from './consts';
 import { render } from './utils/render';
 

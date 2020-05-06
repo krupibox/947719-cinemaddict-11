@@ -1,7 +1,7 @@
 import SortComponent from '../components/sort/sort';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
-import FilmController from '../controllers/film-controller';
+import FilmController from '../controllers/film';
 import {render} from '../utils/render';
 import {Films, RenderPosition, SortType} from '../consts';
 
