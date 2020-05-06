@@ -23,8 +23,7 @@ render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOR
 render(siteMain, new NavigationComponent(films), RenderPosition.BEFOREEND);
 render(siteMain, filmsSectionContainer, RenderPosition.BEFOREEND);
 
-const filmsSortedByMaxComments = films.slice().sort((a, b) => b.comments.length - a.comments.length);
-const pageController = new PageController(filmsSectionContainer, filmsModel, filmsSortedByMaxComments);
+const pageController = new PageController(filmsSectionContainer, filmsModel);
 
 pageController.render();
 

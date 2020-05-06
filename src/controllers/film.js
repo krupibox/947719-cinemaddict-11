@@ -1,6 +1,6 @@
 import FilmCardComponent from '../components/film-card/film-card';
 import FilmDetailsComponent from '../components/film-details/film-details';
-import {render, replace} from '../utils/render';
+import {render, replace, remove} from '../utils/render';
 import {isEscape} from '../utils/is-escape';
 import {RenderPosition, FILM_CARD_ELEMENTS, ViewMode, TypeEmoji} from '../consts';
 
@@ -40,8 +40,7 @@ export default class FilmController {
 
   setDefaultView() {
     if (this._viewMode !== ViewMode.DEFAULT) {
-      this._filmDetailsComponent.getElement().remove();
-      this._filmDetailsComponent.removeElement();
+      remove(this._filmDetailsComponent);
     }
   }
 
@@ -120,8 +119,7 @@ export default class FilmController {
 
   _onCloseButtonClick(evt) {
     evt.preventDefault();
-    this._filmDetailsComponent.getElement().remove();
-    this._filmDetailsComponent.removeElement();
+    remove(this._filmDetailsComponent);
     this._viewMode = ViewMode.DEFAULT;
     document.removeEventListener(`keydown`, this._onEscapeKeyDown);
   }
