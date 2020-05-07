@@ -1,23 +1,54 @@
-import {createSortTemplate} from './sort-tpl';
-import AbstractComponent from '../abstract';
+import { createSortTemplate } from './sort-tpl';
+import AbstractSmartComponent from '../abstract-smart-component';
+import { SortType, DisplayMode } from '../../consts';
 
-export default class SortComponent extends AbstractComponent {
+export default class SortComponent extends AbstractSmartComponent {
+  constructor() {
+    super();
+
+    this._displayMode = DisplayMode.SHOW;
+    this._sortType = SortType.DEFAULT;
+    // this._onSortChangeClick = null;
+  }
+
   getTemplate() {
     return createSortTemplate();
   }
 
-  setClickHandler(cb) {    
+  setClickHandler(cb) {
     this.getElement().querySelectorAll(`.sort__button`)
-    .forEach((element) => {
-      element.addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-        if (!evt.target.classList.contains(`sort__button--active`)) {
-          this.getElement().querySelector(`.sort__button--active`).classList.remove(`sort__button--active`);
-          element.classList.add(`sort__button--active`);
+      .forEach((element) => {
+        element.addEventListener(`click`, (evt) => {
+          evt.preventDefault();
+          this._resetSort();
+          evt.target.classList.add(`sort__button--active`);
           
+          this._onSortChangeClick = cb;
+ 
           cb(element.dataset.sortType);
-        }
+        });
       });
-    });
+
+      this._onSortChangeClick = cb;
   }
-}
+
+  setDefaultView() {
+    this._resetSort();
+    this._sortType = SortType.DEFAULT;
+
+    if (this._displayMode === DisplayMode.HIDDEN) {
+      return;
+    }
+
+    super.rerender();
+  }
+
+  recoveryListeners() {
+    this.setClickHandler(this._onSortChangeClick);
+  }
+
+  _resetSort() {
+    this.getElement().querySelectorAll(`.sort__button--active`)
+      .forEach((element) => element.classList.remove(`sort__button--active`));
+  }
+} 

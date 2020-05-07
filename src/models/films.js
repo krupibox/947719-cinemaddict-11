@@ -1,5 +1,5 @@
-import { getFilmsByFilter } from '../utils/get-films-by-filter';
-import { FilterTypes } from '../consts'
+import {getFilmsByFilter} from '../utils/get-films-by-filter';
+import {FilterTypes} from '../consts';
 
 export default class Films {
   constructor() {
@@ -36,7 +36,6 @@ export default class Films {
   }
 
   setFilterType(filterType) {
-    console.log(filterType);
     this._activeFilter = filterType;
     this.activeHandlers();
   }
@@ -49,12 +48,8 @@ export default class Films {
     this._filterChangeHandlers.push(handler);
   }
 
-  _callHandlers(handlers) {    
-    handlers.forEach((handler) => {
-      console.log(handlers);
-      
-      handler();
-    });
+  _callHandlers(handlers) {
+    handlers.forEach((handler) => handler());
   }
 
   _findFilmIndex(oldFilmId) {

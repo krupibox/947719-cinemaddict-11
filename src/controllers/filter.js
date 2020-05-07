@@ -20,7 +20,7 @@ export default class FilterController {
   }
 
   render() {
-    const filters = Object.values(FilterTypes).map((filter) => {      
+    const filters = Object.values(FilterTypes).map((filter) => {
       return {
         name: filter,
         count: getFilmsByFilter(this._filmsModel.getFilmsDefault(), filter).length,
@@ -30,9 +30,7 @@ export default class FilterController {
 
     const oldNavComponent = this._navigationComponent;
 
-    this._navigationComponent = new NavigationComponent(filters);    
-  
-    // send cb to navigation
+    this._navigationComponent = new NavigationComponent(filters);
     this._navigationComponent.setOnFilterChange(this._onFilterChange);
 
     if (oldNavComponent) {
@@ -42,24 +40,13 @@ export default class FilterController {
     }
   }
 
-  // handler - cb from main.js
-  setOnFilterChange(handler) {        
+  setOnFilterChange(handler) {
     this._onFilterChangeClick = handler;
   }
 
-  _onFilterChange(filterType) {        
-    if (filterType === FilterTypes.STATS) {  
-      this._activeFilterType = filterType;
-      this.render(true);
-      this._onStatsChange();
-      return;
-    }
-
+  _onFilterChange(filterType) {
     this._activeFilterType = filterType;
     this._filmsModel.setFilterType(filterType);
-    
-  // handler - cb from main.js - setOnFilterChange(handler)
-    // this._onFilterChangeClick();
   }
 
   _onDataChange() {

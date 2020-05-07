@@ -67,3 +67,8 @@ export const FilterTypes = {
   FAVORITES: `Favorites`,
   STATS: `Stats`
 };
+
+export const DisplayMode = {
+  SHOW: `show`,
+  HIDDEN: `hidden`
+};
