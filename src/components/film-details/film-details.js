@@ -2,13 +2,13 @@ import { createFilmDetailsTemplate } from './film-details-tpl';
 import AbstractSmartComponent from '../abstract-smart-component';
 
 export default class FilmDetailsComponent extends AbstractSmartComponent {
-  constructor(card) {
+  constructor(film) {
     super();
-    this._card = card;
+    this._film = film;
 
-    this._isWatchlist = card.isWatchlist,
-    this._isWatched = card._isWatched,
-    this._isFavorite = card._isFavorite
+    this._isWatchlist = film.isWatchlist,
+    this._isWatched = film._isWatched,
+    this._isFavorite = film._isFavorite
   }
 
   rerender() {
@@ -16,7 +16,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._card, {
+    return createFilmDetailsTemplate(this._film, {
       isWatchlist: this._isWatchlist,
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,

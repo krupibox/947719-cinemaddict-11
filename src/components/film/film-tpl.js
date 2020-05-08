@@ -1,5 +1,5 @@
-export const createFilmCardTemplate = (card) => {
-  const { title, rating, year, duration, genres, poster, description, comments, isWatchlist, isWatched, isFavorite } = card;
+export const createFilmCardTemplate = (film) => {
+  const { title, rating, year, duration, genres, poster, description, comments, isWatchlist, isWatched, isFavorite } = film;
   const ITEM_ACTIVE = `film-card__controls-item--active`;
 
   return `<article class="film-card">

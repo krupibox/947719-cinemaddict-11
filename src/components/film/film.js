@@ -1,21 +1,21 @@
-import { createFilmCardTemplate } from './film-card-tpl';
+import { createFilmCardTemplate } from './film-tpl';
 import AbstractComponent from '../abstract';
 
 export default class FilmsCardComponent extends AbstractComponent {
-  constructor(card) {
+  constructor(film) {
     super();
-    this._card = card;
+    this._film = film;
   }
 
   getTemplate() {
-    return createFilmCardTemplate(this._card, {
-      isWatchlist: this._card.isWatchlist,
-      isWatched: this._card.isWatched,
-      isFavorite: this._card.isFavorite
+    return createFilmCardTemplate(this._film, {
+      isWatchlist: this._film.isWatchlist,
+      isWatched: this._film.isWatched,
+      isFavorite: this._film.isFavorite
     });
   }
 
-  setCardClickHandler(cb) {
+  setFilmClickHandler(cb) {
     this.getElement().addEventListener(`click`, cb);
   }
 

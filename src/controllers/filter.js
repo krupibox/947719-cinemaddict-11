@@ -47,6 +47,7 @@ export default class FilterController {
   _onFilterChange(filterType) {
     this._activeFilterType = filterType;
     this._filmsModel.setFilterType(filterType);
+    // this._onFilterChangeClick();
   }
 
   _onDataChange() {

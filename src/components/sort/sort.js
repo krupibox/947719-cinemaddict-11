@@ -8,7 +8,7 @@ export default class SortComponent extends AbstractSmartComponent {
 
     this._displayMode = DisplayMode.SHOW;
     this._sortType = SortType.DEFAULT;
-    // this._onSortChangeClick = null;
+    this._onSortChangeClick = null;
   }
 
   getTemplate() {
@@ -35,10 +35,6 @@ export default class SortComponent extends AbstractSmartComponent {
   setDefaultView() {
     this._resetSort();
     this._sortType = SortType.DEFAULT;
-
-    if (this._displayMode === DisplayMode.HIDDEN) {
-      return;
-    }
 
     super.rerender();
   }

@@ -47,7 +47,7 @@ export const SortType = {
   DEFAULT: `default`,
 };
 
-export const FILM_CARD_ELEMENTS = [
+export const FILM_CLASS_ELEMENTS = [
   `film-card__poster`,
   `film-card__title`,
   `film-card__comments`
