@@ -7,8 +7,8 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._film = film;
 
     this._isWatchlist = film.isWatchlist,
-    this._isWatched = film._isWatched,
-    this._isFavorite = film._isFavorite
+      this._isWatched = film._isWatched,
+      this._isFavorite = film._isFavorite
   }
 
   rerender() {
@@ -27,6 +27,12 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
 
     this._onCloseButtonClick = cb;
+  }
+
+  setEscapeKeyDownHandler(cb) {
+    document.body.addEventListener(`click`, cb);
+
+    this._onEscapeKeyDown = cb;
   }
 
   setButtonWatchListClickHandler(cb) {
@@ -62,6 +68,9 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
     element.querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, this._onCloseButtonClick);
+
+    document.body
+      .addEventListener(`click`, this._onEscapeKeyDown);
 
     element.querySelector(`.film-details__control-label--watchlist`)
       .addEventListener(`click`, this._onButtonWatchListClick);

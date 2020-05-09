@@ -23,21 +23,22 @@ export default class Films {
     this._films = [].concat(this._films, films);
   }
 
-  activeHandlers() {
-    this._callHandlers(this._dataChangeHandlers);
-    this._callHandlers(this._filterChangeHandlers);
+  activateHandlers() {
+    this._dataChangeHandlers.forEach((handler) => handler());
+    this._filterChangeHandlers.forEach((handler) => handler());
   }
 
   updateFilm(oldFilmId, newFilm) {
-    const index = this._findFilmIndex(oldFilmId);
+    const index = this._films.findIndex((film) => film.id === oldFilmId);
 
+    // иммутабельность?
     this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
-    this.activeHandlers();
+    this.activateHandlers();
   }
 
   setFilterType(filterType) {
     this._activeFilter = filterType;
-    this.activeHandlers();
+    this.activateHandlers();
   }
 
   setOnDataChange(handler) {
@@ -46,13 +47,5 @@ export default class Films {
 
   setOnFilterChange(handler) {
     this._filterChangeHandlers.push(handler);
-  }
-
-  _callHandlers(handlers) {
-    handlers.forEach((handler) => handler());
-  }
-
-  _findFilmIndex(oldFilmId) {
-    return this._films.findIndex((film) => film.id === oldFilmId);
   }
 }
