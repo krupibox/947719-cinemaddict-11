@@ -28,12 +28,10 @@ export default class PageController {
 
     this._filmsList = this._container.getFilmsListElement();
     this._filmsListContainer = this._container.getFilmsListContainerElement();
-    this._filmsListContainerExtra = this._container.getFilmsListContainerTopRatedElement();
-    this._filmsListMostCommented = this._container.getFilmsListContainerMostCommentedElement();
+    this._filmsListContainerTopRated = this._container.getFilmsListContainerTopRatedElement();
+    this._filmsListContainerMostCommented = this._container.getFilmsListContainerMostCommentedElement();
 
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
-    this._filmsListContainerExtraController = new FilmController(this._filmsListContainerExtra);
-    this._filmsListMostCommentedController = new FilmController(this._filmsListMostCommented);
     this._sortComponent = new SortComponent(this._filmsModel.getFilms());
     this._noFilmsComponent = new NoFilmsComponent();
 
@@ -58,14 +56,14 @@ export default class PageController {
 
     render(this._container.getElement(), this._sortComponent, RenderPosition.AFTERBEGIN);
 
-    this._updateFilms(this._showingFilmCount, films);    
+    this._updateFilms(this._showingFilmCount, films);
   }
 
   _renderFilms(count, films) {
-    
+
     const newFilms = renderFilms(
         this._filmsListContainer,
-        films.slice(0, Math.max(count, this._showingFilmCount)),
+        films.slice(0, count),
         this._onDataChange,
         this._onViewChange
     );
@@ -94,7 +92,7 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-        this._filmsListContainerExtra,
+        this._filmsListContainerTopRated,
         filmsMaxRating.slice(0, Films.EXTRA),
         this._onDataChange,
         this._onViewChange
@@ -112,7 +110,7 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-        this._filmsListMostCommented,
+        this._filmsListContainerMostCommented,
         films.slice(0, Films.EXTRA),
         this._onDataChange,
         this._onViewChange
@@ -143,7 +141,7 @@ export default class PageController {
 
     const prevFilmCount = this._showingFilmCount;
     this._showingFilmCount = prevFilmCount + FilmCount.STEP;
-    
+
     this._updateFilms(this._showingFilmCount, films);
   }
 

@@ -5,24 +5,20 @@ import {
   getRandomArrayItem,
   getRandomGenres,
   generateText,
-  generateComments,
   getRandomDate
 } from './utils';
 
 import {getFormatDate} from '../utils/get-format-date';
 import {getTimeFromMins} from '../utils/get-time-from-mins';
 
-import {
-  GENRE,
-  Range
-} from '../consts';
+import { GENRE, Range } from '../consts';
 
 import {
   WORDS,
   POSTERS
 } from './fish';
 
-export const generateFilm = (index) => {
+export const generateFilm = (index, comments) => {
   const filmName = generateText(Range.MIN_TITLE, Range.MAX_TITLE, WORDS);
 
   return {
@@ -44,6 +40,6 @@ export const generateFilm = (index) => {
     actors: [`Chevy Chase`, `Dan Aykroyd`, `John Candy`],
     country: `USA`,
     releaseDate: getFormatDate(getRandomDate()),
-    comments: generateComments(Range.MIN_COMMENTS, Range.MAX_COMMENTS, WORDS)
+    comments: [...Array(getRandomIntegerNumber(Range.MIN_COMMENTS_NUMBER, Range.MAX_COMMENTS_NUMBER))].map(() => comments)
   };
 };

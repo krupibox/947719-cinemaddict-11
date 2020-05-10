@@ -1,3 +1,4 @@
+import Comment from './comment';
 import {getFilmsByFilter} from '../utils/get-films-by-filter';
 import {FilterTypes} from '../consts';
 

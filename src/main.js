@@ -8,9 +8,10 @@ import { Films, RenderPosition } from './consts';
 import { render } from './utils/render';
 
 import { generateFilm } from './mock/film';
+import { generateComment } from './mock/comment';
 import { generateProfile } from './mock/profile';
 
-const films = [...Array(Films.TOTAL)].map((_, index) => generateFilm(index));
+const films = [...Array(Films.TOTAL)].map((_, index) => generateFilm(index, generateComment(index)));
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(films);
 
@@ -22,11 +23,6 @@ const siteSection = new FilmsSectionComponent();
 render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
 
 const filterController = new FilterController(siteMain, filmsModel);
-// send cb to filterController
-// filterController.setOnFilterChange(() => console.log(`filterController.setOnFilterChange`));
-
-// render(this._container.getElement(), this._sortComponent, RenderPosition.BEFOREBEGIN);
-
 filterController.render();
 
 render(siteMain, siteSection, RenderPosition.BEFOREEND);

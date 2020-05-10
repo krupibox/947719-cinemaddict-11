@@ -21,7 +21,7 @@ export const generateText = (min, max, array) => {
   return getTextSentenceCase(string.substr(Range.MIN_STRING, Range.MAX_STRING));
 };
 
-export const generateComments = (min, max, array) => [...Array(getRandomIntegerNumber(min, max))].map(() => generateText(min, max, array));
+export const generateComments = (min, max, array) => generateText(min, max, array);
 
 export const getRandomDate = () => {
   const targetDate = new Date();

@@ -11,9 +11,13 @@ export const createFilmDetailsTemplate = (details) => {
     genres,
     poster,
     description,
+    comments,
     isWatchlist,
     isWatched,
     isFavorite } = details;
+
+    console.log(details);
+    
     
   const threeGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
@@ -94,7 +98,7 @@ export const createFilmDetailsTemplate = (details) => {
   
                 <div class="form-details__bottom-container">
                   <section class="film-details__comments-wrap">
-                    <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count"></span></h3>
+                    <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
   
                     <ul class="film-details__comments-list">
                     </ul>
