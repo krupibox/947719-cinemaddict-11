@@ -60,7 +60,6 @@ export default class PageController {
   }
 
   _renderFilms(count, films) {
-
     const newFilms = renderFilms(
         this._filmsListContainer,
         films.slice(0, count),
@@ -85,6 +84,8 @@ export default class PageController {
 
   _renderMaxRatingFilms() {
     const films = this._filmsModel.getFilms();
+    console.log(films);
+    
     const filmsMaxRating = films.slice().sort((a, b) => b.rating - a.rating);
 
     if (filmsMaxRating.length === 0) {
@@ -103,6 +104,8 @@ export default class PageController {
 
   _renderMostCommentedFilms() {
     const films = this._filmsModel.getFilms();
+    console.log(films);
+    
     const filmsMaxComments = films.slice().sort((a, b) => b.comments.length - a.comments.length);
 
     if (filmsMaxComments[0].comments.length === 0) {
@@ -145,9 +148,9 @@ export default class PageController {
     this._updateFilms(this._showingFilmCount, films);
   }
 
-  _onDataChange(filmController, oldFilm, newFilm) {
-    this._filmsModel.updateFilm(oldFilm.id, newFilm);
-    filmController.render(newFilm);
+  _onDataChange(filmController, oldFilm, newFilm) {    
+    // this._filmsModel.updateFilm(oldFilm.id, newFilm);
+    // filmController.render(newFilm);
   }
 
   _onFilterChange() {

@@ -7,17 +7,17 @@ const createCommentsTemplate = (comment, externalData) => {
   return (
     `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
-          ${comment._emotion ? `<img src="./images/emoji/${comment._emotion}.png" width="55" height="55" alt="emoji">` : ``}
+          ${comment.emotion ? `<img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji">` : ``}
         </span>
         <div>
-          <p class="film-details__comment-text">${comment._comment}</p>
+          <p class="film-details__comment-text">${comment.comment}</p>
           <p class="film-details__comment-info">
-            <span class="film-details__comment-author">${comment._author}</span>
-            <span class="film-details__comment-day">${getFormatComment(comment._date)}</span>
+            <span class="film-details__comment-author">${comment.author}</span>
+            <span class="film-details__comment-day">${getFormatComment(comment.date)}</span>
             <button
                 class="film-details__comment-delete"
                 type="button"
-                data-mess-id="${comment._id}"
+                data-mess-id="${comment.id}"
                 ${isBlock ? `disabled` : ``}>
                     ${externalData.deleteButtonText}
             </button>

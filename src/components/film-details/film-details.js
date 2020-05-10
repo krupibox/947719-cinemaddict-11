@@ -62,6 +62,25 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._onEmojiClickHandler = cb;
   }
 
+  setOnChangeRatingFilmClick(cb) {
+console.log(cb);
+
+    if (this._film.isWatched) {
+      this.getElement().querySelector(`.film-details__user-rating-score`)
+        .addEventListener(`click`, cb);
+
+        console.log(cb);
+        
+
+      this.getElement().querySelector(`.film-details__watched-reset`)
+        .addEventListener(`click`, () => {
+          this._onResetRatingFilmClick(UNDO_RATING);
+        });
+    }
+
+    this._onResetRatingFilmClick = cb;
+  }
+
   recoveryListeners() {
     const element = this.getElement();
 

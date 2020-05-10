@@ -82,3 +82,10 @@ export const DefaultData = {
 export const LoadingData = {
   deleteButtonText: `Deleting...`
 };
+
+export const HandlerLocker = {
+  ON: true,
+  OFF: false
+};
+
+export const UNDO_RATING = 0;
