@@ -14,7 +14,7 @@ export const createFilmDetailsTemplate = (details) => {
     isWatchlist,
     isWatched,
     isFavorite } = details;
-
+    
   const threeGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
   return `<section class="film-details">

@@ -8,11 +8,7 @@ export default class FilmsCardComponent extends AbstractComponent {
   }
 
   getTemplate() {
-    return createFilmCardTemplate(this._film, {
-      isWatchlist: this._film.isWatchlist,
-      isWatched: this._film.isWatched,
-      isFavorite: this._film.isFavorite
-    });
+    return createFilmCardTemplate(this._film);
   }
 
   setFilmClickHandler(cb) {

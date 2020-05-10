@@ -58,13 +58,14 @@ export default class PageController {
 
     render(this._container.getElement(), this._sortComponent, RenderPosition.AFTERBEGIN);
 
-    this._updateFilms(FilmCount.START, films);
+    this._updateFilms(this._showingFilmCount, films);    
   }
 
   _renderFilms(count, films) {
+    
     const newFilms = renderFilms(
         this._filmsListContainer,
-        films.slice(0, count),
+        films.slice(0, Math.max(count, this._showingFilmCount)),
         this._onDataChange,
         this._onViewChange
     );
@@ -142,7 +143,7 @@ export default class PageController {
 
     const prevFilmCount = this._showingFilmCount;
     this._showingFilmCount = prevFilmCount + FilmCount.STEP;
-
+    
     this._updateFilms(this._showingFilmCount, films);
   }
 

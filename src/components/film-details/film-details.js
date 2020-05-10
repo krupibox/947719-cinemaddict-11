@@ -6,9 +6,12 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     super();
     this._film = film;
 
-    this._isWatchlist = film.isWatchlist,
-      this._isWatched = film._isWatched,
-      this._isFavorite = film._isFavorite
+    this._onCloseButtonClick = null;
+    this._onEscapeKeyDown = null;
+    this._onButtonWatchListClick = null;
+    this._onButtonWatchedClick = null;
+    this._onButtonFavoriteClick = null;
+    this._onEmojiClickHandler = null;
   }
 
   rerender() {
@@ -16,11 +19,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film, {
-      isWatchlist: this._isWatchlist,
-      isWatched: this._isWatched,
-      isFavorite: this._isFavorite,
-    });
+    return createFilmDetailsTemplate(this._film);
   }
 
   setButtonCloseClickHandler(cb) {
