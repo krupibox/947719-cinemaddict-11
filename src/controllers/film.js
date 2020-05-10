@@ -1,8 +1,8 @@
 import FilmComponent from '../components/film/film';
 import FilmDetailsComponent from '../components/film-details/film-details';
-import { render, replace, remove } from '../utils/render';
-import { isEscape } from '../utils/is-escape';
-import { RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, TypeEmoji } from '../consts';
+import {render, replace, remove} from '../utils/render';
+import {isEscape} from '../utils/is-escape';
+import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, TypeEmoji} from '../consts';
 
 export default class FilmController {
   constructor(container, onDataChange, onViewChange) {
@@ -53,9 +53,9 @@ export default class FilmController {
     evt.stopPropagation();
 
     this._onDataChange(
-      this,
-      this._film,
-      Object.assign({}, this._film, controlType)
+        this,
+        this._film,
+        Object.assign({}, this._film, controlType)
     );
   }
 
@@ -63,9 +63,9 @@ export default class FilmController {
     this._filmComponent = new FilmComponent(this._film);
 
     this._filmComponent.setFilmClickHandler((evt) => this._onFilmClick(evt));
-    this._filmComponent.setButtonWatchListClickHandler((evt) => this._setOnDataChange(evt, { isWatchlist: !this._film.isWatchlist }));
-    this._filmComponent.setButtonWatchedClickHandler((evt) => this._setOnDataChange(evt, { isWatched: !this._film.isWatched }));
-    this._filmComponent.setButtonFavoriteClickHandler((evt) => this._setOnDataChange(evt, { isFavorite: !this._film.isFavorite }));
+    this._filmComponent.setButtonWatchListClickHandler((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
+    this._filmComponent.setButtonWatchedClickHandler((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
+    this._filmComponent.setButtonFavoriteClickHandler((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
   }
 
   _createFilmDetailsComponent() {
@@ -74,9 +74,9 @@ export default class FilmController {
     this._filmDetailsComponent.setButtonCloseClickHandler((evt) => this._onCloseButtonClick(evt));
     this._filmDetailsComponent.setEscapeKeyDownHandler((evt) => this._onEscapeKeyDown(evt));
 
-    this._filmDetailsComponent.setButtonWatchListClickHandler((evt) => this._setOnDataChange(evt, { isWatchlist: !this._film.isWatchlist }));
-    this._filmDetailsComponent.setButtonWatchedClickHandler((evt) => this._setOnDataChange(evt, { isWatched: !this._film.isWatched }));
-    this._filmDetailsComponent.setButtonFavoriteClickHandler((evt) => this._setOnDataChange(evt, { isFavorite: !this._film.isFavorite }));
+    this._filmDetailsComponent.setButtonWatchListClickHandler((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
+    this._filmDetailsComponent.setButtonWatchedClickHandler((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
+    this._filmDetailsComponent.setButtonFavoriteClickHandler((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
 
 
     this._filmDetailsComponent.setEmojiClickHandler((evt) => this._onEmojiClickHandler(evt));
@@ -110,13 +110,12 @@ export default class FilmController {
     }
   }
 
-  _onEscapeKeyDown(evt) {    
-    if (evt.key === `Escape` || evt.key === `Esc`) {
-
+  _onEscapeKeyDown(evt) {
+    if (isEscape(evt)) {
       this._onViewChange();
       document.removeEventListener(`keydown`, this._onEscapeKeyDown);
       this._viewMode = ViewMode.DEFAULT;
-      this.setDefaultView();      
+      this.setDefaultView();
     }
   }
 

@@ -2,8 +2,8 @@ import SortComponent from '../components/sort/sort';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
 import FilmController from '../controllers/film';
-import { render, remove } from '../utils/render';
-import { Films, RenderPosition, SortType } from '../consts';
+import {render, remove} from '../utils/render';
+import {Films, RenderPosition, SortType} from '../consts';
 
 const FilmCount = {
   START: 5,
@@ -63,10 +63,10 @@ export default class PageController {
 
   _renderFilms(count, films) {
     const newFilms = renderFilms(
-      this._filmsListContainer,
-      films.slice(0, count),
-      this._onDataChange,
-      this._onViewChange
+        this._filmsListContainer,
+        films.slice(0, count),
+        this._onDataChange,
+        this._onViewChange
     );
 
     this._showedFilmControllers = this._showedFilmControllers.concat(newFilms);
@@ -93,10 +93,10 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-      this._filmsListContainerExtra,
-      filmsMaxRating.slice(0, Films.EXTRA),
-      this._onDataChange,
-      this._onViewChange
+        this._filmsListContainerExtra,
+        filmsMaxRating.slice(0, Films.EXTRA),
+        this._onDataChange,
+        this._onViewChange
     );
 
     this._showedMaxRatingFilmControllers = [].concat(newFilms);
@@ -111,10 +111,10 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-      this._filmsListMostCommented,
-      films.slice(0, Films.EXTRA),
-      this._onDataChange,
-      this._onViewChange
+        this._filmsListMostCommented,
+        films.slice(0, Films.EXTRA),
+        this._onDataChange,
+        this._onViewChange
     );
 
     this._showedMostCommentedFilmControllers = [].concat(newFilms);
