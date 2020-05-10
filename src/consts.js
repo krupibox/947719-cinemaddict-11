@@ -74,3 +74,11 @@ export const DisplayMode = {
   SHOW: `show`,
   HIDDEN: `hidden`
 };
+
+export const DefaultData = {
+  deleteButtonText: `Delete`
+};
+
+export const LoadingData = {
+  deleteButtonText: `Deleting...`
+};

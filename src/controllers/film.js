@@ -1,5 +1,6 @@
 import FilmComponent from '../components/film/film';
 import FilmDetailsComponent from '../components/film-details/film-details';
+import CommentComponent from '../components/comment/comment';
 import {render, replace, remove} from '../utils/render';
 import {isEscape} from '../utils/is-escape';
 import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, TypeEmoji} from '../consts';
@@ -71,6 +72,10 @@ export default class FilmController {
   _createFilmDetailsComponent() {
     this._filmDetailsComponent = new FilmDetailsComponent(this._film);
 
+    this._commentsContainer = this._filmDetailsComponent.getElement()
+    .querySelector(`.film-details__comments-list`);
+    this._createComments(this._film.comments);
+
     this._filmDetailsComponent.setButtonCloseClickHandler((evt) => this._onCloseButtonClick(evt));
     this._filmDetailsComponent.setEscapeKeyDownHandler((evt) => this._onEscapeKeyDown(evt));
 
@@ -80,6 +85,21 @@ export default class FilmController {
 
 
     this._filmDetailsComponent.setEmojiClickHandler((evt) => this._onEmojiClickHandler(evt));
+  }
+
+  _createComments(comments) {
+    this._showedCommentControllers = comments.map((comment) => {
+      const commentController = new CommentComponent(comment);
+
+      commentController.setOnDeleteButtonClick(this._onDeleteButtonMouseup);
+      this._renderComments(commentController);
+
+      return commentController;
+    });
+  }
+
+  _renderComments(comment) {
+    render(this._commentsContainer, comment, RenderPosition.BEFOREEND);
   }
 
   _onFilmClick(evt) {

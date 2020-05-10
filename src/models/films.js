@@ -1,4 +1,3 @@
-import Comment from './comment';
 import {getFilmsByFilter} from '../utils/get-films-by-filter';
 import {FilterTypes} from '../consts';
 
@@ -32,7 +31,7 @@ export default class Films {
   updateFilm(oldFilmId, newFilm) {
     const index = this._films.findIndex((film) => film.id === oldFilmId);
 
-    // иммутабельность?
+    // иммутабельность
     this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
     this.activateHandlers();
   }

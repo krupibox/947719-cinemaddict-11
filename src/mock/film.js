@@ -11,7 +11,7 @@ import {
 import {getFormatDate} from '../utils/get-format-date';
 import {getTimeFromMins} from '../utils/get-time-from-mins';
 
-import { GENRE, Range } from '../consts';
+import {GENRE, Range} from '../consts';
 
 import {
   WORDS,
