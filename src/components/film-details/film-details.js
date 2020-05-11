@@ -12,6 +12,8 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._onButtonWatchedClick = null;
     this._onButtonFavoriteClick = null;
     this._onEmojiClickHandler = null;
+    this._onSendCommentPressEnter = null;
+    this._onResetRatingFilmClick = null;
   }
 
   rerender() {
@@ -55,51 +57,77 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._onButtonFavoriteClick = cb;
   }
 
-  setEmojiClickHandler(cb) {
+  setEmojiClick(cb) {
     this.getElement().querySelector(`.film-details__emoji-list`)
-      .addEventListener(`click`, cb);
+      .addEventListener(`change`, (evt) => {
+        this._emoji = evt.target.value;
+        this._commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
 
+        cb();
+      });
     this._onEmojiClickHandler = cb;
   }
 
   setOnChangeRatingFilmClick(cb) {
-console.log(cb);
-
     if (this._film.isWatched) {
       this.getElement().querySelector(`.film-details__user-rating-score`)
-        .addEventListener(`click`, cb);
-
-        console.log(cb);
-        
+        .addEventListener(`click`, (evt) => {
+          if (!evt.target.classList.contains(`film-details__user-rating-label`)) {
+            return;
+          }
+          this._onResetRatingFilmClick(evt.target.textContent);
+        });
 
       this.getElement().querySelector(`.film-details__watched-reset`)
         .addEventListener(`click`, () => {
           this._onResetRatingFilmClick(UNDO_RATING);
         });
-    }
 
-    this._onResetRatingFilmClick = cb;
+      this._onResetRatingFilmClick = cb;
+    }
+  }
+
+  setOnSendCommentPressEnter(cb) {
+    this.getElement().addEventListener(`keyup`, (evt) => {
+      evt.preventDefault();
+      this._isCtrlCommandEnterPress(evt, cb);
+    });
+
+    this._onSendCommentPressEnter = cb;
   }
 
   recoveryListeners() {
-    const element = this.getElement();
+    this._subscribeOnEvents();
+    this.getElement().querySelector(`.film-details__comment-input`).value = this._commentText;
+  }
 
-    element.querySelector(`.film-details__close-btn`)
-      .addEventListener(`click`, this._onCloseButtonClick);
+  _subscribeOnEvents() {
+    this.setOnCloseButtonClick(this._onCloseButtonClick);
+    this.setEscapeKeyDownHandler(this._onEscapeKeyDown);
+    this.setOnButtonWatchListClick(this._onButtonWatchListClick);
+    this.setOnButtonWatchedClick(this._onButtonWatchedClick);
+    this.setOnButtonFavoriteClick(this._onButtonFavoriteClick);
+    this.setOnEmojiClickHandler(this._onEmojiClickHandler);
+    this.setOnSendCommentPressEnter(this._onSendCommentPressEnter);
+    this.setOnResetRatingFilmClick(this._onResetRatingFilmClick);
+  }
 
-    document.body
-      .addEventListener(`click`, this._onEscapeKeyDown);
+  _onSendComment() {
+    const text = this.getElement().querySelector(`.film-details__comment-input`);
 
-    element.querySelector(`.film-details__control-label--watchlist`)
-      .addEventListener(`click`, this._onButtonWatchListClick);
+    return {
+      'comment': text.value,
+      'date': new Date(),
+      'emotion': this._emoji,
+    };
+  }
 
-    element.querySelector(`.film-details__control-label--watched`)
-      .addEventListener(`click`, this._onButtonWatchedClick);
+  _isCtrlCommandEnterPress(evt, cb) {
+    console.log(evt.key);
 
-    element.querySelector(`.film-details__control-label--favorite`)
-      .addEventListener(`click`, this._onButtonFavoriteClick);
-
-    element.querySelector(`.film-details__emoji-list`)
-      .addEventListener(`click`, this._onEmojiClickHandler);
+    // Здесь продолжить Code
+    if (evt.key === Code.ENTER && evt.ctrlKey || evt.key === Code.ENTER && evt.metaKey) {
+      cb(this._onSendComment());
+    }
   }
 }

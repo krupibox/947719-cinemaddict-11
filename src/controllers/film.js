@@ -10,8 +10,6 @@ export default class FilmController {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
-
-    this._isHandlerLocker = HandlerLocker.OFF;
     this._viewMode = ViewMode.DEFAULT;
 
     this._film = null;
@@ -52,11 +50,11 @@ export default class FilmController {
     remove(this._filmComponent);
   }
 
-  blockPopupForm() {
+  blockFilmDetailsForm() {
     this._filmComponent.disableForm();
   }
 
-  unblockPopupForm() {
+  unblockFilmDetailsForm() {
     this._filmComponent.enableForm();
   }
 
@@ -68,7 +66,7 @@ export default class FilmController {
     this._isHandlerLocker = boolean;
   }
 
-  resetPopupForm() {
+  resetFilmDetailsForm() {
     this._film.userRating = UNDO_RATING;
     this.render(this._film);
   }
@@ -76,10 +74,6 @@ export default class FilmController {
   _setOnDataChange(evt, controlType) {
     evt.preventDefault();
     evt.stopPropagation();
-
-    if (this._isHandlerLocker) {
-      return;
-    }
 
     this._onDataChange(
         this,
@@ -106,44 +100,20 @@ export default class FilmController {
 
     this._filmDetailsComponent.setButtonCloseClickHandler((evt) => this._onCloseButtonClick(evt));
     this._filmDetailsComponent.setEscapeKeyDownHandler((evt) => this._onEscapeKeyDown(evt));
+    this._filmDetailsComponent.setOnSendCommentPressEnter(this._onSendCommentKeyup);
 
     this._filmDetailsComponent.setButtonWatchListClickHandler((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
     this._filmDetailsComponent.setButtonWatchedClickHandler((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
     this._filmDetailsComponent.setButtonFavoriteClickHandler((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
 
-    if (this._isHandlerLocker) {
-      return;
-    }
-
-    this._filmDetailsComponent.setEmojiClickHandler((evt) => this._onEmojiClickHandler(evt));
+    this._filmDetailsComponent.setEmojiClick((evt) => this._onEmojiClick(evt));
+    
     this._filmDetailsComponent.setOnChangeRatingFilmClick((rating) => {
-
-      (evt) => {
-        console.log(`ss`);
-        
-        this._setOnDataChange(evt, {rating: rating});
-
-        if (!evt.target.classList.contains(`film-details__user-rating-label`)) {
-          return;
-        }
-
-        this._onResetRatingFilmClick(evt.target.textContent);
-    }
-
+      const newFilm = Object.assign({}, this._film, {rating: rating});
+      newFilm.userRating = parseInt(rating, 10);
+      
+        this._onDataChange(this, this._film, newFilm);
     });
-
-
-  }
-
-  _setOnDataChange() {
-    if (this._isHandlerLocker) {
-      return;
-    }
-
-    const newFilm = FilmModel.cloneMovie(this._film);
-    newMovie.userRating = parseInt(rating, 10);
-
-    this._onDataChange(this, this._film, newMovie);
   }
 
   _createComments(comments) {
@@ -162,11 +132,9 @@ export default class FilmController {
   }
 
   _onDeleteButtonClick(comment) {    
-    if (this._isHandlerLocker) {
-      return;
-    }
-
     comment.setData({deleteButtonText: LoadingData.deleteButtonText});
+    console.log(comment);
+    
     this._onDataChange(this, comment._filmComment.id, null);
   }
 
@@ -187,19 +155,13 @@ export default class FilmController {
     }
   }
   
-  _onEmojiClickHandler() {
-    () => {
-      if (this._isHandlerLocker) {
-        return;
-      }
-
+  _onEmojiClick() {
       this._filmComponent.rerender();
       this._commentsContainer = this._filmDetailsComponent.getElement()
         .querySelector(`.film-details__comments-list`);
       this._createComments(this._film.comments);
 
       this._filmDetailsComponent.getElement().scrollTop = document.body.scrollHeight;
-    }
   }
 
   _onEscapeKeyDown(evt) {
@@ -216,5 +178,9 @@ export default class FilmController {
     remove(this._filmDetailsComponent);
     this._viewMode = ViewMode.DEFAULT;
     document.removeEventListener(`keydown`, this._onEscapeKeyDown);
+  }
+
+  _onSendCommentKeyup(comment) {
+    this._onDataChange(this, null, comment);
   }
 }

@@ -89,3 +89,5 @@ export const HandlerLocker = {
 };
 
 export const UNDO_RATING = 0;
+
+export const RATING_NUMBER = 9;
