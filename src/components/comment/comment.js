@@ -40,9 +40,11 @@ export default class Comment extends AbstractSmartComponent {
   getTemplate() {
     return createCommentsTemplate(this._filmComment, this._externalData);
   }
+  
   recoveryListeners() {
     this._subscribeOnEvents();
   }
+
   setOnDeleteButtonClick(handler) {
     this.getElement().querySelector(`.film-details__comment-delete`)
       .addEventListener(`click`, () => {
@@ -51,13 +53,16 @@ export default class Comment extends AbstractSmartComponent {
       });
     this._onDeleteButtonClick = handler;
   }
+
   setData(buttonText) {
     this._externalData = Object.assign({}, DefaultData, buttonText);
     this.rerender();
   }
+
   returnData() {
     this.setData({ deleteButtonText: DefaultData.deleteButtonText });
   }
+
   _subscribeOnEvents() {
     this.setOnDeleteButtonClick(this._onDeleteButtonClick);
   }

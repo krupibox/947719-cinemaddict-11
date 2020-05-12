@@ -11,21 +11,21 @@ export default class FilmsCardComponent extends AbstractComponent {
     return createFilmCardTemplate(this._film);
   }
 
-  setFilmClickHandler(cb) {
+  setOnFilmClick(cb) {
     this.getElement().addEventListener(`click`, cb);
   }
 
-  setButtonWatchListClickHandler(cb) {
+  setOnButtonWatchListClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
       .addEventListener(`click`, cb);
   }
 
-  setButtonWatchedClickHandler(cb) {
+  setOnButtonWatchedClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
       .addEventListener(`click`, cb);
   }
 
-  setButtonFavoriteClickHandler(cb) {
+  setOnButtonFavoriteClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--favorite`)
       .addEventListener(`click`, cb);
   }

@@ -1,19 +1,23 @@
 import { createFilmDetailsTemplate } from './film-details-tpl';
 import AbstractSmartComponent from '../abstract-smart-component';
+import { KeyCode, TypeEmoji } from '../../consts';
 
 export default class FilmDetailsComponent extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
+    this._commentText = null;
+    this._elementsForBlock = [];
+    this._emoji = null;
 
     this._onCloseButtonClick = null;
     this._onEscapeKeyDown = null;
     this._onButtonWatchListClick = null;
     this._onButtonWatchedClick = null;
     this._onButtonFavoriteClick = null;
-    this._onEmojiClickHandler = null;
     this._onSendCommentPressEnter = null;
     this._onResetRatingFilmClick = null;
+    this._onEmojiClick = null;
   }
 
   rerender() {
@@ -21,51 +25,57 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film);
+    return createFilmDetailsTemplate(this._film, {
+      isRated: !!this._film.userRating,
+      isWatched: !!this._film.isWatched,
+      isWatchlist: !!this._film.isWatchlist,
+      isFavorite: !!this._film.isFavorite,
+      userEmoji: this._emoji
+    });
   }
 
-  setButtonCloseClickHandler(cb) {
+  setOnCloseButtonClick(cb) {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
 
     this._onCloseButtonClick = cb;
   }
 
-  setEscapeKeyDownHandler(cb) {
+  setOnEscapeKeyDown(cb) {
     document.body.addEventListener(`click`, cb);
 
     this._onEscapeKeyDown = cb;
   }
 
-  setButtonWatchListClickHandler(cb) {
+  setOnButtonWatchListClick(cb) {
     this.getElement().querySelector(`.film-details__control-label--watchlist`)
       .addEventListener(`click`, cb);
 
     this._onButtonWatchListClick = cb;
   }
 
-  setButtonWatchedClickHandler(cb) {
+  setOnButtonWatchedClick(cb) {
     this.getElement().querySelector(`.film-details__control-label--watched`)
       .addEventListener(`click`, cb);
 
     this._onButtonWatchedClick = cb;
   }
 
-  setButtonFavoriteClickHandler(cb) {
+  setOnButtonFavoriteClick(cb) {
     this.getElement().querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, cb);
 
     this._onButtonFavoriteClick = cb;
   }
 
-  setEmojiClick(cb) {
+  setOnEmojiClick(cb) {
     this.getElement().querySelector(`.film-details__emoji-list`)
-      .addEventListener(`change`, (evt) => {
-        this._emoji = evt.target.value;
+      .addEventListener(`change`, (evt) => {     
+        this._emoji = TypeEmoji[evt.target.value];        
         this._commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
 
         cb();
       });
-    this._onEmojiClickHandler = cb;
+    this._onEmojiClick = cb;
   }
 
   setOnChangeRatingFilmClick(cb) {
@@ -103,18 +113,18 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   _subscribeOnEvents() {
     this.setOnCloseButtonClick(this._onCloseButtonClick);
-    this.setEscapeKeyDownHandler(this._onEscapeKeyDown);
+    this.setOnEscapeKeyDown(this._onEscapeKeyDown);
     this.setOnButtonWatchListClick(this._onButtonWatchListClick);
     this.setOnButtonWatchedClick(this._onButtonWatchedClick);
     this.setOnButtonFavoriteClick(this._onButtonFavoriteClick);
-    this.setOnEmojiClickHandler(this._onEmojiClickHandler);
+    this.setOnEmojiClick(this._onEmojiClick);
     this.setOnSendCommentPressEnter(this._onSendCommentPressEnter);
-    this.setOnResetRatingFilmClick(this._onResetRatingFilmClick);
+    this.setOnChangeRatingFilmClick(this._onResetRatingFilmClick);
   }
 
   _onSendComment() {
     const text = this.getElement().querySelector(`.film-details__comment-input`);
-
+    
     return {
       'comment': text.value,
       'date': new Date(),
@@ -123,10 +133,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
   }
 
   _isCtrlCommandEnterPress(evt, cb) {
-    console.log(evt.key);
-
-    // Здесь продолжить Code
-    if (evt.key === Code.ENTER && evt.ctrlKey || evt.key === Code.ENTER && evt.metaKey) {
+    if (evt.key === KeyCode.ENTER) {
       cb(this._onSendComment());
     }
   }

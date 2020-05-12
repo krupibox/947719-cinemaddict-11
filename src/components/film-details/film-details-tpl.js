@@ -40,7 +40,7 @@ const createRatingTemplate = (title, userRating) => {
   );
 };
 
-export const createFilmDetailsTemplate = (details) => {
+export const createFilmDetailsTemplate = (details, options) => {
   const {
     title,
     rating,
@@ -54,12 +54,17 @@ export const createFilmDetailsTemplate = (details) => {
     genres,
     poster,
     description,
-    comments,
-    isWatchlist,
-    isWatched,
-    isFavorite } = details;
+    comments } = details;
 
-    const ratedMarkup = isWatched ? createRatingTemplate(title, userRating) : ``;
+  const {
+    isRated,
+    isWatched,
+    isFavorite,
+    isWatchlist,
+    userEmoji } = options;
+
+  const userRatingMarkup = (isWatched && isRated) ? `Your rate ${userRating}` : ``;
+  const ratedMarkup = isWatched ? createRatingTemplate(title, userRating) : ``;
 
   const threeGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
@@ -85,6 +90,7 @@ export const createFilmDetailsTemplate = (details) => {
   
                         <div class="film-details__rating">
                           <p class="film-details__total-rating">${rating}</p>
+                          <p class="film-details__user-rating">${userRatingMarkup}</p>
                         </div>
                       </div>
   
@@ -148,32 +154,34 @@ export const createFilmDetailsTemplate = (details) => {
                     </ul>
   
                     <div class="film-details__new-comment">
-                      <div for="add-emoji" class="film-details__add-emoji-label"><img src="" width="55" height="55" alt=""></div>
+                    <div for="add-emoji" class="film-details__add-emoji-label" data-img-src="">
+                    ${userEmoji ? `<img class="film-details__added-emoji" src="./images/emoji/${userEmoji}" width="55" height="55" alt="emoji">` : ``}
+                </div>
   
                       <label class="film-details__comment-label">
                         <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
                       </label>
   
                       <div class="film-details__emoji-list">
-                        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="sleeping">
-                        <label class="film-details__emoji-label" for="emoji-smile">
-                          <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-                        </label>
-  
-                        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="neutral-face">
-                        <label class="film-details__emoji-label" for="emoji-sleeping">
-                          <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-                        </label>
-  
-                        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-gpuke" value="grinning">
-                        <label class="film-details__emoji-label" for="emoji-gpuke">
-                          <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-                        </label>
-  
-                        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="grinning">
-                        <label class="film-details__emoji-label" for="emoji-angry">
-                          <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-                        </label>
+                      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
+                      <label class="film-details__emoji-label" for="emoji-smile">
+                        <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
+                      </label>
+    
+                      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
+                      <label class="film-details__emoji-label" for="emoji-sleeping">
+                        <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
+                      </label>
+    
+                      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
+                      <label class="film-details__emoji-label" for="emoji-puke">
+                        <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
+                      </label>
+    
+                      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
+                      <label class="film-details__emoji-label" for="emoji-angry">
+                        <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
+                      </label>
                       </div>
                     </div>
                   </section>

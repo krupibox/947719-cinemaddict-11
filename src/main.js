@@ -4,14 +4,14 @@ import FilmsStatisticsComponent from './components/film-statistics/films-statist
 import FilmsModel from "./models/films.js";
 import FilterController from './controllers/filter';
 import PageController from './controllers/page';
-import { Films, RenderPosition } from './consts';
+import { NumberOfFilmsToRender, RenderPosition } from './consts';
 import { render } from './utils/render';
 
 import { generateFilm } from './mock/film';
 import { generateComment } from './mock/comment';
 import { generateProfile } from './mock/profile';
 
-const films = [...Array(Films.TOTAL)].map((_, index) => generateFilm(index, generateComment(index)));
+const films = [...Array(NumberOfFilmsToRender.TOTAL)].map((_, index) => generateFilm(index, generateComment(index)));
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(films);
 

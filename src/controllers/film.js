@@ -3,7 +3,7 @@ import FilmDetailsComponent from '../components/film-details/film-details';
 import CommentComponent from '../components/comment/comment';
 import {render, replace, remove} from '../utils/render';
 import {isEscape} from '../utils/is-escape';
-import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, TypeEmoji, UNDO_RATING, LoadingData, HandlerLocker} from '../consts';
+import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, UNDO_RATING, LoadingData} from '../consts';
 
 export default class FilmController {
   constructor(container, onDataChange, onViewChange) {
@@ -85,10 +85,10 @@ export default class FilmController {
   _createFilmComponent() {
     this._filmComponent = new FilmComponent(this._film);
 
-    this._filmComponent.setFilmClickHandler((evt) => this._onFilmClick(evt));
-    this._filmComponent.setButtonWatchListClickHandler((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
-    this._filmComponent.setButtonWatchedClickHandler((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
-    this._filmComponent.setButtonFavoriteClickHandler((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
+    this._filmComponent.setOnFilmClick((evt) => this._onFilmClick(evt));
+    this._filmComponent.setOnButtonWatchListClick((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
+    this._filmComponent.setOnButtonWatchedClick((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
+    this._filmComponent.setOnButtonFavoriteClick((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
   }
 
   _createFilmDetailsComponent() {
@@ -98,21 +98,21 @@ export default class FilmController {
     .querySelector(`.film-details__comments-list`);
     this._createComments(this._film.comments);
 
-    this._filmDetailsComponent.setButtonCloseClickHandler((evt) => this._onCloseButtonClick(evt));
-    this._filmDetailsComponent.setEscapeKeyDownHandler((evt) => this._onEscapeKeyDown(evt));
+    this._filmDetailsComponent.setOnCloseButtonClick((evt) => this._onCloseButtonClick(evt));
+    this._filmDetailsComponent.setOnEscapeKeyDown((evt) => this._onEscapeKeyDown(evt));
     this._filmDetailsComponent.setOnSendCommentPressEnter(this._onSendCommentKeyup);
 
-    this._filmDetailsComponent.setButtonWatchListClickHandler((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
-    this._filmDetailsComponent.setButtonWatchedClickHandler((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
-    this._filmDetailsComponent.setButtonFavoriteClickHandler((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
+    this._filmDetailsComponent.setOnButtonWatchListClick((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
+    this._filmDetailsComponent.setOnButtonWatchedClick((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
+    this._filmDetailsComponent.setOnButtonFavoriteClick((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
 
-    this._filmDetailsComponent.setEmojiClick((evt) => this._onEmojiClick(evt));
-    
+    this._filmDetailsComponent.setOnEmojiClick((evt) => this._onEmojiClick(evt));
+
     this._filmDetailsComponent.setOnChangeRatingFilmClick((rating) => {
-      const newFilm = Object.assign({}, this._film, {rating: rating});
+      const newFilm = Object.assign({}, this._film, {rating});
       newFilm.userRating = parseInt(rating, 10);
-      
-        this._onDataChange(this, this._film, newFilm);
+
+      this._onDataChange(this, this._film, newFilm);
     });
   }
 
@@ -131,10 +131,8 @@ export default class FilmController {
     render(this._commentsContainer, comment, RenderPosition.BEFOREEND);
   }
 
-  _onDeleteButtonClick(comment) {    
+  _onDeleteButtonClick(comment) {
     comment.setData({deleteButtonText: LoadingData.deleteButtonText});
-    console.log(comment);
-    
     this._onDataChange(this, comment._filmComment.id, null);
   }
 
@@ -154,14 +152,14 @@ export default class FilmController {
       this._viewMode = ViewMode.DETAILS;
     }
   }
-  
-  _onEmojiClick() {
-      this._filmComponent.rerender();
-      this._commentsContainer = this._filmDetailsComponent.getElement()
-        .querySelector(`.film-details__comments-list`);
-      this._createComments(this._film.comments);
 
-      this._filmDetailsComponent.getElement().scrollTop = document.body.scrollHeight;
+  _onEmojiClick() {
+    this._filmDetailsComponent.rerender();
+    this._commentsContainer = this._filmDetailsComponent.getElement()
+        .querySelector(`.film-details__comments-list`);
+    this._createComments(this._film.comments);
+
+    this._filmDetailsComponent.getElement().scrollTop = document.body.scrollHeight;
   }
 
   _onEscapeKeyDown(evt) {

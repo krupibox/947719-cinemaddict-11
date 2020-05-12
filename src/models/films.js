@@ -33,8 +33,7 @@ export default class Films {
 
     // иммутабельность
     // this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
-    console.log(newFilm);
-    
+
     this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
     this.activateHandlers();
   }

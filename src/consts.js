@@ -38,9 +38,16 @@ export const Range = {
   GENRES: 3
 };
 
-export const Films = {
+export const NumberOfFilmsToRender = {
   TOTAL: 17,
-  EXTRA: 2
+  EXTRA: 2,
+  START: 5,
+  STEP: 5
+};
+
+export const FilmCount = {
+  START: 5,
+  STEP: 5
 };
 
 export const SortType = {
@@ -56,10 +63,10 @@ export const FILM_CLASS_ELEMENTS = [
 ];
 
 export const TypeEmoji = {
-  'emoji-smile': `./images/emoji/smile.png`,
-  'emoji-sleeping': `./images/emoji/sleeping.png`,
-  'emoji-gpuke': `./images/emoji/puke.png`,
-  'emoji-angry': `./images/emoji/angry.png`
+  'smile': `smile.png`,
+  'sleeping': `sleeping.png`,
+  'puke': `puke.png`,
+  'angry': `angry.png`
 };
 
 export const FilterTypes = {
@@ -91,3 +98,9 @@ export const HandlerLocker = {
 export const UNDO_RATING = 0;
 
 export const RATING_NUMBER = 9;
+
+export const KeyCode = {
+  ENTER: `Enter`,
+  ESCAPE: `Escape`,
+  ESC: `Esc`
+};
