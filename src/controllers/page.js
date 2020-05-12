@@ -78,17 +78,19 @@ export default class PageController {
   }
 
 
-  sortFilmsByMaxRating(films) {
+  sortFilmsByMaxRating() {
+    const films = this._filmsModel.getFilms();
+            
     const sortedFilms = films.slice().sort((a, b) => b.rating - a.rating)
       .slice(0, NumberOfFilmsToRender.EXTRA);
-
+            
     const total = sortedFilms.reduce((accum, item) => accum + item.rating, 0);
-
+    
     return total === 0 ? null : sortedFilms;
   }
 
   _renderMaxRatingFilms() {
-    const sortedFilms = this.sortFilmsByMaxRating(this._filmsModel.getFilms());
+    const sortedFilms = this.sortFilmsByMaxRating();
 
     if (sortedFilms === null) {
       this._showedMaxRatingFilmControllers.forEach((controller) => controller.destroy());
@@ -162,6 +164,15 @@ export default class PageController {
   }
 
   _onDataChange(filmController, oldFilm, newFilm) {
+    // TODO: Delete comments!
+
+    if (newFilm === null) {
+
+      console.log(oldFilm);
+      
+      filmController.render(this._filmsModel.deleteComment(filmController._film.id, oldFilm));
+    }
+
     this._filmsModel.updateFilm(oldFilm.id, newFilm);
     filmController.render(newFilm);
   }
