@@ -72,7 +72,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
       .addEventListener(`change`, (evt) => {     
         this._emoji = TypeEmoji[evt.target.value];        
         this._commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
-
+  
         cb();
       });
     this._onEmojiClick = cb;
@@ -100,7 +100,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
   setOnSendCommentPressEnter(cb) {
     this.getElement().addEventListener(`keyup`, (evt) => {
       evt.preventDefault();
-      this._isCtrlCommandEnterPress(evt, cb);
+      this._isPressEnter(evt, cb);
     });
 
     this._onSendCommentPressEnter = cb;
@@ -124,15 +124,18 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   _onSendComment() {
     const text = this.getElement().querySelector(`.film-details__comment-input`);
-    
+        
     return {
+      'id': 0,
+      'author': `Jack Daniels`,
       'comment': text.value,
       'date': new Date(),
       'emotion': this._emoji,
+
     };
   }
 
-  _isCtrlCommandEnterPress(evt, cb) {
+  _isPressEnter(evt, cb) {
     if (evt.key === KeyCode.ENTER) {
       cb(this._onSendComment());
     }

@@ -2,8 +2,8 @@ import SortComponent from '../components/sort/sort';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
 import FilmController from '../controllers/film';
-import {render, remove} from '../utils/render';
-import {NumberOfFilmsToRender, FilmCount, RenderPosition, SortType} from '../consts';
+import { render, remove } from '../utils/render';
+import { NumberOfFilmsToRender, FilmCount, RenderPosition, SortType } from '../consts';
 
 const renderFilms = (films, filmListElement, onDataChange, onViewChange) => films.map((film) => {
   const filmController = new FilmController(filmListElement, onDataChange, onViewChange);
@@ -56,10 +56,10 @@ export default class PageController {
 
   _renderFilms(count, films) {
     const newFilms = renderFilms(
-        films.slice(0, count),
-        this._filmsListContainer,
-        this._onDataChange,
-        this._onViewChange
+      films.slice(0, count),
+      this._filmsListContainer,
+      this._onDataChange,
+      this._onViewChange
     );
 
     this._showedFilmControllers = this._showedFilmControllers.concat(newFilms);
@@ -80,12 +80,12 @@ export default class PageController {
 
   sortFilmsByMaxRating() {
     const films = this._filmsModel.getFilms();
-            
+
     const sortedFilms = films.slice().sort((a, b) => b.rating - a.rating)
       .slice(0, NumberOfFilmsToRender.EXTRA);
-            
+
     const total = sortedFilms.reduce((accum, item) => accum + item.rating, 0);
-    
+
     return total === 0 ? null : sortedFilms;
   }
 
@@ -99,10 +99,10 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-        sortedFilms,
-        this._filmsListContainerTopRated,
-        this._onDataChange,
-        this._onViewChange
+      sortedFilms,
+      this._filmsListContainerTopRated,
+      this._onDataChange,
+      this._onViewChange
     );
 
     this._showedMaxRatingFilmControllers = [].concat(newFilms);
@@ -111,7 +111,7 @@ export default class PageController {
 
   sortFilmsByMostComments(films) {
     const sortedFilms = films.slice().sort((a, b) => b.comments.length - a.comments.length)
-    .slice(0, NumberOfFilmsToRender.EXTRA);
+      .slice(0, NumberOfFilmsToRender.EXTRA);
 
     const total = sortedFilms.reduce((accum, item) => accum + item.comments.length, 0);
 
@@ -128,10 +128,10 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-        sortedFilms,
-        this._filmsListContainerMostCommented,
-        this._onDataChange,
-        this._onViewChange
+      sortedFilms,
+      this._filmsListContainerMostCommented,
+      this._onDataChange,
+      this._onViewChange
     );
 
     this._showedMostCommentedFilmControllers = [].concat(newFilms);
@@ -163,18 +163,22 @@ export default class PageController {
     this._updateFilms(this._showingFilmCount, films);
   }
 
-  _onDataChange(filmController, oldFilm, newFilm) {
-    // TODO: Delete comments!
+  // MAIN DATA CHANGE
+  _onDataChange(filmController, oldFilm, newFilm, updatedFilm) {
+
+    //  oldFilm === null создание нового сообщения в newFilm
 
     if (newFilm === null) {
-
-      console.log(oldFilm);
-      
       filmController.render(this._filmsModel.deleteComment(filmController._film.id, oldFilm));
-    }
+      
+    } else if (oldFilm === null) {
 
-    this._filmsModel.updateFilm(oldFilm.id, newFilm);
-    filmController.render(newFilm);
+      const newComment = newFilm;
+      updatedFilm.comments.push(newComment);
+
+      this._filmsModel.updateFilmById(filmController._film.id, updatedFilm);      
+      filmController.render(updatedFilm);
+    }
   }
 
   _onFilterChange() {

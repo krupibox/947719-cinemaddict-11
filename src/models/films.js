@@ -28,14 +28,16 @@ export default class Films {
     this._filterChangeHandlers.forEach((handler) => handler());
   }
 
-  updateFilm(oldFilmId, newFilm) {
+  updateFilmById(oldFilmId, newFilm) {
+    
+    console.log(`newFilm`, newFilm);
     
     const index = this._films.findIndex((film) => film.id === oldFilmId);
-    
+        
     // иммутабельность
-    // this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
 
     this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
+    
     
     this.activateHandlers();
   }

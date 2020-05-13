@@ -63,10 +63,10 @@ export const FILM_CLASS_ELEMENTS = [
 ];
 
 export const TypeEmoji = {
-  'smile': `smile.png`,
-  'sleeping': `sleeping.png`,
-  'puke': `puke.png`,
-  'angry': `angry.png`
+  'smile': `smile`,
+  'sleeping': `sleeping`,
+  'puke': `puke`,
+  'angry': `angry`
 };
 
 export const FilterTypes = {

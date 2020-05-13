@@ -9,6 +9,7 @@ export default class FilmController {
   constructor(container, onDataChange, onViewChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    
     this._onViewChange = onViewChange;
     this._viewMode = ViewMode.DEFAULT;
 
@@ -19,6 +20,7 @@ export default class FilmController {
     this._onCloseButtonClick = this._onCloseButtonClick.bind(this);
     this._onEscapeKeyDown = this._onEscapeKeyDown.bind(this);
     this._onDeleteButtonClick = this._onDeleteButtonClick.bind(this);
+    this._onSendCommentKeyup = this._onSendCommentKeyup.bind(this);
   }
 
   render(film) {
@@ -159,7 +161,7 @@ export default class FilmController {
         .querySelector(`.film-details__comments-list`);
     this._createComments(this._film.comments);
 
-    this._filmDetailsComponent.getElement().scrollTop = document.body.scrollHeight;
+    this._filmDetailsComponent.getElement().scrollTop = document.body.scrollHeight;    
   }
 
   _onEscapeKeyDown(evt) {
@@ -178,7 +180,17 @@ export default class FilmController {
     document.removeEventListener(`keydown`, this._onEscapeKeyDown);
   }
 
-  _onSendCommentKeyup(comment) {
-    this._onDataChange(this, null, comment);
+  // LOAD COMMENT BY CB FROM filmDetailsComponent
+  // 104: this._filmDetailsComponent.setOnSendCommentPressEnter(this._onSendCommentKeyup);
+// code:
+  // this.getElement().addEventListener(`keyup`, (evt) => {
+  //   evt.preventDefault();
+  //   this._isCtrlCommandEnterPress(evt, cb);
+  // });
+
+  // this._onSendCommentPressEnter = cb;
+
+  _onSendCommentKeyup(comment) {    
+    this._onDataChange(this, null, comment, this._film);
   }
 }

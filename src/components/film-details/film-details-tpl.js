@@ -155,7 +155,7 @@ export const createFilmDetailsTemplate = (details, options) => {
   
                     <div class="film-details__new-comment">
                     <div for="add-emoji" class="film-details__add-emoji-label" data-img-src="">
-                    ${userEmoji ? `<img class="film-details__added-emoji" src="./images/emoji/${userEmoji}" width="55" height="55" alt="emoji">` : ``}
+                    ${userEmoji ? `<img class="film-details__added-emoji" src="./images/emoji/${userEmoji}.png" width="55" height="55" alt="emoji">` : ``}
                 </div>
   
                       <label class="film-details__comment-label">
