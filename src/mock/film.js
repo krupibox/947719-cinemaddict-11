@@ -18,11 +18,11 @@ import {
   POSTERS
 } from './fish';
 
-export const generateFilm = (index, comments) => {
+export const generateFilm = () => {
   const filmName = generateText(Range.MIN_TITLE, Range.MAX_TITLE, WORDS);
 
   return {
-    id: index,
+    id: String(Math.round(new Date() * Math.random())),
     title: filmName,
     original: filmName,
     rating: getRandomFloatNumber(Range.MIN_RATING, Range.MAX_RATING),
@@ -40,6 +40,6 @@ export const generateFilm = (index, comments) => {
     actors: [`Chevy Chase`, `Dan Aykroyd`, `John Candy`],
     country: `USA`,
     releaseDate: getFormatDate(getRandomDate()),
-    comments: [...Array(getRandomIntegerNumber(Range.MIN_COMMENTS_NUMBER, Range.MAX_COMMENTS_NUMBER))].map(() => comments)
+    comments: []
   };
 };

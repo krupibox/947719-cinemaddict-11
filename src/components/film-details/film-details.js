@@ -1,6 +1,6 @@
 import { createFilmDetailsTemplate } from './film-details-tpl';
 import AbstractSmartComponent from '../abstract-smart-component';
-import { KeyCode, TypeEmoji } from '../../consts';
+import { KeyCode, TypeEmoji, UNDO_RATING } from '../../consts';
 
 export default class FilmDetailsComponent extends AbstractSmartComponent {
   constructor(film) {
@@ -69,10 +69,10 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   setOnEmojiClick(cb) {
     this.getElement().querySelector(`.film-details__emoji-list`)
-      .addEventListener(`change`, (evt) => {     
-        this._emoji = TypeEmoji[evt.target.value];        
+      .addEventListener(`change`, (evt) => {
+        this._emoji = TypeEmoji[evt.target.value];
         this._commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
-  
+
         cb();
       });
     this._onEmojiClick = cb;
@@ -124,9 +124,9 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   _onSendComment() {
     const text = this.getElement().querySelector(`.film-details__comment-input`);
-        
+
     return {
-      'id': 0,
+      'id': String(Math.round(new Date() * Math.random())),
       'author': `Jack Daniels`,
       'comment': text.value,
       'date': new Date(),

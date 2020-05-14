@@ -2,20 +2,21 @@ import SortComponent from '../components/sort/sort';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
 import FilmController from '../controllers/film';
-import { render, remove } from '../utils/render';
-import { NumberOfFilmsToRender, FilmCount, RenderPosition, SortType } from '../consts';
+import {render, remove} from '../utils/render';
+import {NumberOfFilmsToRender, FilmCount, RenderPosition, SortType} from '../consts';
 
-const renderFilms = (films, filmListElement, onDataChange, onViewChange) => films.map((film) => {
-  const filmController = new FilmController(filmListElement, onDataChange, onViewChange);
+const renderFilms = (films, filmListElement, onDataChange, onViewChange, onCommentChange) => films.map((film) => {
+  const filmController = new FilmController(filmListElement, onDataChange, onViewChange, onCommentChange);
   filmController.render(film);
 
   return filmController;
 });
 
 export default class PageController {
-  constructor(container, filmsModel) {
+  constructor(container, filmsModel, commentsModel) {
     this._container = container;
     this._filmsModel = filmsModel;
+    this._commentsModel = commentsModel;
 
     this._showedFilmControllers = [];
     this._showedMaxRatingFilmControllers = [];
@@ -33,6 +34,7 @@ export default class PageController {
     this._onShowMoreButtonClick = this._onShowMoreButtonClick.bind(this);
     this._onSortChange = this._onSortChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
+    this._onCommentChange = this._onCommentChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
 
@@ -43,7 +45,14 @@ export default class PageController {
   }
 
   render() {
-    const films = this._filmsModel.getFilms();
+    let films = this._filmsModel.getFilms();
+
+    const comments = this._commentsModel.getComments();
+
+    // Temporary assemble films and comments
+    films.map(function (film, index) {
+      film.comments = comments[index];
+    });    
 
     if (films.length === 0) {
       render(this._filmsListContainer, this._noFilmsComponent, RenderPosition.BEFOREEND);
@@ -56,10 +65,11 @@ export default class PageController {
 
   _renderFilms(count, films) {
     const newFilms = renderFilms(
-      films.slice(0, count),
-      this._filmsListContainer,
-      this._onDataChange,
-      this._onViewChange
+        films.slice(0, count),
+        this._filmsListContainer,
+        this._onDataChange,
+        this._onViewChange,
+        this._onCommentChange
     );
 
     this._showedFilmControllers = this._showedFilmControllers.concat(newFilms);
@@ -99,10 +109,11 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-      sortedFilms,
-      this._filmsListContainerTopRated,
-      this._onDataChange,
-      this._onViewChange
+        sortedFilms,
+        this._filmsListContainerTopRated,
+        this._onDataChange,
+        this._onViewChange,
+        this._onCommentChange
     );
 
     this._showedMaxRatingFilmControllers = [].concat(newFilms);
@@ -128,10 +139,11 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-      sortedFilms,
-      this._filmsListContainerMostCommented,
-      this._onDataChange,
-      this._onViewChange
+        sortedFilms,
+        this._filmsListContainerMostCommented,
+        this._onDataChange,
+        this._onViewChange,
+        this._onCommentChange
     );
 
     this._showedMostCommentedFilmControllers = [].concat(newFilms);
@@ -164,20 +176,27 @@ export default class PageController {
   }
 
   // MAIN DATA CHANGE
-  _onDataChange(filmController, oldFilm, newFilm, updatedFilm) {
+  _onDataChange(filmController, oldFilm, newFilm) {
+    this._filmsModel.updateFilmById(filmController._film.id, newFilm);
+    filmController.render(newFilm);
+  }
 
-    //  oldFilm === null создание нового сообщения в newFilm
-
-    if (newFilm === null) {
-      filmController.render(this._filmsModel.deleteComment(filmController._film.id, oldFilm));
+  _onCommentChange(filmController, oldComment, newComment, currentFilm) {
+    //  newComment === null удаление сообщения
+    //  oldComment === null добавление сообщения
+        
+    if (newComment === null) {
+      const indexFilm = this._filmsModel.getFilms().findIndex((film) => film.id === currentFilm.id);           
+      this._commentsModel.deleteComment(oldComment, indexFilm)
+      console.log(currentFilm);
       
-    } else if (oldFilm === null) {
+      filmController.render(currentFilm);
 
-      const newComment = newFilm;
-      updatedFilm.comments.push(newComment);
+    } else if (oldComment === null) {
+      const indexFilm = this._filmsModel.getFilms().findIndex((film) => film.id === currentFilm.id); 
+      this._commentsModel.addComment(indexFilm, newComment);
+      filmController.render(currentFilm);
 
-      this._filmsModel.updateFilmById(filmController._film.id, updatedFilm);      
-      filmController.render(updatedFilm);
     }
   }
 

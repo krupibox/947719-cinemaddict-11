@@ -1,4 +1,4 @@
-export default class Comment {
+export default class Comments {
   constructor() {
     this._comments = [];
     this._dataChangeHandlers = [];
@@ -13,14 +13,19 @@ export default class Comment {
     this._callHandlers(this._dataChangeHandlers);
   }
 
-  updateComment(id, comment) {
-    const index = this._comments.findIndex((it) => it.id === id);
+  addComment(indexComment, comment) {
+    this._comments[indexComment].push(comment);    
+    this._callHandlers(this._dataChangeHandlers);
+  }
 
+  deleteComment(comment, indexComment) {        
+    const index = this._comments[indexComment].findIndex((it) => it.id === comment.id);
+    
     if (index === -1) {
       return false;
     }
-
-    this._comments = [].concat(this._comments.slice(0, index), comment, this._comments.slice(index + 1));
+    
+    this._comments[indexComment] = [].concat(this._comments[indexComment].slice(0, index), comment, this._comments[indexComment].slice(index + 1));
 
     this._callHandlers(this._dataChangeHandlers);
 

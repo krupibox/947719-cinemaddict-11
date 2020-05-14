@@ -6,10 +6,11 @@ import {isEscape} from '../utils/is-escape';
 import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, UNDO_RATING, LoadingData} from '../consts';
 
 export default class FilmController {
-  constructor(container, onDataChange, onViewChange) {
+  constructor(container, onDataChange, onViewChange, onCommentChange) {
     this._container = container;
     this._onDataChange = onDataChange;
-    
+    this._onCommentChange = onCommentChange;
+
     this._onViewChange = onViewChange;
     this._viewMode = ViewMode.DEFAULT;
 
@@ -97,7 +98,7 @@ export default class FilmController {
     this._filmDetailsComponent = new FilmDetailsComponent(this._film);
 
     this._commentsContainer = this._filmDetailsComponent.getElement()
-    .querySelector(`.film-details__comments-list`);
+      .querySelector(`.film-details__comments-list`);
     this._createComments(this._film.comments);
 
     this._filmDetailsComponent.setOnCloseButtonClick((evt) => this._onCloseButtonClick(evt));
@@ -133,11 +134,6 @@ export default class FilmController {
     render(this._commentsContainer, comment, RenderPosition.BEFOREEND);
   }
 
-  _onDeleteButtonClick(comment) {
-    comment.setData({deleteButtonText: LoadingData.deleteButtonText});
-    this._onDataChange(this, comment._filmComment.id, null);
-  }
-
   _onFilmClick(evt) {
     evt.preventDefault();
 
@@ -158,10 +154,10 @@ export default class FilmController {
   _onEmojiClick() {
     this._filmDetailsComponent.rerender();
     this._commentsContainer = this._filmDetailsComponent.getElement()
-        .querySelector(`.film-details__comments-list`);
+      .querySelector(`.film-details__comments-list`);
     this._createComments(this._film.comments);
 
-    this._filmDetailsComponent.getElement().scrollTop = document.body.scrollHeight;    
+    this._filmDetailsComponent.getElement().scrollTop = document.body.scrollHeight;
   }
 
   _onEscapeKeyDown(evt) {
@@ -180,17 +176,24 @@ export default class FilmController {
     document.removeEventListener(`keydown`, this._onEscapeKeyDown);
   }
 
-  // LOAD COMMENT BY CB FROM filmDetailsComponent
-  // 104: this._filmDetailsComponent.setOnSendCommentPressEnter(this._onSendCommentKeyup);
-// code:
-  // this.getElement().addEventListener(`keyup`, (evt) => {
-  //   evt.preventDefault();
-  //   this._isCtrlCommandEnterPress(evt, cb);
-  // });
+  _onSendCommentKeyup(comment) {
 
-  // this._onSendCommentPressEnter = cb;
+    /**
+  *
+  * @param {object} this (Instance of FilmController)
+  * @param {null} null (Add comment)
+  * @param {array} comment (New comment)
+  * @param {object} this._film (Current film with data)
+  * @memberof PageController
+  */
 
-  _onSendCommentKeyup(comment) {    
-    this._onDataChange(this, null, comment, this._film);
+    this._onCommentChange(this, null, comment, this._film);
+  }
+
+  _onDeleteButtonClick(comment) {    
+    comment.setData({deleteButtonText: LoadingData.deleteButtonText});
+  
+    //check arguments
+    this._onCommentChange(this, comment._filmComment, null, this._film);
   }
 }
