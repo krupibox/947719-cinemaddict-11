@@ -104,3 +104,19 @@ export const KeyCode = {
   ESCAPE: `Escape`,
   ESC: `Esc`
 };
+
+export const StatisticFilter = {
+  ALL_TIME: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`
+};
+
+export const NameRating = {
+  DEFAULT: ``,
+  NOVICE: `Novice`,
+  FAN: `Fan`,
+  MOVIE_BUFF: `Movie Buff`,
+};
+

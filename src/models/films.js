@@ -15,7 +15,7 @@ export default class Films {
     return getFilmsByFilter(this._films, this._activeFilter);
   }
 
-  getFilmsDefault() {
+  getFilmsAll() {
     return this._films;
   }
 

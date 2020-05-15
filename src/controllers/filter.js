@@ -23,7 +23,7 @@ export default class FilterController {
     const filters = Object.values(FilterTypes).map((filter) => {
       return {
         name: filter,
-        count: getFilmsByFilter(this._filmsModel.getFilmsDefault(), filter).length,
+        count: getFilmsByFilter(this._filmsModel.getFilmsAll(), filter).length,
         checked: filter === this._activeFilterType,
       };
     });
@@ -47,7 +47,7 @@ export default class FilterController {
   _onFilterChange(filterType) {
     this._activeFilterType = filterType;
     this._filmsModel.setFilterType(filterType);
-    // this._onFilterChangeClick();
+    this._onFilterChangeClick();
   }
 
   _onDataChange() {

@@ -200,7 +200,6 @@ export default class PageController {
       //  newComment === null to delete comment
     } else if (newComment === null) {
 
-
       this._commentsModel.deleteComment(oldComment, index);
       const comments = this._commentsModel.getComments();
 

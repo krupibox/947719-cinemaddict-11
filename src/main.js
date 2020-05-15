@@ -1,6 +1,6 @@
 import ProfileComponent from './components/profile/profile';
 import FilmsSectionComponent from './components/film-section/film-section';
-import FilmsStatisticsComponent from './components/film-statistics/films-statistics';
+import FilmsStatisticsComponent from './components/statistic/statistic';
 import FilmsModel from "./models/films.js";
 import CommentsModel from "./models/comments.js";
 import FilterController from './controllers/filter';
@@ -37,6 +37,12 @@ const filterController = new FilterController(siteMain, filmsModel);
 filterController.render();
 
 render(siteMain, siteSection, RenderPosition.BEFOREEND);
+
+const statisticComponent = new FilmsStatisticsComponent(filmsModel.getFilmsAll());
+render(siteMain, statisticComponent, RenderPosition.BEFOREEND);
+
+console.log(siteMain);
+
 
 const pageController = new PageController(
     siteSection,
