@@ -3,7 +3,7 @@ import FilmDetailsComponent from '../components/film-details/film-details';
 import CommentComponent from '../components/comment/comment';
 import {render, replace, remove} from '../utils/render';
 import {isEscape} from '../utils/is-escape';
-import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, UNDO_RATING, LoadingData} from '../consts';
+import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, UNDO_RATING, DataDeleting} from '../consts';
 
 export default class FilmController {
   constructor(container, onDataChange, onViewChange, onCommentChange) {
@@ -191,7 +191,7 @@ export default class FilmController {
   }
 
   _onDeleteButtonClick(comment) {
-    comment.setData({deleteButtonText: LoadingData.deleteButtonText});
+    comment.setData({deleteMessage: DataDeleting.deleteMessage});
 
     // check arguments
     this._onCommentChange(this, comment._filmComment, null, this._film);

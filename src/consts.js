@@ -82,12 +82,12 @@ export const DisplayMode = {
   HIDDEN: `hidden`
 };
 
-export const DefaultData = {
-  deleteButtonText: `Delete`
+export const DataDefault= {
+  deleteMessage: `Delete`
 };
 
-export const LoadingData = {
-  deleteButtonText: `Deleting...`
+export const DataDeleting = {
+  deleteMessage: `Deleting...`
 };
 
 export const HandlerLocker = {

@@ -1,44 +1,4 @@
-import { RATING_NUMBER } from '../../consts';
-
-const createRatingScoreTemplate = (ratingNumber, numberChecked) => {
-  return [...Array(ratingNumber)].map((_, index) => {
-    const isChecked = numberChecked === index + 1 ? `checked` : ``;
-
-    return (
-      `<input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${index + 1}" id="rating-${index + 1}" ${isChecked}>
-      <label class="film-details__user-rating-label" for="rating-${index + 1}">${index + 1}</label>`
-    );
-  }).join(``);
-};
-
-const createRatingTemplate = (title, userRating) => {
-  const ratingMarkup = createRatingScoreTemplate(RATING_NUMBER, userRating);
-  return (
-    `<div class="form-details__middle-container">
-      <section class="film-details__user-rating-wrap">
-        <div class="film-details__user-rating-controls">
-          <button class="film-details__watched-reset" type="button">Undo</button>
-        </div>
-
-        <div class="film-details__user-score">
-          <div class="film-details__user-rating-poster">
-            <img src="./images/posters/the-great-flamarion.jpg" alt="film-poster" class="film-details__user-rating-img">
-          </div>
-
-          <section class="film-details__user-rating-inner">
-            <h3 class="film-details__user-rating-title">${title}</h3>
-
-            <p class="film-details__user-rating-feelings">How you feel it?</p>
-
-            <div class="film-details__user-rating-score">
-              ${ratingMarkup}
-            </div>
-          </section>
-        </div>
-      </section>
-    </div>`
-  );
-};
+import { createRatingTemplate } from './film-details-rating-tpl';
 
 export const createFilmDetailsTemplate = (details, options) => {
   const {
@@ -65,7 +25,6 @@ export const createFilmDetailsTemplate = (details, options) => {
 
   const userRatingMarkup = (isWatched && isRated) ? `Your rate ${userRating}` : ``;
   const ratedMarkup = isWatched ? createRatingTemplate(title, userRating) : ``;
-
   const threeGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
   return `<section class="film-details">
