@@ -1,5 +1,5 @@
 import AbstractSmartComponent from '../abstract-smart-component';
-import { getFormatComment } from '../../utils/get-format-comment';
+import { getFormatDateComment } from '../../utils/get-format-date-comment';
 import { DefaultData, LoadingData } from '../../consts';
 
 const createCommentsTemplate = (comment, externalData) => {
@@ -13,7 +13,7 @@ const createCommentsTemplate = (comment, externalData) => {
           <p class="film-details__comment-text">${comment.comment}</p>
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${comment.author}</span>
-            <span class="film-details__comment-day">${getFormatComment(comment.date)}</span>
+            <span class="film-details__comment-day">${getFormatDateComment(comment.date)}</span>
             <button
                 class="film-details__comment-delete"
                 type="button"
@@ -37,7 +37,7 @@ export default class Comment extends AbstractSmartComponent {
     this._onDeleteButtonClick = null;
   }
 
-  getTemplate() {
+  getTemplate() {    
     return createCommentsTemplate(this._filmComment, this._externalData);
   }
   
@@ -54,7 +54,7 @@ export default class Comment extends AbstractSmartComponent {
     this._onDeleteButtonClick = handler;
   }
 
-  setData(buttonText) {
+  setData(buttonText) {    
     this._externalData = Object.assign({}, DefaultData, buttonText);
     this.rerender();
   }

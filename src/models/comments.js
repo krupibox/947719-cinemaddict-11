@@ -10,25 +10,31 @@ export default class Comments {
 
   setComments(comments) {
     this._comments = comments;
+
     this._callHandlers(this._dataChangeHandlers);
   }
 
   addComment(indexComment, comment) {
-    this._comments[indexComment].push(comment);    
+    this._comments[indexComment].push(comment);
     this._callHandlers(this._dataChangeHandlers);
   }
 
-  deleteComment(comment, indexComment) {        
-    const index = this._comments[indexComment].findIndex((it) => it.id === comment.id);
-    
-    if (index === -1) {
+  deleteComment(deleteComment, indexFilm) {
+    // find commets by film index
+    const indexComment = this._comments[indexFilm].findIndex((comment) => comment.id === deleteComment.id);
+
+    if (indexComment === -1) {
       return false;
     }
-    
-    this._comments[indexComment] = [].concat(this._comments[indexComment].slice(0, index), comment, this._comments[indexComment].slice(index + 1));
+
+    // delete comment by its comment index
+    this._comments[indexFilm] = [].concat(
+        this._comments[indexFilm].slice(0, indexComment), this._comments[indexFilm].slice(indexComment + 1)
+    );
 
     this._callHandlers(this._dataChangeHandlers);
 
+    // send ok
     return true;
   }
 

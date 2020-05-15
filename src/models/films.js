@@ -31,10 +31,11 @@ export default class Films {
   updateFilmById(oldFilmId, newFilm) {
     const index = this._films.findIndex((film) => film.id === oldFilmId);
 
-    // Immutable
     this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
 
     this.activateHandlers();
+
+    return true;
   }
 
   setFilterType(filterType) {
@@ -50,7 +51,7 @@ export default class Films {
     this._filterChangeHandlers.push(cb);
   }
 
-  _callHandlers(cb) {
-    cb.forEach((cb) => cb());
+  _callHandlers(handler) {
+    handler.forEach((cb) => cb());
   }
 }

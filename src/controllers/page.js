@@ -52,7 +52,7 @@ export default class PageController {
     // Temporary assemble films and comments
     films.map(function (film, index) {
       film.comments = comments[index];
-    });    
+    });
 
     if (films.length === 0) {
       render(this._filmsListContainer, this._noFilmsComponent, RenderPosition.BEFOREEND);
@@ -175,28 +175,38 @@ export default class PageController {
     this._updateFilms(this._showingFilmCount, films);
   }
 
-  // MAIN DATA CHANGE
+  // DATA CHANGE
   _onDataChange(filmController, oldFilm, newFilm) {
     this._filmsModel.updateFilmById(filmController._film.id, newFilm);
     filmController.render(newFilm);
   }
 
-  _onCommentChange(filmController, oldComment, newComment, currentFilm) {
-    //  newComment === null удаление сообщения
-    //  oldComment === null добавление сообщения
-        
-    if (newComment === null) {
-      const indexFilm = this._filmsModel.getFilms().findIndex((film) => film.id === currentFilm.id);           
-      this._commentsModel.deleteComment(oldComment, indexFilm)
-      console.log(currentFilm);
-      
-      filmController.render(currentFilm);
+  _onCommentChange(filmController, oldComment, newComment) {
+    // find film index to find only its commets
+    let index = this._filmsModel.getFilms().findIndex((film) => film.id === filmController._film.id);
 
-    } else if (oldComment === null) {
-      const indexFilm = this._filmsModel.getFilms().findIndex((film) => film.id === currentFilm.id); 
-      this._commentsModel.addComment(indexFilm, newComment);
-      filmController.render(currentFilm);
+    // oldComment === null to add new comment
+    if (oldComment === null) {
 
+      // add new comment to total array of comments
+      this._commentsModel.addComment(index, newComment);
+
+      // get comments updated with new comment
+      const comments = this._commentsModel.getComments();
+
+      // rerender current film
+      filmController.render(Object.assign({}, filmController._film, {comments: comments[index]}));
+
+      //  newComment === null to delete comment
+    } else if (newComment === null) {
+
+
+      this._commentsModel.deleteComment(oldComment, index);
+      const comments = this._commentsModel.getComments();
+
+      if (index) {
+        filmController.render(Object.assign({}, filmController._film, {comments: comments[index]}));
+      }
     }
   }
 

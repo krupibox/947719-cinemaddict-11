@@ -190,10 +190,10 @@ export default class FilmController {
     this._onCommentChange(this, null, comment, this._film);
   }
 
-  _onDeleteButtonClick(comment) {    
+  _onDeleteButtonClick(comment) {
     comment.setData({deleteButtonText: LoadingData.deleteButtonText});
-  
-    //check arguments
+
+    // check arguments
     this._onCommentChange(this, comment._filmComment, null, this._film);
   }
 }
