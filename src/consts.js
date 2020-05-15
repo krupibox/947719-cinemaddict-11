@@ -27,8 +27,10 @@ export const Range = {
   MAX_DESCRIPTION: 20,
   MIN_STRING: 1,
   MAX_STRING: 140,
-  MIN_COMMENTS: 1,
-  MAX_COMMENTS: 15,
+  MIN_COMMENTS_NUMBER: 1,
+  MAX_COMMENTS_NUMBER: 5,
+  MIN_COMMENTS_LENGTH: 5,
+  MAX_COMMENTS_LENGTH: 10,
   MIN_YEAR: 1900,
   MAX_YEAR: 2019,
   MIN_DURATION: 60,
@@ -36,9 +38,16 @@ export const Range = {
   GENRES: 3
 };
 
-export const Films = {
+export const NumberOfFilmsToRender = {
   TOTAL: 17,
-  EXTRA: 2
+  EXTRA: 2,
+  START: 5,
+  STEP: 5
+};
+
+export const FilmCount = {
+  START: 5,
+  STEP: 5
 };
 
 export const SortType = {
@@ -47,15 +56,51 @@ export const SortType = {
   DEFAULT: `default`,
 };
 
-export const FILM_CARD_ELEMENTS = [
+export const FILM_CLASS_ELEMENTS = [
   `film-card__poster`,
   `film-card__title`,
   `film-card__comments`
 ];
 
 export const TypeEmoji = {
-  'emoji-smile': `./images/emoji/smile.png`,
-  'emoji-sleeping': `./images/emoji/sleeping.png`,
-  'emoji-gpuke': `./images/emoji/puke.png`,
-  'emoji-angry': `./images/emoji/angry.png`
+  'smile': `smile`,
+  'sleeping': `sleeping`,
+  'puke': `puke`,
+  'angry': `angry`
+};
+
+export const FilterTypes = {
+  ALL: `All movies`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`,
+  STATS: `Stats`
+};
+
+export const DisplayMode = {
+  SHOW: `show`,
+  HIDDEN: `hidden`
+};
+
+export const DataDefault= {
+  deleteMessage: `Delete`
+};
+
+export const DataDeleting = {
+  deleteMessage: `Deleting...`
+};
+
+export const HandlerLocker = {
+  ON: true,
+  OFF: false
+};
+
+export const UNDO_RATING = 0;
+
+export const RATING_NUMBER = 9;
+
+export const KeyCode = {
+  ENTER: `Enter`,
+  ESCAPE: `Escape`,
+  ESC: `Esc`
 };

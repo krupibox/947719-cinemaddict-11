@@ -10,4 +10,15 @@ export default class NavigationComponent extends AbstractComponent {
   getTemplate() {
     return createNavigationTemplate(this._filters);
   }
+
+  setOnFilterChange(handler) {
+    
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName === `A` && evt.target.dataset.filterType !== undefined) {
+        handler(evt.target.dataset.filterType);
+      }
+    });
+  }
 }

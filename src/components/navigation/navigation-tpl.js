@@ -1,14 +1,27 @@
-export const createNavigationTemplate = (filters) => {
+const createNavigationItems = (navItems) => {
+  return navItems
+    .map(({ name, count, checked }) => {
+      const isAll = (name === `All movies`) ? `visually-hidden` : ``;
+      const isStats = (name === `Stats`) ? `main-navigation__item--additional` : ``;
+      const isCountExist = count > 0;
 
-  const countFavorite = filters.filter((status) => status.isFavorite);
-  const countWatched = filters.filter((status) => status.isWatched);
-  const countWatchlistAdded = filters.filter((status) => status.isWatchlist);
+      return (
+        `<a href="#${name}"
+            class="main-navigation__item ${checked ? `main-navigation__item--active` : ``} ${isStats}"
+            data-filter-type="${name}">
+            ${name}
+            ${isCountExist ? `<span class="main-navigation__item-count ${isAll}">${count}</span>` : ``}
+        </a>`
+      );
+    });
+};
 
-  return `<nav class="main-navigation">
-              <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-              <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${countFavorite.length}</span></a>
-              <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${countWatched.length}</span></a>
-              <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${countWatchlistAdded.length}</span></a>
-              <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
-            </nav>`;
+export const createNavigationTemplate = (navItems) => {
+  const navItemsMarkUp = createNavigationItems(navItems).join(`\n`);
+
+  return (
+    `<nav class="main-navigation">
+        ${navItemsMarkUp}
+    </nav>`
+  );
 };

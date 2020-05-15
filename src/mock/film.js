@@ -5,44 +5,42 @@ import {
   getRandomArrayItem,
   getRandomGenres,
   generateText,
-  generateComments,
   getRandomDate
 } from './utils';
 
-import {getFormatDate, getTimeFromMins} from '../utils/moment';
+import {getFormatDate} from '../utils/get-format-date';
+import {getTimeFromMins} from '../utils/get-time-from-mins';
 
-import {
-  GENRE,
-  Range
-} from '../consts';
+import {GENRE, Range} from '../consts';
 
 import {
   WORDS,
   POSTERS
 } from './fish';
 
-export const generateFilm = (index) => {
+export const generateFilm = () => {
   const filmName = generateText(Range.MIN_TITLE, Range.MAX_TITLE, WORDS);
 
   return {
-    id: index,
+    id: String(Math.round(new Date() * Math.random())),
     title: filmName,
     original: filmName,
     rating: getRandomFloatNumber(Range.MIN_RATING, Range.MAX_RATING),
+    userRating: 0,
     year: getRandomIntegerNumber(Range.MIN_YEAR, Range.MAX_YEAR),
     duration: getTimeFromMins(getRandomIntegerNumber(Range.MIN_DURATION, Range.MAX_DURATION)),
     genres: getRandomGenres(GENRE),
     poster: getRandomArrayItem(POSTERS),
     description: generateText(Range.MIN_DESCRIPTION, Range.MAX_DESCRIPTION, WORDS),
     age: `12+`,
-    isFavorite: getRandomBoolean(),
-    isWatched: getRandomBoolean(),
     isWatchlist: getRandomBoolean(),
+    isWatched: getRandomBoolean(),
+    isFavorite: getRandomBoolean(),
     director: `John Doe`,
     writers: [`John Doe`, `Judy Doe`],
     actors: [`Chevy Chase`, `Dan Aykroyd`, `John Candy`],
     country: `USA`,
     releaseDate: getFormatDate(getRandomDate()),
-    comments: generateComments(Range.MIN_COMMENTS, Range.MAX_COMMENTS, WORDS)
+    comments: []
   };
 };

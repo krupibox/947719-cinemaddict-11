@@ -1,35 +1,31 @@
-import { createFilmCardTemplate } from './film-card-tpl';
+import { createFilmCardTemplate } from './film-tpl';
 import AbstractComponent from '../abstract';
 
 export default class FilmsCardComponent extends AbstractComponent {
-  constructor(card) {
+  constructor(film) {
     super();
-    this._card = card;
+    this._film = film;
   }
 
   getTemplate() {
-    return createFilmCardTemplate(this._card, {
-      isWatchlist: this._card.isWatchlist,
-      isWatched: this._card.isWatched,
-      isFavorite: this._card.isFavorite
-    });
+    return createFilmCardTemplate(this._film);
   }
 
-  setCardClickHandler(cb) {
+  setOnFilmClick(cb) {
     this.getElement().addEventListener(`click`, cb);
   }
 
-  setButtonWatchListClickHandler(cb) {
+  setOnButtonWatchListClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
       .addEventListener(`click`, cb);
   }
 
-  setButtonWatchedClickHandler(cb) {
+  setOnButtonWatchedClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
       .addEventListener(`click`, cb);
   }
 
-  setButtonFavoriteClickHandler(cb) {
+  setOnButtonFavoriteClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--favorite`)
       .addEventListener(`click`, cb);
   }
