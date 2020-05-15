@@ -1,6 +1,7 @@
 import { createFilmDetailsTemplate } from './film-details-tpl';
 import AbstractSmartComponent from '../abstract-smart-component';
 import { KeyCode, TypeEmoji, UNDO_RATING } from '../../consts';
+import { encode } from '../../utils/encode';
 
 export default class FilmDetailsComponent extends AbstractSmartComponent {
   constructor(film) {
@@ -128,7 +129,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     return {
       'id': String(Math.round(new Date() * Math.random())),
       'author': `Jack Daniels`,
-      'comment': text.value,
+      'comment': encode(text.value),
       'date': new Date(),
       'emotion': this._emoji,
 
