@@ -1,5 +1,5 @@
 import AbstractSmartComponent from '../abstract-smart-component';
-import {getStatisticTemplate} from './template';
+import {getStatisticTemplate} from './statistic-tpl';
 import {StatisticFilter} from '../../consts';
 import {generateChart} from './chart';
 import {getProfileRank} from '../../utils/profile-rank';
@@ -26,13 +26,16 @@ export default class Statistic extends AbstractSmartComponent {
   getTemplate() {
     return getStatisticTemplate(this._watchedFilms, this._userRating);
   }
+
   rerender() {
     this.getElement().querySelector(`#statistic-${this._statisticPeriod}`).checked = true;
     this._renderChart();
   }
+
   recoveryListeners() {
     this._setOnFilterChangeMouseup();
   }
+
   _setOnFilterChangeMouseup() {
     this.getElement().querySelector(`.statistic__filters`)
       .addEventListener(`mouseup`, (evt) => {
@@ -44,6 +47,7 @@ export default class Statistic extends AbstractSmartComponent {
         this.rerender();
       });
   }
+
   _renderChart() {
     const canvasChart = this.getElement().querySelector(`.statistic__chart`);
     this._resetChart();
@@ -54,6 +58,7 @@ export default class Statistic extends AbstractSmartComponent {
 
     this._chart = generateChart(canvasChart, this._statisticPeriod, this._movies);
   }
+  
   _resetChart() {
     if (this._chart) {
       this._chart.destroy();

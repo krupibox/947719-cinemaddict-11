@@ -1,19 +1,25 @@
 import NavigationComponent from '../components/navigation/navigation';
-import {render, replace} from '../utils/render';
-import {getFilmsByFilter} from '../utils/get-films-by-filter';
-import {RenderPosition, FilterTypes} from '../consts';
+// import PageController from '../controllers/page';
+import StatisticsComponent from '../components/statistic/statistic';
+import { render, replace } from '../utils/render';
+import { getFilmsByFilter } from '../utils/get-films-by-filter';
+import { RenderPosition, FilterTypes } from '../consts';
 
 export default class FilterController {
-  constructor(container, filmsModel, onStatsChange) {
-    this._container = container;
+  constructor(mainContainer, filmSectionContainer, filmsModel, onStatsChange) {
+
+    this._mainContainer = mainContainer;
+    this._filmSectionContainer = filmSectionContainer;
 
     this._filmsModel = filmsModel;
+    this._statisticComponent = new StatisticsComponent(this._filmsModel.getFilmsAll());
     this._activeFilterType = FilterTypes.ALL;
     this._navigationComponent = null;
 
     this._onStatsChange = onStatsChange;
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
+    this._onStatsShowClick = this._onStatsShowClick.bind(this);
 
     this._filmsModel.setOnFilterChange(this._onDataChange);
   }
@@ -35,7 +41,7 @@ export default class FilterController {
     if (oldNavComponent) {
       replace(this._navigationComponent, oldNavComponent);
     } else {
-      render(this._container, this._navigationComponent, RenderPosition.AFTERBEGIN);
+      render(this._mainContainer, this._navigationComponent, RenderPosition.AFTERBEGIN);
     }
   }
 
@@ -47,13 +53,24 @@ export default class FilterController {
     if (filterType === FilterTypes.STATS) {
       this._activeFilterType = filterType;
       this.render(true);
-      this._onStatsChange();
+      this._onStatsShowClick();
       return;
     }
+
+    this._filmSectionContainer.show();
+    
+console.log(this._statisticComponent.getTemplate());
 
     this._activeFilterType = filterType;
     this._filmsModel.setFilterType(filterType);
     this._onFilterChange();
+  }
+
+  _onStatsShowClick() {
+    this._filmSectionContainer.hide();
+
+    render(this._mainContainer, this._statisticComponent, RenderPosition.BEFOREEND);
+
   }
 
   _onDataChange() {

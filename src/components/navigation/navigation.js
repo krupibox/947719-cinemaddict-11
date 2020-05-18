@@ -4,6 +4,7 @@ import AbstractComponent from '../abstract';
 export default class NavigationComponent extends AbstractComponent {
   constructor(filters) {
     super();
+
     this._filters = filters;
   }
 
@@ -16,10 +17,7 @@ export default class NavigationComponent extends AbstractComponent {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
-      if (evt.target.tagName === `A` && evt.target.dataset.filterType !== undefined) {
-
-        console.log(`evt`, evt.target.dataset.filterType);
-        
+      if (evt.target.tagName === `A` && evt.target.dataset.filterType !== undefined) {        
         handler(evt.target.dataset.filterType);
       }
     });
