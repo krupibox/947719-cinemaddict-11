@@ -13,8 +13,8 @@ const renderFilms = (films, filmListElement, onDataChange, onViewChange, onComme
 });
 
 export default class PageController {
-  constructor(container, filmsModel, commentsModel) {
-    this._container = container;
+  constructor(filmContainer, filmsModel, commentsModel) {
+    this._filmContainer = filmContainer;
     this._filmsModel = filmsModel;
     this._commentsModel = commentsModel;
 
@@ -22,10 +22,11 @@ export default class PageController {
     this._showedMaxRatingFilmControllers = [];
     this._showedMostCommentedFilmControllers = [];
 
-    this._filmsList = this._container.getFilmsListElement();
-    this._filmsListContainer = this._container.getFilmsListContainerElement();
-    this._filmsListContainerTopRated = this._container.getFilmsListContainerTopRatedElement();
-    this._filmsListContainerMostCommented = this._container.getFilmsListContainerMostCommentedElement();
+
+    this._filmsList = this._filmContainer.getFilmsListElement();
+    this._filmsListContainer = this._filmContainer.getFilmsListContainerElement();
+    this._filmsListContainerTopRated = this._filmContainer.getFilmsListContainerTopRatedElement();
+    this._filmsListContainerMostCommented = this._filmContainer.getFilmsListContainerMostCommentedElement();
 
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
     this._sortComponent = new SortComponent(this._filmsModel.getFilms());
@@ -58,7 +59,7 @@ export default class PageController {
       render(this._filmsListContainer, this._noFilmsComponent, RenderPosition.BEFOREEND);
     }
 
-    render(this._container.getElement(), this._sortComponent, RenderPosition.AFTERBEGIN);
+    render(this._filmsList, this._sortComponent, RenderPosition.AFTERBEGIN);
 
     this._updateFilms(this._showingFilmCount, films);
   }
@@ -150,6 +151,8 @@ export default class PageController {
   }
 
   _updateFilms(count, updatedFilms = this._filmsModel.getFilms()) {
+
+
     this._removeFilms();
     this._renderFilms(count, updatedFilms);
     this._renderShowMoreButton(updatedFilms);

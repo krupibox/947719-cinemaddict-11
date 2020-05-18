@@ -10,9 +10,8 @@ export default class FilterController {
     this._filmsModel = filmsModel;
     this._activeFilterType = FilterTypes.ALL;
     this._navigationComponent = null;
-    this._onStatsChange = onStatsChange;
-    this._onFilterChangeClick = null;
 
+    this._onStatsChange = onStatsChange;
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
 
@@ -41,13 +40,20 @@ export default class FilterController {
   }
 
   setOnFilterChange(handler) {
-    this._onFilterChangeClick = handler;
+    this._onFilterChange = handler;
   }
 
   _onFilterChange(filterType) {
+    if (filterType === FilterTypes.STATS) {
+      this._activeFilterType = filterType;
+      this.render(true);
+      this._onStatsChange();
+      return;
+    }
+
     this._activeFilterType = filterType;
     this._filmsModel.setFilterType(filterType);
-    this._onFilterChangeClick();
+    this._onFilterChange();
   }
 
   _onDataChange() {

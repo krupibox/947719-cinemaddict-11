@@ -1,5 +1,5 @@
-import { getIsHistoryMovies } from './filters';
-import { NameRating } from '../consts';
+import {getIsHistoryMovies} from './filters';
+import {NameRating} from '../consts';
 
 export const getProfileRank = (movies) => {
   const userRating = getIsHistoryMovies(movies).length;

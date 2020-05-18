@@ -17,6 +17,9 @@ export default class NavigationComponent extends AbstractComponent {
       evt.preventDefault();
 
       if (evt.target.tagName === `A` && evt.target.dataset.filterType !== undefined) {
+
+        console.log(`evt`, evt.target.dataset.filterType);
+        
         handler(evt.target.dataset.filterType);
       }
     });

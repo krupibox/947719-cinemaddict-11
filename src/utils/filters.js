@@ -1,4 +1,4 @@
-import {FilterTypes} from '../models/films';
+import {FilterTypes} from '../consts';
 
 export const getIsWatchlistMovies = (movies) => {
   return movies.filter((movie) => movie.isWatchlist);

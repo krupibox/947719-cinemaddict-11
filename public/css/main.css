@@ -237,7 +237,7 @@ button {
   width: 1em;
 }
 
-.main-navigation__additional {
+.main-navigation__item--additional {
   margin-left: auto;
   padding: var(--vertical-gap) 0;
   color: var(--text-color);
