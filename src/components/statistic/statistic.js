@@ -3,23 +3,23 @@ import {getStatisticTemplate} from './statistic-tpl';
 import {StatisticFilter} from '../../consts';
 import {generateChart} from './chart';
 import {getProfileRank} from '../../utils/profile-rank';
-import {getWatchedMovies} from '../../utils/statistic';
+import {getWatchedFilms} from '../../utils/statistic';
 
 const FILTER_ID_PREFIX = `statistic-`;
 
 export default class Statistic extends AbstractSmartComponent {
-  constructor(movies) {
+  constructor(films) {
     super();
 
-    this._movies = movies;
+    this._films = films;    
     this._statisticPeriod = StatisticFilter.ALL_TIME;
 
-    this._userRating = getProfileRank(this._movies);
-    this._watchedFilms = getWatchedMovies(this._movies, this._statisticPeriod);
+    this._userRating = getProfileRank(this._films);
+    this._watchedFilms = getWatchedFilms(this._films, this._statisticPeriod);
 
     this._chart = null;
 
-    this._setOnFilterChangeMouseup();
+    this._setOnFilterChangeClick();
     this._renderChart();
   }
 
@@ -28,22 +28,22 @@ export default class Statistic extends AbstractSmartComponent {
   }
 
   rerender() {
-    this.getElement().querySelector(`#statistic-${this._statisticPeriod}`).checked = true;
+    this.getElement().querySelector(`#statistic-${this._statisticPeriod}`).checked = true;    
     this._renderChart();
   }
 
   recoveryListeners() {
-    this._setOnFilterChangeMouseup();
+    this._setOnFilterChangeClick();
   }
 
-  _setOnFilterChangeMouseup() {
+  _setOnFilterChangeClick() {  
     this.getElement().querySelector(`.statistic__filters`)
-      .addEventListener(`mouseup`, (evt) => {
+      .addEventListener(`click`, (evt) => {
         if (!evt.target.classList.contains(`statistic__filters-label`)) {
           return;
         }
 
-        this._statisticPeriod = evt.target.htmlFor.substring(FILTER_ID_PREFIX.length);
+        this._statisticPeriod = evt.target.htmlFor.substring(FILTER_ID_PREFIX.length);                
         this.rerender();
       });
   }
@@ -52,11 +52,11 @@ export default class Statistic extends AbstractSmartComponent {
     const canvasChart = this.getElement().querySelector(`.statistic__chart`);
     this._resetChart();
 
-    if (this._movies.length <= 0) {
+    if (this._films.length <= 0) {
       return;
     }
-
-    this._chart = generateChart(canvasChart, this._statisticPeriod, this._movies);
+    
+    this._chart = generateChart(canvasChart, this._statisticPeriod, this._films);    
   }
   
   _resetChart() {

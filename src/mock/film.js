@@ -27,6 +27,7 @@ export const generateFilm = () => {
     original: filmName,
     rating: getRandomFloatNumber(Range.MIN_RATING, Range.MAX_RATING),
     userRating: 0,
+    watchingDate: getRandomDate(),
     year: getRandomIntegerNumber(Range.MIN_YEAR, Range.MAX_YEAR),
     duration: getTimeFromMins(getRandomIntegerNumber(Range.MIN_DURATION, Range.MAX_DURATION)),
     genres: getRandomGenres(GENRE),

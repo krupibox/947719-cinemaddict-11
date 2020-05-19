@@ -8,12 +8,12 @@ const calcTopGenre = (films) => {
   });
 };
 
-export const getStatisticTemplate = (watchedMovies, userRating) => {
-  const watchedMoviesMarkup = watchedMovies ? watchedMovies.length : `0`;
-  const totalRuntime = watchedMovies.reduce((acc, movie) => acc + movie.duration, 0);
+export const getStatisticTemplate = (watchedFilms, userRating) => {
+  const watchedFilmsMarkup = watchedFilms ? watchedFilms.length : `0`;
+  const totalRuntime = watchedFilms.reduce((acc, film) => acc + film.duration, 0);
   const totalRuntimeMarkup = parseRuntime(totalRuntime);
-  const topGenreMarkup = watchedMovies.length > 0 ? calcTopGenre(watchedMovies) : `-`;
-
+  const topGenreMarkup = watchedFilms.length > 0 ? calcTopGenre(watchedFilms) : `-`;
+  
   return (
     `<section class="statistic visually-hidden">
       <p class="statistic__rank">
@@ -44,7 +44,7 @@ export const getStatisticTemplate = (watchedMovies, userRating) => {
       <ul class="statistic__text-list">
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">You watched</h4>
-          <p class="statistic__item-text">${watchedMoviesMarkup} <span class="statistic__item-description">movies</span></p>
+          <p class="statistic__item-text">${watchedFilmsMarkup} <span class="statistic__item-description">movies</span></p>
         </li>
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">Total duration</h4>

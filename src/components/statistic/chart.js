@@ -1,17 +1,17 @@
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {getWatchedMovies} from '../../utils/statistic';
+import {getWatchedFilms} from '../../utils/statistic';
 
-export const generateChart = (ctx, period, movies) => {
+export const generateChart = (ctx, period, films) => {  
   const getGenreLabels = () => {
-    return [...new Set(movies
-      .map((movie) => movie.genres)
+    return [...new Set(films
+      .map((film) => film.genres)
       .reduce((acc, genres) => [...acc, ...genres], []))];
   };
 
-  const watchedMovies = getWatchedMovies(movies, period);
+  const watchedFilms = getWatchedFilms(films, period);
   const getChartData = getGenreLabels()
-    .map((genre) => watchedMovies
+    .map((genre) => watchedFilms
       .reduce((acc, film) => acc + [...film.genres]
         .filter((it) => it === genre).length, 0));
 
