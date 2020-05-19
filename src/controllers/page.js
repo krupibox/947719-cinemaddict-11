@@ -120,7 +120,6 @@ export default class PageController {
     this._showedMaxRatingFilmControllers = [].concat(newFilms);
   }
 
-
   sortFilmsByMostComments(films) {
     const sortedFilms = films.slice().sort((a, b) => b.comments.length - a.comments.length)
       .slice(0, NumberOfFilmsToRender.EXTRA);
@@ -235,5 +234,7 @@ export default class PageController {
 
   _onViewChange() {
     this._showedFilmControllers.forEach((controller) => controller.setDefaultView());
+    this._showedMaxRatingFilmControllers.forEach((controller) => controller.setDefaultView());
+    this._showedMostCommentedFilmControllers.forEach((controller) => controller.setDefaultView());
   }
 }
