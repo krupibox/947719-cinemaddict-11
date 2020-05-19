@@ -1,22 +1,19 @@
 import NavigationComponent from '../components/navigation/navigation';
-// import PageController from '../controllers/page';
-import StatisticsComponent from '../components/statistic/statistic';
-import { render, replace } from '../utils/render';
-import { getFilmsByFilter } from '../utils/get-films-by-filter';
-import { RenderPosition, FilterTypes } from '../consts';
+import {render, replace} from '../utils/render';
+import {getFilmsByFilter} from '../utils/get-films-by-filter';
+import {RenderPosition, FilterTypes} from '../consts';
 
 export default class FilterController {
-  constructor(mainContainer, filmSectionContainer, filmsModel, onStatsChange) {
+  constructor(mainContainer, filmSectionContainer, filmsModel, statisticComponent) {
 
     this._mainContainer = mainContainer;
     this._filmSectionContainer = filmSectionContainer;
+    this._statisticComponent = statisticComponent;
 
     this._filmsModel = filmsModel;
-    this._statisticComponent = new StatisticsComponent(this._filmsModel.getFilmsAll());
     this._activeFilterType = FilterTypes.ALL;
     this._navigationComponent = null;
 
-    this._onStatsChange = onStatsChange;
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onStatsShowClick = this._onStatsShowClick.bind(this);
@@ -46,34 +43,30 @@ export default class FilterController {
   }
 
   setOnFilterChange(handler) {
-    this._onFilterChange = handler;
+    this._onFilterChangeClick = handler;
   }
 
   _onFilterChange(filterType) {
     if (filterType === FilterTypes.STATS) {
       this._activeFilterType = filterType;
-      this.render(true);
+      this.render();
       this._onStatsShowClick();
       return;
     }
 
     this._filmSectionContainer.show();
-    
-console.log(this._statisticComponent.getTemplate());
+    this._statisticComponent.hide();
 
     this._activeFilterType = filterType;
     this._filmsModel.setFilterType(filterType);
-    this._onFilterChange();
   }
 
   _onStatsShowClick() {
     this._filmSectionContainer.hide();
-
-    render(this._mainContainer, this._statisticComponent, RenderPosition.BEFOREEND);
-
+    this._statisticComponent.show();
   }
 
   _onDataChange() {
-    this.render(true);
+    this.render();
   }
 }

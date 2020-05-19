@@ -5,8 +5,6 @@ import { DisplayMode } from '../../consts';
 export default class FilmSectionComponent extends AbstractComponent {
   constructor() {
     super();
-
-    this._displayMode = DisplayMode.SHOW;
   }
 
   getTemplate() {
@@ -34,12 +32,10 @@ export default class FilmSectionComponent extends AbstractComponent {
   }
 
   hide() {    
-    this.getElement().classList.add(`visually-hidden`);
-    this._displayMode = DisplayMode.HIDDEN;
+    super.hide();
   }
   
   show() {
-    this.getElement().classList.remove(`visually-hidden`);
-    this._displayMode = DisplayMode.SHOW;
+    super.show();
   }
 }

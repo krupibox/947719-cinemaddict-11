@@ -1,6 +1,7 @@
 import ProfileComponent from './components/profile/profile';
 import FilmsSectionComponent from './components/films-section/films-section';
 import FilmsStatisticsComponent from './components/films-statistics/films-statistics';
+import StatisticsComponent from './components/statistic/statistic';
 import FilmsModel from "./models/films";
 import CommentsModel from "./models/comments";
 import FilterController from './controllers/filter';
@@ -34,7 +35,9 @@ const siteSection = new FilmsSectionComponent();
 
 render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
 
-const filterController = new FilterController(siteMain, siteSection, filmsModel);
+const statisticComponent = new StatisticsComponent(filmsModel.getFilmsAll());
+
+const filterController = new FilterController(siteMain, siteSection, filmsModel, statisticComponent);
 filterController.render();
 
 render(siteMain, siteSection, RenderPosition.BEFOREEND);
@@ -45,5 +48,6 @@ const pageController = new PageController(
     commentsModel);
 
 pageController.render();
+render(siteMain, statisticComponent, RenderPosition.BEFOREEND);
 
 render(siteFooter, new FilmsStatisticsComponent(films), RenderPosition.BEFOREEND);

@@ -65,5 +65,9 @@ export default class Statistic extends AbstractSmartComponent {
       this._chart = null;
     }
   }
+
+  hide() {
+    super.hide();
+  }
 }
 

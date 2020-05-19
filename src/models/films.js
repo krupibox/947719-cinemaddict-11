@@ -50,8 +50,4 @@ export default class Films {
   setOnFilterChange(cb) {
     this._filterChangeHandlers.push(cb);
   }
-
-  _callHandlers(handler) {
-    handler.forEach((cb) => cb());
-  }
 }
