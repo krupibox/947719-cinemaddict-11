@@ -15,7 +15,7 @@ export default class Films {
     return getFilmsByFilter(this._films, this._activeFilter);
   }
 
-  getFilmsDefault() {
+  getFilmsAll() {
     return this._films;
   }
 
@@ -49,9 +49,5 @@ export default class Films {
 
   setOnFilterChange(cb) {
     this._filterChangeHandlers.push(cb);
-  }
-
-  _callHandlers(handler) {
-    handler.forEach((cb) => cb());
   }
 }

@@ -1,9 +1,18 @@
-import {createFilmsSectionTemplate} from './film-section-tpl';
+import {createFilmsSectionTemplate} from './films-section-tpl';
 import AbstractComponent from '../abstract';
+import { DisplayMode } from '../../consts';
 
 export default class FilmSectionComponent extends AbstractComponent {
+  constructor() {
+    super();
+  }
+
   getTemplate() {
     return createFilmsSectionTemplate();
+  }
+
+  getFilmsContainerElement() {
+    return this.getElement().querySelector(`.films`);
   }
 
   getFilmsListElement() {
@@ -20,5 +29,13 @@ export default class FilmSectionComponent extends AbstractComponent {
 
   getFilmsListContainerMostCommentedElement() {
     return this.getElement().querySelector(`.films .films-list--extra:last-of-type .films-list__container`);
+  }
+
+  hide() {    
+    super.hide();
+  }
+  
+  show() {
+    super.show();
   }
 }

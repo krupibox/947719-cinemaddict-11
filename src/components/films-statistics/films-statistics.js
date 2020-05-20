@@ -1,4 +1,4 @@
-import {createFilmsStatistics} from './film-statistics-tpl';
+import {createFilmsStatistics} from './films-statistics-tpl';
 import AbstractComponent from '../abstract';
 
 export default class FilmsStatisticsComponent extends AbstractComponent {

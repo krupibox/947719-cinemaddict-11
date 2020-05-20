@@ -101,8 +101,8 @@ export default class FilmController {
       .querySelector(`.film-details__comments-list`);
     this._createComments(this._film.comments);
 
-    this._filmDetailsComponent.setOnCloseButtonClick((evt) => this._onCloseButtonClick(evt));
-    this._filmDetailsComponent.setOnEscapeKeyDown((evt) => this._onEscapeKeyDown(evt));
+    this._filmDetailsComponent.setOnCloseButtonClick(this._onCloseButtonClick);
+    this._filmDetailsComponent.setOnEscapeKeyDown(this._onEscapeKeyDown);
     this._filmDetailsComponent.setOnSendCommentPressEnter(this._onSendCommentKeyup);
 
     this._filmDetailsComponent.setOnButtonWatchListClick((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
@@ -138,16 +138,18 @@ export default class FilmController {
     evt.preventDefault();
 
     if (FILM_CLASS_ELEMENTS.some((element) => evt.target.classList.contains(element))) {
-      if (this._viewMode === ViewMode.DETAILS) {
-        return;
-      }
+
+      // if (this._viewMode === ViewMode.DETAILS) {
+
+      //   return;
+      // }
 
       this._onViewChange();
       this._createFilmDetailsComponent();
+
       render(this._filmDetailsContainer, this._filmDetailsComponent, RenderPosition.BEFOREEND);
 
       document.addEventListener(`keydown`, this._onEscapeKeyDown);
-      this._viewMode = ViewMode.DETAILS;
     }
   }
 
@@ -163,6 +165,7 @@ export default class FilmController {
   _onEscapeKeyDown(evt) {
     if (isEscape(evt)) {
       this._onViewChange();
+      remove(this._filmDetailsComponent);
       document.removeEventListener(`keydown`, this._onEscapeKeyDown);
       this._viewMode = ViewMode.DEFAULT;
       this.setDefaultView();
@@ -193,7 +196,6 @@ export default class FilmController {
   _onDeleteButtonClick(comment) {
     comment.setData({deleteMessage: DataDeleting.deleteMessage});
 
-    // check arguments
     this._onCommentChange(this, comment._filmComment, null, this._film);
   }
 }

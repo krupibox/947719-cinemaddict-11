@@ -17,11 +17,11 @@ const createNavigationItems = (navItems) => {
 };
 
 export const createNavigationTemplate = (navItems) => {
-  const navItemsMarkUp = createNavigationItems(navItems).join(`\n`);
+  const navItemsMarkup = createNavigationItems(navItems).join(`\n`);
 
   return (
     `<nav class="main-navigation">
-        ${navItemsMarkUp}
+        ${navItemsMarkup}
     </nav>`
   );
 };

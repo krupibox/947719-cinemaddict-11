@@ -32,6 +32,15 @@ export default class SortComponent extends AbstractSmartComponent {
       this._onSortChangeClick = cb;
   }
 
+  hide() {
+    super.hide();
+    this._displayMode = DisplayMode.HIDDEN;
+  }
+  show() {
+    super.show();
+    this._displayMode = DisplayMode.SHOW;
+  }
+
   setDefaultView() {
     this._resetSort();
     this._sortType = SortType.DEFAULT;

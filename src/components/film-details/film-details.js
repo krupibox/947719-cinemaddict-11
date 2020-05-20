@@ -27,10 +27,10 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film, {
-      isRated: !!this._film.userRating,
-      isWatched: !!this._film.isWatched,
-      isWatchlist: !!this._film.isWatchlist,
-      isFavorite: !!this._film.isFavorite,
+      isRated: this._film.userRating,
+      isWatched: this._film.isWatched,
+      isWatchlist: this._film.isWatchlist,
+      isFavorite: this._film.isFavorite,
       userEmoji: this._emoji
     });
   }

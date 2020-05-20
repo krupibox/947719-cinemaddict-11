@@ -1,8 +1,9 @@
 import ProfileComponent from './components/profile/profile';
-import FilmsSectionComponent from './components/film-section/film-section';
-import FilmsStatisticsComponent from './components/film-statistics/films-statistics';
-import FilmsModel from "./models/films.js";
-import CommentsModel from "./models/comments.js";
+import FilmsSectionComponent from './components/films-section/films-section';
+import FilmsStatisticsComponent from './components/films-statistics/films-statistics';
+import StatisticsComponent from './components/statistic/statistic';
+import FilmsModel from "./models/films";
+import CommentsModel from "./models/comments";
 import FilterController from './controllers/filter';
 import PageController from './controllers/page';
 import { NumberOfFilmsToRender, RenderPosition } from './consts';
@@ -31,9 +32,12 @@ const siteMain = document.querySelector(`.main`);
 const siteFooter = document.querySelector(`.footer`);
 const siteSection = new FilmsSectionComponent();
 
+
 render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
 
-const filterController = new FilterController(siteMain, filmsModel);
+const statisticComponent = new StatisticsComponent(filmsModel.getFilmsAll());
+
+const filterController = new FilterController(siteMain, siteSection, filmsModel, statisticComponent);
 filterController.render();
 
 render(siteMain, siteSection, RenderPosition.BEFOREEND);
@@ -44,5 +48,6 @@ const pageController = new PageController(
     commentsModel);
 
 pageController.render();
+render(siteMain, statisticComponent, RenderPosition.BEFOREEND);
 
 render(siteFooter, new FilmsStatisticsComponent(films), RenderPosition.BEFOREEND);
