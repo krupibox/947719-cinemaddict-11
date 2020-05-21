@@ -120,3 +120,7 @@ export const NameRating = {
   MOVIE_BUFF: `Movie Buff`,
 };
 
+export const AUTHORIZATION = `Basic fjsDjEjdWhdSj2341Sn=`;
+
+export const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
+

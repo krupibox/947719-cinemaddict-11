@@ -3,8 +3,10 @@ import { createRatingTemplate } from './film-details-rating-tpl';
 export const createFilmDetailsTemplate = (details, options) => {
   const {
     title,
+    originalTitle,
     rating,
     userRating,
+    ageRating,
     director,
     writers,
     actors,
@@ -25,8 +27,8 @@ export const createFilmDetailsTemplate = (details, options) => {
 
   const userRatingMarkup = (isWatched && isRated) ? `Your rate ${userRating}` : ``;
   const ratedMarkup = isWatched ? createRatingTemplate(title, userRating) : ``;
-  const threeGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
-
+  const filmGenres = [...genres].map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
+  
   return `<section class="film-details">
               <form class="film-details__inner" action="" method="get">
                 <div class="form-details__top-container">
@@ -35,16 +37,16 @@ export const createFilmDetailsTemplate = (details, options) => {
                   </div>
                   <div class="film-details__info-wrap">
                     <div class="film-details__poster">
-                      <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
+                      <img class="film-details__poster-img" src="${poster}" alt="">
   
-                      <p class="film-details__age">18+</p>
+                      <p class="film-details__age">${ageRating}+</p>
                     </div>
   
                     <div class="film-details__info">
                       <div class="film-details__info-head">
                         <div class="film-details__title-wrap">
                           <h3 class="film-details__title">${title}</h3>
-                          <p class="film-details__title-original">Original: ${title}</p>
+                          <p class="film-details__title-original">Original: ${originalTitle}</p>
                         </div>
   
                         <div class="film-details__rating">
@@ -81,7 +83,7 @@ export const createFilmDetailsTemplate = (details, options) => {
                         <tr class="film-details__row">
                           <td class="film-details__term">Genres</td>
                           <td class="film-details__cell">
-                          ${threeGenres}
+                          ${filmGenres}
                         </tr>
                       </table>
   

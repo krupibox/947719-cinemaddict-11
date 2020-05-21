@@ -6,55 +6,45 @@ import FilterController from './controllers/filter';
 import PageController from './controllers/page';
 import FilmsModel from "./models/films";
 import CommentsModel from "./models/comments";
-import { NumberOfFilmsToRender, RenderPosition } from './consts';
+import { RenderPosition, AUTHORIZATION, END_POINT } from './consts';
 import { render } from './utils/render';
 
-import { generateFilm } from './mock/film';
-import { generateComment } from './mock/comment';
 import { generateProfile } from './mock/profile';
-import { getRandomIntegerNumber } from './mock/utils';
 
 import Api from "./api";
-
-// const films = [...Array(NumberOfFilmsToRender.TOTAL)]
-// .map(() => generateFilm());
-
-const comments = [...Array(NumberOfFilmsToRender.TOTAL)]
-    .map(() => [...Array(getRandomIntegerNumber(1, 5))]
-        .map(() => generateComment()));
-
-const commentsModel = new CommentsModel();
-commentsModel.setComments(comments);
 
 const siteHeader = document.querySelector(`.header`);
 const siteMain = document.querySelector(`.main`);
 const siteFooter = document.querySelector(`.footer`);
 
 const filmsModel = new FilmsModel();
+const commentsModel = new CommentsModel();
 
-const api = new Api();
+const api = new Api(END_POINT, AUTHORIZATION);
 
-api.getFilms().then((films) => {
-    filmsModel.setFilms(films);
+api.getFilms()
+    .then((films) => {
+        filmsModel.setFilms(films);
+        
+        api.getComments(films)
+            .then((comments) => {             
+                commentsModel.setComments(comments);
 
-    render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
+                render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
 
-    const siteSection = new FilmsSectionComponent();
-    const statisticComponent = new StatisticsComponent(filmsModel.getFilmsAll());
+                const siteSection = new FilmsSectionComponent();
+                const statisticComponent = new StatisticsComponent(filmsModel.getFilmsAll());
 
-    const filterController = new FilterController(siteMain, siteSection, filmsModel, statisticComponent);
-    filterController.render();
+                const filterController = new FilterController(siteMain, siteSection, filmsModel, statisticComponent);
+                filterController.render();
 
-    render(siteMain, siteSection, RenderPosition.BEFOREEND);
+                render(siteMain, siteSection, RenderPosition.BEFOREEND);
 
-    const pageController = new PageController(siteSection, filmsModel, commentsModel);
-    pageController.render();
+                const pageController = new PageController(siteSection, filmsModel, commentsModel);
+                pageController.render();
 
-    render(siteMain, statisticComponent, RenderPosition.BEFOREEND);
-    render(siteFooter, new FilmsStatisticsComponent(films), RenderPosition.BEFOREEND);
-});
-
-
-
-
+                render(siteMain, statisticComponent, RenderPosition.BEFOREEND);
+                render(siteFooter, new FilmsStatisticsComponent(films), RenderPosition.BEFOREEND);
+            });
+    });
 

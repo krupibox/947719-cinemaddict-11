@@ -13,10 +13,11 @@ const renderFilms = (films, filmListElement, onDataChange, onViewChange, onComme
 });
 
 export default class PageController {
-  constructor(filmContainer, filmsModel, commentsModel) {
+  constructor(filmContainer, filmsModel, commentsModel, api) {
     this._filmContainer = filmContainer;
     this._filmsModel = filmsModel;
     this._commentsModel = commentsModel;
+    this._api = api;
 
     this._showedFilmControllers = [];
     this._showedMaxRatingFilmControllers = [];
@@ -46,13 +47,11 @@ export default class PageController {
   }
 
   render() {
-    let films = this._filmsModel.getFilms();
-
+    const films = this._filmsModel.getFilms();
     const comments = this._commentsModel.getComments();
 
-    // Temporary assemble films and comments
-    films.map(function (film, index) {
-      film.comments = comments[index];
+    films.map((film, index) => {
+      Object.assign(film.comments, comments[index]);
     });
 
     if (films.length === 0) {
