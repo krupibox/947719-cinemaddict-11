@@ -40,7 +40,7 @@ api.getFilms()
 
                 render(siteMain, siteSection, RenderPosition.BEFOREEND);
 
-                const pageController = new PageController(siteSection, filmsModel, commentsModel);
+                const pageController = new PageController(siteSection, filmsModel, commentsModel, api);
                 pageController.render();
 
                 render(siteMain, statisticComponent, RenderPosition.BEFOREEND);

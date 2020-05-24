@@ -56,12 +56,12 @@ export default class API {
       .then(FilmModel.parseFilmWithComments);
   }
 
-  deleteComment(commentId) {
+  deleteComment(comment) {    
     return this._load({
-      url: `comments/${commentId}`,
+      url: `comments/${comment.id}`,
       method: Method.DELETE
     })
-      .then(() => commentId);
+      .then(() => comment.id);
   }
 
   _loadComments(film) {
