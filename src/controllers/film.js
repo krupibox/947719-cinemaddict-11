@@ -190,12 +190,12 @@ export default class FilmController {
   * @memberof PageController
   */
 
-    this._onCommentChange(this, null, comment, this._film);
+    this._onCommentChange(this, null, comment);
   }
 
   _onDeleteButtonClick(comment) {
     comment.setData({deleteMessage: DataDeleting.deleteMessage});
 
-    this._onCommentChange(this, comment._filmComment, null, this._film);
+    this._onCommentChange(this, comment._filmComment, null);
   }
 }

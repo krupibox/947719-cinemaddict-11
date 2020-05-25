@@ -127,17 +127,14 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     const text = this.getElement().querySelector(`.film-details__comment-input`);
 
     return {
-      'id': String(Math.round(new Date() * Math.random())),
-      'author': `Jack Daniels`,
       'comment': encode(text.value),
       'date': new Date(),
-      'emotion': this._emoji,
-
+      'emotion': this._emoji
     };
   }
 
   _isPressEnter(evt, cb) {
-    if (evt.key === KeyCode.ENTER) {
+    if (evt.key === KeyCode.ENTER && evt.ctrlKey || evt.key === KeyCode.ENTER && evt.metaKey) {
       cb(this._onSendComment());
     }
   }

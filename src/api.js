@@ -1,4 +1,5 @@
-import FilmModel from './models/film';
+import FilmAdapter from './adapters/film-adapter';
+import CommentAdapter from './adapters/comment-adapter';
 
 const Method = {
   GET: `GET`,
@@ -11,7 +12,10 @@ const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
+
+    console.log(`response`, response);
     throw new Error(`${response.status}: ${response.statusText}`);
+    
   }
 };
 
@@ -24,7 +28,7 @@ export default class API {
   getFilms() {
     return this._load({url: `movies`})
       .then((response) => response.json())
-      .then(FilmModel.parseFilms)
+      .then(FilmAdapter.parseFilms)
   }
 
   getComments(films) {
@@ -32,8 +36,6 @@ export default class API {
   }
 
   updateFilm(film) {
-    console.log(`updateFilm`, film);
-    
     return this._load({
       url: `movies/${film.id}`,
       method: Method.PUT,
@@ -41,11 +43,11 @@ export default class API {
       headers: new Headers({'Content-Type': `application/json`})
     })
       .then((response) => response.json())
-      .then(FilmModel.parseFilm)
+      .then(FilmAdapter.parseFilm)
       .then((film) => this._loadComments(film));
   }
 
-  updateComment(controller, comment) {
+  addComment(controller, comment) {          
     return this._load({
       url: `comments/${controller._film.id}`,
       method: Method.POST,
@@ -53,10 +55,10 @@ export default class API {
       headers: new Headers({'Content-Type': `application/json`})
     })
       .then((response) => response.json())
-      .then(FilmModel.parseFilmWithComments);
+      .then(FilmAdapter.parseFilmWithComments);
   }
 
-  deleteComment(comment) {    
+  deleteComment(comment) {        
     return this._load({
       url: `comments/${comment.id}`,
       method: Method.DELETE
@@ -67,8 +69,15 @@ export default class API {
   _loadComments(film) {
     return this._load({url: `comments/${film.id}`})
       .then((response) => response.json())
-      .then(Comment.parseComments);
+      .then(CommentAdapter.parseComments);
   }
+
+  // Temporary!
+  // loadComments(id) {
+  //   return this._load({url: `comments/${id}`})
+  //     .then((response) => response.json())
+  //     .then(CommentAdapter.parseComments);
+  // }
   
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);

@@ -1,6 +1,6 @@
-import Comment from './comments';
+import CommentAdapter from '../adapters/comment-adapter';
 
-export default class Film {
+export default class FilmAdapter {
   constructor(serverFilm) {
     this.id = serverFilm[`id`];
 
@@ -66,20 +66,19 @@ export default class Film {
   }
 
   static parseFilm(serverFilm) {
-    return new Film(serverFilm);
+    return new FilmAdapter(serverFilm);
   }
 
   static parseFilms(serverFilms) {
-    return serverFilms.map(Film.parseFilm);
+    return serverFilms.map(FilmAdapter.parseFilm);
   }
 
   static cloneFilm(frontFilm) {
-    return new Film(frontFilm.toRAW());
+    return new FilmAdapter(frontFilm.toRAW());
   }
 
   static parseFilmWithComments(filmWithComments) {
-    const frontFilm = Film.parseFilm(filmWithComments.film);
-
-    return frontFilm.setComments(Comment.parseComments(filmWithComments.comments));
+    const parsedFilm = FilmAdapter.parseFilm(filmWithComments.movie);
+    return parsedFilm.setComments(CommentAdapter.parseComments(filmWithComments.comments));
   }
 }

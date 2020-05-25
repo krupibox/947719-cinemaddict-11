@@ -2,8 +2,10 @@ import SortComponent from '../components/sort/sort';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
 import FilmController from '../controllers/film';
-import { render, remove } from '../utils/render';
-import { NumberOfFilmsToRender, FilmCount, RenderPosition, SortType } from '../consts';
+import CommentAdapter from '../adapters/comment-adapter';
+
+import {render, remove} from '../utils/render';
+import {NumberOfFilmsToRender, FilmCount, RenderPosition, SortType} from '../consts';
 
 const renderFilms = (films, filmListElement, onDataChange, onViewChange, onCommentChange) => films.map((film) => {
   const filmController = new FilmController(filmListElement, onDataChange, onViewChange, onCommentChange);
@@ -65,11 +67,11 @@ export default class PageController {
 
   _renderFilms(count, films) {
     const newFilms = renderFilms(
-      films.slice(0, count),
-      this._filmsListContainer,
-      this._onDataChange,
-      this._onViewChange,
-      this._onCommentChange
+        films.slice(0, count),
+        this._filmsListContainer,
+        this._onDataChange,
+        this._onViewChange,
+        this._onCommentChange
     );
 
     this._showedFilmControllers = this._showedFilmControllers.concat(newFilms);
@@ -109,11 +111,11 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-      sortedFilms,
-      this._filmsListContainerTopRated,
-      this._onDataChange,
-      this._onViewChange,
-      this._onCommentChange
+        sortedFilms,
+        this._filmsListContainerTopRated,
+        this._onDataChange,
+        this._onViewChange,
+        this._onCommentChange
     );
 
     this._showedMaxRatingFilmControllers = [].concat(newFilms);
@@ -138,11 +140,11 @@ export default class PageController {
     }
 
     const newFilms = renderFilms(
-      sortedFilms,
-      this._filmsListContainerMostCommented,
-      this._onDataChange,
-      this._onViewChange,
-      this._onCommentChange
+        sortedFilms,
+        this._filmsListContainerMostCommented,
+        this._onDataChange,
+        this._onViewChange,
+        this._onCommentChange
     );
 
     this._showedMostCommentedFilmControllers = [].concat(newFilms);
@@ -181,38 +183,40 @@ export default class PageController {
   }
 
   _onCommentChange(filmController, oldComment, newComment) {
-    // find film index to find only its commets
-    let index = this._filmsModel.getFilms().findIndex((film) => film.id === filmController._film.id);
 
     // oldComment === null to add new comment
     if (oldComment === null) {
+      const parsedComment = CommentAdapter.parseComment(newComment);
 
-      // add new comment to total array of comments
-      this._commentsModel.addComment(index, newComment);
 
-      // get comments updated with new comment
-      const comments = this._commentsModel.getComments();
+      this._api.addComment(filmController, parsedComment)
+        .then((updatedFilm) => {
+          this._commentsModel.addComment(updatedFilm.id, updatedFilm.comments.slice(-1)[0]);
 
-      // rerender current film
-      filmController.render(Object.assign({}, filmController._film, { comments: comments[index] }));
+          filmController.render(updatedFilm);
+        });
+
+      // .then(() => {
+      //   const index = this._filmsModel.getFilms().findIndex((film) => film.id === filmController._film.id)
+      //   console.log(filmController._film.id);
+      //   xxx();
+      // })
 
       //  newComment === null to delete comment
     } else if (newComment === null) {
 
-      // api: first delete comment on server then in model
-      console.log(this._api);
-      
       this._api.deleteComment(oldComment)
         .then(() => {
-          this._commentsModel.deleteComment(oldComment, index);
-          const comments = this._commentsModel.getComments();
+          // find film index to find only its commets
+          const index = this._filmsModel.getFilms().findIndex((film) => film.id === filmController._film.id);
+          const updatedComment = this._commentsModel.deleteComment(oldComment, index);
 
-          if (index) {
-            filmController.render(Object.assign({}, filmController._film, { comments: comments[index] }));
-          }
+          filmController._film.comments = updatedComment;
+          filmController.render(filmController._film);
 
+          this._filmsModel.activateHandlers();
+          filmController.setCommentViewDefault();
         });
-
     }
   }
 

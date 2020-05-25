@@ -34,8 +34,7 @@ export default class Comments {
 
     this._callHandlers(this._dataChangeHandlers);
 
-    // send ok
-    return true;
+    return this._comments[indexFilm];
   }
 
   setDataChangeHandler(handler) {

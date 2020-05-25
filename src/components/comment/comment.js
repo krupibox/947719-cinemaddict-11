@@ -6,7 +6,7 @@ export default class Comment extends AbstractSmartComponent {
   constructor(filmComment) {
     super();
 
-    this._filmComment = filmComment;
+    this._filmComment = filmComment;    
     this._dataStatus = DataDefault;
 
     this._onDeleteButtonClick = null;
