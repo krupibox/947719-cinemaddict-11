@@ -12,10 +12,7 @@ const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
-
-    console.log(`response`, response);
     throw new Error(`${response.status}: ${response.statusText}`);
-    
   }
 };
 
@@ -26,7 +23,7 @@ export default class API {
   }
 
   getFilms() {
-    return this._load({url: `movies`})
+    return this._load({ url: `movies` })
       .then((response) => response.json())
       .then(FilmAdapter.parseFilms)
   }
@@ -40,25 +37,25 @@ export default class API {
       url: `movies/${film.id}`,
       method: Method.PUT,
       body: JSON.stringify(film.toRAW()),
-      headers: new Headers({'Content-Type': `application/json`})
+      headers: new Headers({ 'Content-Type': `application/json` })
     })
       .then((response) => response.json())
       .then(FilmAdapter.parseFilm)
       .then((film) => this._loadComments(film));
   }
 
-  addComment(controller, comment) {          
+  addComment(controller, comment) {
     return this._load({
       url: `comments/${controller._film.id}`,
       method: Method.POST,
       body: JSON.stringify(comment.toRAW()),
-      headers: new Headers({'Content-Type': `application/json`})
+      headers: new Headers({ 'Content-Type': `application/json` })
     })
       .then((response) => response.json())
       .then(FilmAdapter.parseFilmWithComments);
   }
 
-  deleteComment(comment) {        
+  deleteComment(comment) {
     return this._load({
       url: `comments/${comment.id}`,
       method: Method.DELETE
@@ -67,22 +64,15 @@ export default class API {
   }
 
   _loadComments(film) {
-    return this._load({url: `comments/${film.id}`})
+    return this._load({ url: `comments/${film.id}` })
       .then((response) => response.json())
       .then(CommentAdapter.parseComments);
   }
 
-  // Temporary!
-  // loadComments(id) {
-  //   return this._load({url: `comments/${id}`})
-  //     .then((response) => response.json())
-  //     .then(CommentAdapter.parseComments);
-  // }
-  
-  _load({url, method = Method.GET, body = null, headers = new Headers()}) {
+  _load({ url, method = Method.GET, body = null, headers = new Headers() }) {
     headers.append(`Authorization`, this._authorization);
 
-    return fetch(`${this._endPoint}/${url}`, {method, body, headers})
+    return fetch(`${this._endPoint}/${url}`, { method, body, headers })
       .then(checkStatus)
       .catch((err) => {
         throw err;

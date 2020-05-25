@@ -3,7 +3,6 @@ import CommentAdapter from '../adapters/comment-adapter';
 export default class FilmAdapter {
   constructor(serverFilm) {
     this.id = serverFilm[`id`];
-
     this.poster = serverFilm[`film_info`][`poster`];
     this.title = serverFilm[`film_info`][`title`];
     this.originalTitle = serverFilm[`film_info`][`alternative_title`];
@@ -13,18 +12,15 @@ export default class FilmAdapter {
     this.writers = serverFilm[`film_info`][`writers`] || [];
     this.actors = serverFilm[`film_info`][`actors`] || [];
     this.country = serverFilm[`film_info`][`release`][`release_country`] || [];
-    this.productionDate = serverFilm[`film_info`][`release`][`date`] ?
-      new Date(serverFilm[`film_info`][`release`][`date`]) : null;
-    this.duration = serverFilm[`film_info`][`runtime`] || 0;
+    this.year = serverFilm[`film_info`][`release`][`date`] || ``;
+    this.duration = serverFilm[`film_info`][`runtime`] || ``;
     this.genres = new Set(serverFilm[`film_info`][`genre`] || []);
     this.description = serverFilm[`film_info`][`description`] || ``;
-
     this.userRating = serverFilm[`user_details`][`personal_rating`];
     this.watchingDate = new Date(serverFilm[`user_details`][`watching_date`]);
     this.isWatchlist = Boolean(serverFilm[`user_details`][`watchlist`]);
     this.isWatched = Boolean(serverFilm[`user_details`][`already_watched`]);
     this.isFavorite = Boolean(serverFilm[`user_details`][`favorite`]);
-
     this.comments = [];
   }
 
@@ -43,7 +39,7 @@ export default class FilmAdapter {
         'writers': this.writers,
         'actors': this.actors,
         'release': {
-          'date': this.productionDate.toISOString(),
+          'date': this.year.toISOString(),
           'release_country': this.country
         },
         'runtime': this.duration,

@@ -1,21 +1,22 @@
-import FilmComponent from '../components/film/film';
+import FilmCardComponent from '../components/film/film-card';
 import FilmDetailsComponent from '../components/film-details/film-details';
 import CommentComponent from '../components/comment/comment';
 import {render, replace, remove} from '../utils/render';
 import {isEscape} from '../utils/is-escape';
-import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, UNDO_RATING, DataDeleting} from '../consts';
+import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, UNDO_RATING, DataDeleting, HandlerLocker} from '../consts';
 
 export default class FilmController {
   constructor(container, onDataChange, onViewChange, onCommentChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
     this._onCommentChange = onCommentChange;
 
-    this._onViewChange = onViewChange;
+    this._isHandlerLocker = HandlerLocker.OFF;
     this._viewMode = ViewMode.DEFAULT;
 
     this._film = null;
-    this._filmComponent = null;
+    this._filmCardComponent = null;
     this._filmDetailsComponent = null;
     this._filmDetailsContainer = document.body;
     this._onCloseButtonClick = this._onCloseButtonClick.bind(this);
@@ -27,20 +28,23 @@ export default class FilmController {
   render(film) {
     this._film = film;
 
-    const oldFilmComponent = this._filmComponent;
+    const oldFilmCardComponent = this._filmCardComponent;
     const oldFilmDetailsComponent = this._filmDetailsComponent;
 
     this._createFilmComponent();
     this._createFilmDetailsComponent();
 
-    if (oldFilmComponent && oldFilmDetailsComponent) {
-      replace(this._filmComponent, oldFilmComponent);
+    if (oldFilmCardComponent && oldFilmDetailsComponent) {
+      this.setHandlerLocker(HandlerLocker.OFF);
+      this.blockFilmDetailsForm();
+
+      replace(this._filmCardComponent, oldFilmCardComponent);
       replace(this._filmDetailsComponent, oldFilmDetailsComponent);
 
       return;
     }
 
-    render(this._container, this._filmComponent, RenderPosition.BEFOREEND);
+    render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
   }
 
   setDefaultView() {
@@ -50,15 +54,19 @@ export default class FilmController {
   }
 
   destroy() {
-    remove(this._filmComponent);
+    remove(this._filmCardComponent);
+  }
+
+  shake() {
+    this._filmDetailsComponent.shake();
   }
 
   blockFilmDetailsForm() {
-    this._filmComponent.disableForm();
+    this._filmDetailsComponent.disableForm();
   }
 
   unblockFilmDetailsForm() {
-    this._filmComponent.enableForm();
+    this._filmDetailsComponent.enableForm();
   }
 
   setCommentViewDefault() {
@@ -86,12 +94,12 @@ export default class FilmController {
   }
 
   _createFilmComponent() {
-    this._filmComponent = new FilmComponent(this._film);
+    this._filmCardComponent = new FilmCardComponent(this._film);
 
-    this._filmComponent.setOnFilmClick((evt) => this._onFilmClick(evt));
-    this._filmComponent.setOnButtonWatchListClick((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
-    this._filmComponent.setOnButtonWatchedClick((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
-    this._filmComponent.setOnButtonFavoriteClick((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
+    this._filmCardComponent.setOnFilmClick((evt) => this._onFilmClick(evt));
+    this._filmCardComponent.setOnButtonWatchListClick((evt) => this._setOnDataChange(evt, {isWatchlist: !this._film.isWatchlist}));
+    this._filmCardComponent.setOnButtonWatchedClick((evt) => this._setOnDataChange(evt, {isWatched: !this._film.isWatched}));
+    this._filmCardComponent.setOnButtonFavoriteClick((evt) => this._setOnDataChange(evt, {isFavorite: !this._film.isFavorite}));
   }
 
   _createFilmDetailsComponent() {
@@ -139,10 +147,10 @@ export default class FilmController {
 
     if (FILM_CLASS_ELEMENTS.some((element) => evt.target.classList.contains(element))) {
 
-      // if (this._viewMode === ViewMode.DETAILS) {
+      if (this._viewMode === ViewMode.DETAILS) {
 
-      //   return;
-      // }
+        return;
+      }
 
       this._onViewChange();
       this._createFilmDetailsComponent();
@@ -180,22 +188,11 @@ export default class FilmController {
   }
 
   _onSendCommentKeyup(comment) {
-
-    /**
-  *
-  * @param {object} this (Instance of FilmController)
-  * @param {null} null (Add comment)
-  * @param {array} comment (New comment)
-  * @param {object} this._film (Current film with data)
-  * @memberof PageController
-  */
-
     this._onCommentChange(this, null, comment);
   }
 
   _onDeleteButtonClick(comment) {
     comment.setData({deleteMessage: DataDeleting.deleteMessage});
-
     this._onCommentChange(this, comment._filmComment, null);
   }
 }

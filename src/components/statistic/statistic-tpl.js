@@ -1,19 +1,19 @@
-import {parseRuntime} from '../../utils/common';
+import { getTimeFromMins } from '../../utils/get-time-from-mins';
 
 const calcTopGenre = (films) => {
-  const uniqueGenres = [...new Set(films.reduce((acc, {genres}) => [...acc, ...genres], []))];
+  const uniqueGenres = [...new Set(films.reduce((acc, { genres }) => [...acc, ...genres], []))];
   return uniqueGenres.reduce((acc, genre) => {
-    return films.filter(({genres}) => [...genres].includes(genre)).length >
-    films.filter(({genres}) => [...genres].includes(acc)).length ? genre : acc;
+    return films.filter(({ genres }) => [...genres].includes(genre)).length >
+      films.filter(({ genres }) => [...genres].includes(acc)).length ? genre : acc;
   });
 };
 
 export const getStatisticTemplate = (watchedFilms, userRating) => {
   const watchedFilmsMarkup = watchedFilms ? watchedFilms.length : `0`;
   const totalRuntime = watchedFilms.reduce((acc, film) => acc + film.duration, 0);
-  const totalRuntimeMarkup = parseRuntime(totalRuntime);
+  const totalRuntimeMarkup = getTimeFromMins(totalRuntime);
   const topGenreMarkup = watchedFilms.length > 0 ? calcTopGenre(watchedFilms) : `-`;
-  
+
   return (
     `<section class="statistic visually-hidden">
       <p class="statistic__rank">

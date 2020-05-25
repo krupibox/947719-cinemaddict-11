@@ -107,6 +107,20 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._onSendCommentPressEnter = cb;
   }
 
+  disableForm() {
+    const element = this.getElement();
+
+    this._elementsForBlock = [...element.querySelectorAll(`.film-details__control-input`),
+      element.querySelector(`.film-details__comment-input`),
+      ...element.querySelectorAll(`.film-details__user-rating-input`)];
+
+    this._elementsForBlock.forEach((item) => item.setAttribute(`disabled`, ``));
+  }
+  
+  enableForm() {
+    this._elementsForBlock.forEach((item) => item.removeAttribute(`disabled`));
+  }
+
   recoveryListeners() {
     this._subscribeOnEvents();
     this.getElement().querySelector(`.film-details__comment-input`).value = this._commentText;
