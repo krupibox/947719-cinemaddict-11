@@ -5,7 +5,7 @@ import FilmController from '../controllers/film';
 import CommentAdapter from '../adapters/comment-adapter';
 
 import {render, remove} from '../utils/render';
-import {NumberOfFilmsToRender, FilmCount, RenderPosition, SortType} from '../consts';
+import {NumberOfFilmsToRender, FilmCount, RenderPosition, SortType, HandlerLocker} from '../consts';
 
 const renderFilms = (films, filmListElement, onDataChange, onViewChange, onCommentChange) => films.map((film) => {
   const filmController = new FilmController(filmListElement, onDataChange, onViewChange, onCommentChange);
@@ -176,46 +176,46 @@ export default class PageController {
     this._updateFilms(this._showingFilmCount, films);
   }
 
-  // DATA CHANGE
   _onDataChange(filmController, oldFilm, newFilm) {
-    this._filmsModel.updateFilmById(filmController._film.id, newFilm);
+    this._filmsModel.updateFilmById(oldFilm.id, newFilm);
     filmController.render(newFilm);
   }
 
   _onCommentChange(filmController, oldComment, newComment) {
+    filmController.blockFilmDetailsForm();
+    filmController.setHandlerLocker(HandlerLocker.ON);
 
-    // oldComment === null to add new comment
     if (oldComment === null) {
       const parsedComment = CommentAdapter.parseComment(newComment);
-
 
       this._api.addComment(filmController, parsedComment)
         .then((updatedFilm) => {
           this._commentsModel.addComment(updatedFilm.id, updatedFilm.comments.slice(-1)[0]);
-
           filmController.render(updatedFilm);
+          filmController.unblockFilmDetailsForm();
+        })
+        .catch(() => {
+          filmController.showOutlineOnError();
+          filmController.setHandlerLocker(HandlerLocker.OFF);
+          filmController.unblockFilmDetailsForm();
+          filmController.shake();
         });
 
-      // .then(() => {
-      //   const index = this._filmsModel.getFilms().findIndex((film) => film.id === filmController._film.id)
-      //   console.log(filmController._film.id);
-      //   xxx();
-      // })
-
-      //  newComment === null to delete comment
     } else if (newComment === null) {
-
       this._api.deleteComment(oldComment)
         .then(() => {
-          // find film index to find only its commets
           const index = this._filmsModel.getFilms().findIndex((film) => film.id === filmController._film.id);
           const updatedComment = this._commentsModel.deleteComment(oldComment, index);
-
           filmController._film.comments = updatedComment;
           filmController.render(filmController._film);
-
-          this._filmsModel.activateHandlers();
           filmController.setCommentViewDefault();
+          filmController.unblockFilmDetailsForm();
+        })
+        .catch(() => {
+          filmController.setCommentViewDefault();
+          filmController.setHandlerLocker(HandlerLocker.OFF);
+          filmController.unblockFilmDetailsForm();
+          filmController.shake();
         });
     }
   }

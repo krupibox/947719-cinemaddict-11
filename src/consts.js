@@ -8,16 +8,6 @@ export const ViewMode = {
   DETAILS: `details`,
 };
 
-export const GENRE = [
-  `Western`,
-  `Drama`,
-  `Comedy`,
-  `Cartoon`,
-  `Mystery`,
-  `Sci-Fi`,
-  `Musical`,
-];
-
 export const Range = {
   MIN_TITLE: 1,
   MAX_TITLE: 3,
@@ -97,6 +87,8 @@ export const HandlerLocker = {
 
 export const UNDO_RATING = 0;
 
+export const SHAKE_TIMEOUT = 700;
+
 export const RATING_NUMBER = 9;
 
 export const KeyCode = {
@@ -120,7 +112,8 @@ export const NameRating = {
   MOVIE_BUFF: `Movie Buff`,
 };
 
-export const AUTHORIZATION = `Basic fjsDjEjdWhdSj2341Sn=`;
+export const DESCRIPTION_MAX_LENGTH = 140;
 
+export const AUTHORIZATION = `Basic fjsDjEjdWhdSj2341Sn=`;
 export const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
