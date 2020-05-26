@@ -1,7 +1,11 @@
-import {Cache, RESPONSE_SUCCESS} from '../src/consts';
+const CACHE_PREFIX = `cinemaaddict-cache`;
+const CACHE_VER = `v1`;
+const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VER}`;
+  
+const SUCCESS = 200;
 
 const installHandler = (evt) => {
-    evt.waitUntil(caches.open(Cache.NAME).then((cache) => cache.addAll([
+    evt.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll([
       `/`,
       `/index.html`,
       `/bundle.js`,
@@ -35,12 +39,12 @@ const installHandler = (evt) => {
       }
   
       return fetch(request).then((response) => {
-        if (!response || response.status !== RESPONSE_SUCCESS || response.type !== `basic`) {
+        if (!response || response.status !== SUCCESS || response.type !== `basic`) {
           return response;
         }
   
         const clonedResponse = response.clone();
-        caches.open(Cache.NAME).then((cache) => cache.put(request, clonedResponse));
+        caches.open(CACHE_NAME).then((cache) => cache.put(request, clonedResponse));
         return response;
       });
     }));
@@ -48,7 +52,7 @@ const installHandler = (evt) => {
 
   const activateHandler = (evt) => {
     evt.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((key) => {
-      if (key.indexOf(Cache.PREFIX) === 0 && key !== Cache.NAME) {
+      if (key.indexOf(CACHE_PREFIX) === 0 && key !== CACHE_NAME) {
         return caches.delete(key);
       }
       return null;

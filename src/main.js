@@ -6,16 +6,20 @@ import FilterController from './controllers/filter';
 import PageController from './controllers/page';
 import FilmsModel from "./models/films";
 import CommentsModel from "./models/comments";
-import { RenderPosition, AUTHORIZATION, END_POINT } from './consts';
+import { RenderPosition, AUTHORIZATION, END_POINT, STORE_NAME } from './consts';
 import { render } from './utils/render';
 
 import { generateProfile } from './mock/profile';
 
-import Api from "./api";
+import { Api, Store, Provider } from "./api";
 
 window.addEventListener(`load`, () => {
     navigator.serviceWorker.register(`/sw.js`);
-  });
+});
+
+const api = new Api(END_POINT, AUTHORIZATION);
+const store = new Store(STORE_NAME, window.localStorage);
+const provider = new Provider(api, store);
 
 const siteHeader = document.querySelector(`.header`);
 const siteMain = document.querySelector(`.main`);
@@ -24,14 +28,12 @@ const siteFooter = document.querySelector(`.footer`);
 const filmsModel = new FilmsModel();
 const commentsModel = new CommentsModel();
 
-const api = new Api(END_POINT, AUTHORIZATION);
-
 api.getFilms()
     .then((films) => {
         filmsModel.setFilms(films);
-        
+
         api.getComments(films)
-            .then((comments) => {             
+            .then((comments) => {
                 commentsModel.setComments(comments);
 
                 render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
@@ -44,7 +46,7 @@ api.getFilms()
 
                 render(siteMain, siteSection, RenderPosition.BEFOREEND);
 
-                const pageController = new PageController(siteSection, filmsModel, commentsModel, api);
+                const pageController = new PageController(siteSection, filmsModel, commentsModel, provider);
                 pageController.render();
 
                 render(siteMain, statisticComponent, RenderPosition.BEFOREEND);

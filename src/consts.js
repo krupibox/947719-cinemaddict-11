@@ -116,11 +116,3 @@ export const DESCRIPTION_MAX_LENGTH = 140;
 
 export const AUTHORIZATION = `Basic fjsDjEjdWhdSj2341Sn=`;
 export const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
-
-export const Cache = {
-  PREFIX: `cinemaaddict-cache`,
-  VER: `v1`,
-  NAME: `${this.PREFIX}-${this.VER}`
-}
-
-export const RESPONSE_SUCCESS = 200;
