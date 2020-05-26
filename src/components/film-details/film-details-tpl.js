@@ -18,14 +18,14 @@ export const createFilmDetailsTemplate = (details, options) => {
     genres,
     poster,
     description,
-    comments } = details;
+    comments} = details;
 
     const {
     isRated,
     isWatched,
     isFavorite,
     isWatchlist,
-    userEmoji } = options;
+    userEmoji} = options;
 
   const userRatingMarkup = (isWatched && isRated) ? `Your rate ${userRating}` : ``;
   const ratedMarkup = isWatched ? createRatingTemplate(title, userRating) : ``;
