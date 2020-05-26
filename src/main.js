@@ -8,9 +8,6 @@ import FilmsModel from "./models/films";
 import CommentsModel from "./models/comments";
 import {RenderPosition, AUTHORIZATION, END_POINT} from './consts';
 import {render} from './utils/render';
-
-import {generateProfile} from './mock/profile';
-
 import Api from "./api";
 
 const siteHeader = document.querySelector(`.header`);
@@ -29,7 +26,13 @@ api.getFilms()
             .then((comments) => {
               commentsModel.setComments(comments);
 
-              render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
+              const profileComponent = new ProfileComponent(filmsModel.getFilmsAll());
+
+              filmsModel.setOnDataChange(() => {
+                profileComponent.rerender(filmsModel.getFilmsAll());
+              });
+
+              render(siteHeader, profileComponent, RenderPosition.BEFOREEND);
 
               const siteSection = new FilmsSectionComponent();
               const statisticComponent = new StatisticsComponent(filmsModel.getFilmsAll());

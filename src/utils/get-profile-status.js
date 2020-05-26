@@ -1,8 +1,8 @@
-import {getIsHistoryMovies} from './filters';
+import {getIsHistoryFilms} from './filters';
 import {NameRating} from '../consts';
 
-export const getProfileRank = (movies) => {
-  const userRating = getIsHistoryMovies(movies).length;
+export const getProfileStatus = (films) => {
+  const userRating = getIsHistoryFilms(films).length;
 
   switch (true) {
     case userRating === 0:

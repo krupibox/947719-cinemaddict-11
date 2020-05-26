@@ -2,7 +2,7 @@ import AbstractSmartComponent from '../abstract-smart-component';
 import {getStatisticTemplate} from './statistic-tpl';
 import {StatisticFilter} from '../../consts';
 import {generateChart} from './chart';
-import {getProfileRank} from '../../utils/profile-rank';
+import {getProfileStatus} from '../../utils/get-profile-status';
 import {getWatchedFilms} from '../../utils/statistic';
 
 const FILTER_ID_PREFIX = `statistic-`;
@@ -14,7 +14,7 @@ export default class Statistic extends AbstractSmartComponent {
     this._films = films;
     this._statisticPeriod = StatisticFilter.ALL_TIME;
 
-    this._userRating = getProfileRank(this._films);
+    this._userRating = getProfileStatus(this._films);
     this._watchedFilms = getWatchedFilms(this._films, this._statisticPeriod);
 
     this._chart = null;
