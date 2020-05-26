@@ -14,10 +14,10 @@ export const createFilmCardTemplate = (film) => {
     isWatchlist,
     isWatched,
     isFavorite } = film;
-    
+
   const ITEM_ACTIVE = `film-card__controls-item--active`;
 
-  const filmYear = new Date(year).getFullYear()
+  const filmYear = new Date(year).getFullYear();
   const filmDuration = getTimeFromMins(duration);  
   const shortDescription = description.length > DESCRIPTION_MAX_LENGTH ?
   `${[...description].slice(0, DESCRIPTION_MAX_LENGTH).join(``) + ` ...`}` : description;

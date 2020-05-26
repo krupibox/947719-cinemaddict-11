@@ -72,7 +72,7 @@ export const DisplayMode = {
   HIDDEN: `hidden`
 };
 
-export const DataDefault= {
+export const DataDefault = {
   deleteMessage: `Delete`
 };
 

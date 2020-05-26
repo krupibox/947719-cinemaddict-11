@@ -1,6 +1,6 @@
-import { createSortTemplate } from './sort-tpl';
+import {createSortTemplate} from './sort-tpl';
 import AbstractSmartComponent from '../abstract-smart-component';
-import { SortType, DisplayMode } from '../../consts';
+import {SortType, DisplayMode} from '../../consts';
 
 export default class SortComponent extends AbstractSmartComponent {
   constructor() {
@@ -22,14 +22,14 @@ export default class SortComponent extends AbstractSmartComponent {
           evt.preventDefault();
           this._resetSort();
           evt.target.classList.add(`sort__button--active`);
-          
+
           this._onSortChangeClick = cb;
- 
+
           cb(element.dataset.sortType);
         });
       });
 
-      this._onSortChangeClick = cb;
+    this._onSortChangeClick = cb;
   }
 
   hide() {
@@ -56,4 +56,4 @@ export default class SortComponent extends AbstractSmartComponent {
     this.getElement().querySelectorAll(`.sort__button--active`)
       .forEach((element) => element.classList.remove(`sort__button--active`));
   }
-} 
+}

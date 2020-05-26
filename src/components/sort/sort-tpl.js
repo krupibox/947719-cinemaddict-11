@@ -1,4 +1,4 @@
-import { SortType } from '../../consts';
+import {SortType} from '../../consts';
 
 export const createSortTemplate = () => {
   return (
@@ -8,4 +8,4 @@ export const createSortTemplate = () => {
         <li><a href="#" data-sort-type="${SortType.RATING}" class="sort__button sort__button--by-rating">Sort by rating</a></li>
     </ul>`
   );
-}
+};
