@@ -11,7 +11,7 @@ export default class Comment extends AbstractSmartComponent {
 
     this._onDeleteButtonClick = null;
   }
-  
+
   getTemplate() {
     return createCommentsTemplate(this._filmComment, this._dataStatus);
   }
@@ -38,7 +38,7 @@ export default class Comment extends AbstractSmartComponent {
     this.setData({deleteMessage: DataDefault.deleteMessage});
   }
 
-_subscribeOnEvents() {
+  _subscribeOnEvents() {
     this.setOnDeleteButtonClick(this._onDeleteButtonClick);
   }
 }
