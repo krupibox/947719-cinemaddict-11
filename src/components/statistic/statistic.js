@@ -1,5 +1,5 @@
 import AbstractSmartComponent from '../abstract-smart-component';
-import {getStatisticTemplate} from './statistic-tpl';
+import {getStatisticTemplate } from './statistic-tpl';
 import {StatisticFilter} from '../../consts';
 import {generateChart} from './chart';
 import {getProfileRank} from '../../utils/profile-rank';
@@ -11,7 +11,7 @@ export default class Statistic extends AbstractSmartComponent {
   constructor(films) {
     super();
 
-    this._films = films;    
+    this._films = films;
     this._statisticPeriod = StatisticFilter.ALL_TIME;
 
     this._userRating = getProfileRank(this._films);
@@ -28,7 +28,7 @@ export default class Statistic extends AbstractSmartComponent {
   }
 
   rerender() {
-    this.getElement().querySelector(`#statistic-${this._statisticPeriod}`).checked = true;    
+    this.getElement().querySelector(`#statistic-${this._statisticPeriod}`).checked = true;
     this._renderChart();
   }
 
@@ -36,14 +36,14 @@ export default class Statistic extends AbstractSmartComponent {
     this._setOnFilterChangeClick();
   }
 
-  _setOnFilterChangeClick() {  
+  _setOnFilterChangeClick() {
     this.getElement().querySelector(`.statistic__filters`)
       .addEventListener(`click`, (evt) => {
         if (!evt.target.classList.contains(`statistic__filters-label`)) {
           return;
         }
 
-        this._statisticPeriod = evt.target.htmlFor.substring(FILTER_ID_PREFIX.length);                
+        this._statisticPeriod = evt.target.htmlFor.substring(FILTER_ID_PREFIX.length);
         this.rerender();
       });
   }
@@ -55,10 +55,10 @@ export default class Statistic extends AbstractSmartComponent {
     if (this._films.length <= 0) {
       return;
     }
-    
-    this._chart = generateChart(canvasChart, this._statisticPeriod, this._films);    
+
+    this._chart = generateChart(canvasChart, this._statisticPeriod, this._films);
   }
-  
+
   _resetChart() {
     if (this._chart) {
       this._chart.destroy();

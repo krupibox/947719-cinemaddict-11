@@ -1,6 +1,5 @@
 import {createFilmsSectionTemplate} from './films-section-tpl';
 import AbstractComponent from '../abstract';
-import { DisplayMode } from '../../consts';
 
 export default class FilmSectionComponent extends AbstractComponent {
   constructor() {
@@ -31,10 +30,10 @@ export default class FilmSectionComponent extends AbstractComponent {
     return this.getElement().querySelector(`.films .films-list--extra:last-of-type .films-list__container`);
   }
 
-  hide() {    
+  hide() {
     super.hide();
   }
-  
+
   show() {
     super.show();
   }

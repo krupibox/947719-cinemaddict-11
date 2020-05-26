@@ -1,7 +1,7 @@
-import { createFilmDetailsTemplate } from './film-details-tpl';
+import {createFilmDetailsTemplate} from './film-details-tpl';
 import AbstractSmartComponent from '../abstract-smart-component';
-import { KeyCode, TypeEmoji, UNDO_RATING } from '../../consts';
-import { encode } from '../../utils/encode';
+import {KeyCode, TypeEmoji, UNDO_RATING} from '../../consts';
+import {encode} from '../../utils/encode';
 
 export default class FilmDetailsComponent extends AbstractSmartComponent {
   constructor(film) {
@@ -38,9 +38,11 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
   getElementsForBlock() {
     const element = this.getElement();
 
-    return this._elementsForBlock = [...element.querySelectorAll(`.film-details__control-input`),
-      element.querySelector(`.film-details__comment-input`),
-      ...element.querySelectorAll(`.film-details__user-rating-input`)];
+    this._elementsForBlock = [...element.querySelectorAll(`.film-details__control-input`),
+    element.querySelector(`.film-details__comment-input`),
+    ...element.querySelectorAll(`.film-details__user-rating-input`)];
+
+    return this._elementsForBlock;
   }
 
   setOnCloseButtonClick(cb) {
@@ -87,7 +89,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._onEmojiClick = cb;
   }
 
-  setOnChangeRatingFilmClick(cb) {        
+  setOnChangeRatingFilmClick(cb) {
     if (this._film.isWatched) {
       this.getElement().querySelector(`.film-details__user-rating-score`)
         .addEventListener(`click`, (evt) => {
@@ -117,10 +119,10 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   disableForm() {
     this.getElementsForBlock();
-      
+
     this._elementsForBlock.forEach((item) => item.setAttribute(`disabled`, ``));
   }
-  
+
   enableForm() {
     this.getElementsForBlock();
 
@@ -145,7 +147,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   _onSendComment() {
     const text = this.getElement().querySelector(`.film-details__comment-input`);
-    
+
     return {
       'comment': encode(text.value),
       'date': new Date(),

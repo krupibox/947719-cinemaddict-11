@@ -6,10 +6,10 @@ import FilterController from './controllers/filter';
 import PageController from './controllers/page';
 import FilmsModel from "./models/films";
 import CommentsModel from "./models/comments";
-import { RenderPosition, AUTHORIZATION, END_POINT } from './consts';
-import { render } from './utils/render';
+import {RenderPosition, AUTHORIZATION, END_POINT} from './consts';
+import {render } from './utils/render';
 
-import { generateProfile } from './mock/profile';
+import {generateProfile} from './mock/profile';
 
 import Api from "./api";
 
@@ -25,9 +25,8 @@ const api = new Api(END_POINT, AUTHORIZATION);
 api.getFilms()
     .then((films) => {
         filmsModel.setFilms(films);
-        
         api.getComments(films)
-            .then((comments) => {             
+            .then((comments) => {
                 commentsModel.setComments(comments);
 
                 render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
