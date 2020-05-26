@@ -13,6 +13,10 @@ import { generateProfile } from './mock/profile';
 
 import Api from "./api";
 
+window.addEventListener(`load`, () => {
+    navigator.serviceWorker.register(`/sw.js`);
+  });
+
 const siteHeader = document.querySelector(`.header`);
 const siteMain = document.querySelector(`.main`);
 const siteFooter = document.querySelector(`.footer`);
