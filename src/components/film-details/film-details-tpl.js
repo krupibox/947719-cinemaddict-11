@@ -3,7 +3,7 @@ import {getFormatDate} from '../../utils/get-format-date';
 import {getTimeFromMins} from '../../utils/get-time-from-mins';
 
 export const createFilmDetailsTemplate = (details, options) => {
-  const {
+    const {
     title,
     originalTitle,
     rating,
@@ -20,7 +20,7 @@ export const createFilmDetailsTemplate = (details, options) => {
     description,
     comments} = details;
 
-  const {
+    const {
     isRated,
     isWatched,
     isFavorite,
