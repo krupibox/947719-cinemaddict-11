@@ -1,6 +1,6 @@
 const createNavigationItems = (navItems) => {
   return navItems
-    .map(({ name, count, checked }) => {
+    .map(({name, count, checked}) => {
       const isAll = (name === `All movies`) ? `visually-hidden` : ``;
       const isStats = (name === `Stats`) ? `main-navigation__item--additional` : ``;
       const isCountExist = count > 0;

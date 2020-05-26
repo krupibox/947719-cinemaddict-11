@@ -1,4 +1,4 @@
-import { createFilmCardTemplate } from './film-card-tpl';
+import {createFilmCardTemplate} from './film-card-tpl';
 import AbstractComponent from '../abstract';
 
 export default class FilmsCardComponent extends AbstractComponent {

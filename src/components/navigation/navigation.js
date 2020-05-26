@@ -13,11 +13,11 @@ export default class NavigationComponent extends AbstractComponent {
   }
 
   setOnFilterChange(handler) {
-    
+
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
-      if (evt.target.tagName === `A` && evt.target.dataset.filterType !== undefined) {        
+      if (evt.target.tagName === `A` && evt.target.dataset.filterType !== undefined) {
         handler(evt.target.dataset.filterType);
       }
     });

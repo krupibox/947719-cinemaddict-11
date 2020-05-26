@@ -6,10 +6,10 @@ import FilterController from './controllers/filter';
 import PageController from './controllers/page';
 import FilmsModel from "./models/films";
 import CommentsModel from "./models/comments";
-import { RenderPosition, AUTHORIZATION, END_POINT } from './consts';
-import { render } from './utils/render';
+import {RenderPosition, AUTHORIZATION, END_POINT} from './consts';
+import {render} from './utils/render';
 
-import { generateProfile } from './mock/profile';
+import {generateProfile} from './mock/profile';
 
 import Api from "./api";
 
@@ -25,26 +25,25 @@ const api = new Api(END_POINT, AUTHORIZATION);
 api.getFilms()
     .then((films) => {
         filmsModel.setFilms(films);
-        
         api.getComments(films)
-            .then((comments) => {             
-                commentsModel.setComments(comments);
+            .then((comments) => {
+              commentsModel.setComments(comments);
 
-                render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
+              render(siteHeader, new ProfileComponent(generateProfile()), RenderPosition.BEFOREEND);
 
-                const siteSection = new FilmsSectionComponent();
-                const statisticComponent = new StatisticsComponent(filmsModel.getFilmsAll());
+              const siteSection = new FilmsSectionComponent();
+              const statisticComponent = new StatisticsComponent(filmsModel.getFilmsAll());
 
-                const filterController = new FilterController(siteMain, siteSection, filmsModel, statisticComponent);
-                filterController.render();
+              const filterController = new FilterController(siteMain, siteSection, filmsModel, statisticComponent);
+              filterController.render();
 
-                render(siteMain, siteSection, RenderPosition.BEFOREEND);
+              render(siteMain, siteSection, RenderPosition.BEFOREEND);
 
-                const pageController = new PageController(siteSection, filmsModel, commentsModel, api);
-                pageController.render();
+              const pageController = new PageController(siteSection, filmsModel, commentsModel, api);
+              pageController.render();
 
-                render(siteMain, statisticComponent, RenderPosition.BEFOREEND);
-                render(siteFooter, new FilmsStatisticsComponent(films), RenderPosition.BEFOREEND);
+              render(siteMain, statisticComponent, RenderPosition.BEFOREEND);
+              render(siteFooter, new FilmsStatisticsComponent(films), RenderPosition.BEFOREEND);
             });
     });
 

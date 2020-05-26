@@ -1,11 +1,11 @@
-import { getFormatDateComment } from '../../utils/get-format-date-comment';
-import { DataDeleting } from '../../consts';
+import {getFormatDateComment} from '../../utils/get-format-date-comment';
+import {DataDeleting} from '../../consts';
 
 export const createCommentsTemplate = ({emotion, comment, author, date, id}, data) => {
-    const isBlock = data.deleteMessage === DataDeleting.deleteMessage;
-    
-    return (
-      `<li class="film-details__comment">
+  const isBlock = data.deleteMessage === DataDeleting.deleteMessage;
+
+  return (
+    `<li class="film-details__comment">
           <span class="film-details__comment-emoji">
             ${emotion ? `<img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji">` : ``}
           </span>
@@ -24,5 +24,5 @@ export const createCommentsTemplate = ({emotion, comment, author, date, id}, dat
             </p>
           </div>
        </li>`
-    );
-  };
+  );
+};

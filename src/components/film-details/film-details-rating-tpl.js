@@ -1,10 +1,10 @@
-import { RATING_NUMBER } from '../../consts';
-import { createScoreTemplate } from './film-details-score-tpl';
+import {RATING_NUMBER} from '../../consts';
+import {createScoreTemplate} from './film-details-score-tpl';
 
 export const createRatingTemplate = (title, userRating) => {
-    const ratingMarkup = createScoreTemplate(RATING_NUMBER, userRating);
-    return (
-      `<div class="form-details__middle-container">createScoreTemplate
+  const ratingMarkup = createScoreTemplate(RATING_NUMBER, userRating);
+  return (
+    `<div class="form-details__middle-container">createScoreTemplate
         <section class="film-details__user-rating-wrap">
           <div class="film-details__user-rating-controls">
             <button class="film-details__watched-reset" type="button">Undo</button>
@@ -27,5 +27,5 @@ export const createRatingTemplate = (title, userRating) => {
           </div>
         </section>
       </div>`
-    );
-  };
+  );
+};

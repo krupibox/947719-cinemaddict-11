@@ -2,7 +2,7 @@ import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {getWatchedFilms} from '../../utils/statistic';
 
-export const generateChart = (ctx, period, films) => {  
+export const generateChart = (ctx, period, films) => {
   const getGenreLabels = () => {
     return [...new Set(films
       .map((film) => film.genres)
