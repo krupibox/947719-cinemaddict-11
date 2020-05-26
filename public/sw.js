@@ -45,3 +45,16 @@ const installHandler = (evt) => {
       });
     }));
   };
+
+  const activateHandler = (evt) => {
+    evt.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((key) => {
+      if (key.indexOf(Cache.PREFIX) === 0 && key !== Cache.NAME) {
+        return caches.delete(key);
+      }
+      return null;
+    }).filter((key) => key !== null))));
+  };
+  
+  self.addEventListener(`activate`, activateHandler);
+  self.addEventListener(`install`, installHandler);
+  self.addEventListener(`fetch`, fetchHandler);
