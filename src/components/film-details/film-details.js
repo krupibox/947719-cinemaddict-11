@@ -39,8 +39,8 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     const element = this.getElement();
 
     this._elementsForBlock = [...element.querySelectorAll(`.film-details__control-input`),
-    element.querySelector(`.film-details__comment-input`),
-    ...element.querySelectorAll(`.film-details__user-rating-input`)];
+      element.querySelector(`.film-details__comment-input`),
+      ...element.querySelectorAll(`.film-details__user-rating-input`)];
 
     return this._elementsForBlock;
   }

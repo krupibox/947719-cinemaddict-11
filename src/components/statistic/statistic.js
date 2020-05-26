@@ -1,5 +1,5 @@
 import AbstractSmartComponent from '../abstract-smart-component';
-import {getStatisticTemplate } from './statistic-tpl';
+import {getStatisticTemplate} from './statistic-tpl';
 import {StatisticFilter} from '../../consts';
 import {generateChart} from './chart';
 import {getProfileRank} from '../../utils/profile-rank';

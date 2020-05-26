@@ -1,10 +1,10 @@
-import { getTimeFromMins } from '../../utils/get-time-from-mins';
+import {getTimeFromMins} from '../../utils/get-time-from-mins';
 
 const calcTopGenre = (films) => {
-  const uniqueGenres = [...new Set(films.reduce((acc, { genres }) => [...acc, ...genres], []))];
+  const uniqueGenres = [...new Set(films.reduce((acc, {genres}) => [...acc, ...genres], []))];
   return uniqueGenres.reduce((acc, genre) => {
-    return films.filter(({ genres }) => [...genres].includes(genre)).length >
-      films.filter(({ genres }) => [...genres].includes(acc)).length ? genre : acc;
+    return films.filter(({genres}) => [...genres].includes(genre)).length >
+      films.filter(({genres}) => [...genres].includes(acc)).length ? genre : acc;
   });
 };
 

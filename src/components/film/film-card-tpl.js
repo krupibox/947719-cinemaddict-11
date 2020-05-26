@@ -1,5 +1,5 @@
-import { DESCRIPTION_MAX_LENGTH } from '../../consts';
-import { getTimeFromMins } from '../../utils/get-time-from-mins.js';
+import {DESCRIPTION_MAX_LENGTH} from '../../consts';
+import {getTimeFromMins} from '../../utils/get-time-from-mins.js';
 
 export const createFilmCardTemplate = (film) => {
   const {
