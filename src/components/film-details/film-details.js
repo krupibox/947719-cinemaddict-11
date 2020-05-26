@@ -35,6 +35,14 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     });
   }
 
+  getElementsForBlock() {
+    const element = this.getElement();
+
+    return this._elementsForBlock = [...element.querySelectorAll(`.film-details__control-input`),
+      element.querySelector(`.film-details__comment-input`),
+      ...element.querySelectorAll(`.film-details__user-rating-input`)];
+  }
+
   setOnCloseButtonClick(cb) {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
 
@@ -79,7 +87,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
     this._onEmojiClick = cb;
   }
 
-  setOnChangeRatingFilmClick(cb) {
+  setOnChangeRatingFilmClick(cb) {        
     if (this._film.isWatched) {
       this.getElement().querySelector(`.film-details__user-rating-score`)
         .addEventListener(`click`, (evt) => {
@@ -108,16 +116,14 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
   }
 
   disableForm() {
-    const element = this.getElement();
-
-    this._elementsForBlock = [...element.querySelectorAll(`.film-details__control-input`),
-      element.querySelector(`.film-details__comment-input`),
-      ...element.querySelectorAll(`.film-details__user-rating-input`)];
-
+    this.getElementsForBlock();
+      
     this._elementsForBlock.forEach((item) => item.setAttribute(`disabled`, ``));
   }
   
   enableForm() {
+    this.getElementsForBlock();
+
     this._elementsForBlock.forEach((item) => item.removeAttribute(`disabled`));
   }
 
@@ -139,7 +145,7 @@ export default class FilmDetailsComponent extends AbstractSmartComponent {
 
   _onSendComment() {
     const text = this.getElement().querySelector(`.film-details__comment-input`);
-
+    
     return {
       'comment': encode(text.value),
       'date': new Date(),

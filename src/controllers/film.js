@@ -3,7 +3,7 @@ import FilmDetailsComponent from '../components/film-details/film-details';
 import CommentComponent from '../components/comment/comment';
 import {render, replace, remove} from '../utils/render';
 import {isEscape} from '../utils/is-escape';
-import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, UNDO_RATING, DataDeleting, HandlerLocker} from '../consts';
+import {RenderPosition, FILM_CLASS_ELEMENTS, ViewMode, DataDeleting, HandlerLocker} from '../consts';
 
 export default class FilmController {
   constructor(container, onDataChange, onViewChange, onCommentChange) {
@@ -36,7 +36,6 @@ export default class FilmController {
 
     if (oldFilmCardComponent && oldFilmDetailsComponent) {
       this.setHandlerLocker(HandlerLocker.OFF);
-      this.blockFilmDetailsForm();
 
       replace(this._filmCardComponent, oldFilmCardComponent);
       replace(this._filmDetailsComponent, oldFilmDetailsComponent);
@@ -77,9 +76,9 @@ export default class FilmController {
     this._isHandlerLocker = boolean;
   }
 
-  resetFilmDetailsForm() {
-    this._film.userRating = UNDO_RATING;
-    this.render(this._film);
+  showOutlineOnError() {
+    const inputField = this._filmDetailsComponent.getElementsForBlock().filter((element) => element.classList.contains(`film-details__comment-input`));
+    inputField[0].classList.add(`film-details__comment-input--error`);
   }
 
   _setOnDataChange(evt, controlType) {

@@ -195,7 +195,7 @@ export default class PageController {
           filmController.unblockFilmDetailsForm();
         })
         .catch(() => {
-          filmController.resetFilmDetailsForm();
+          filmController.showOutlineOnError();
           filmController.setHandlerLocker(HandlerLocker.OFF);
           filmController.unblockFilmDetailsForm();
           filmController.shake();

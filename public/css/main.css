@@ -865,6 +865,10 @@ button {
 .film-details__comment-input::placeholder {
   color: #212126;
 }
+.film-details__comment-input--error {
+  border-color: var(--text-color-poor);
+  box-shadow: 0 0 10px var(--text-color-poor);
+}
 .film-details__comment-label {
   width: 100%;
 }
