@@ -1,5 +1,7 @@
+import {Cache, RESPONSE_SUCCESS} from '../src/consts';
+
 const installHandler = (evt) => {
-    evt.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll([
+    evt.waitUntil(caches.open(Cache.NAME).then((cache) => cache.addAll([
       `/`,
       `/index.html`,
       `/bundle.js`,
@@ -23,4 +25,23 @@ const installHandler = (evt) => {
     ]))
     );
   };
+
+  const fetchHandler = (evt) => {
+    const {request} = evt;
   
+    evt.respondWith(caches.match(request).then((cacheResponse) => {
+      if (cacheResponse) {
+        return cacheResponse;
+      }
+  
+      return fetch(request).then((response) => {
+        if (!response || response.status !== RESPONSE_SUCCESS || response.type !== `basic`) {
+          return response;
+        }
+  
+        const clonedResponse = response.clone();
+        caches.open(Cache.NAME).then((cache) => cache.put(request, clonedResponse));
+        return response;
+      });
+    }));
+  };
