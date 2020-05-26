@@ -3,7 +3,7 @@ import {getFormatDate} from '../../utils/get-format-date';
 import {getTimeFromMins} from '../../utils/get-time-from-mins';
 
 export const createFilmDetailsTemplate = (details, options) => {
-    const {
+  const {
     title,
     originalTitle,
     rating,
@@ -18,14 +18,14 @@ export const createFilmDetailsTemplate = (details, options) => {
     genres,
     poster,
     description,
-    comments } = details;
+    comments} = details;
 
-    const {
+  const {
     isRated,
     isWatched,
     isFavorite,
     isWatchlist,
-    userEmoji } = options;
+    userEmoji} = options;
 
   const userRatingMarkup = (isWatched && isRated) ? `Your rate ${userRating}` : ``;
   const ratedMarkup = isWatched ? createRatingTemplate(title, userRating) : ``;

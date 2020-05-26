@@ -24,8 +24,8 @@ const api = new Api(END_POINT, AUTHORIZATION);
 
 api.getFilms()
     .then((films) => {
-        filmsModel.setFilms(films);
-        api.getComments(films)
+      filmsModel.setFilms(films);
+      api.getComments(films)
             .then((comments) => {
               commentsModel.setComments(comments);
 

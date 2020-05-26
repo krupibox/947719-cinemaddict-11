@@ -13,7 +13,7 @@ const checkStatus = (response) => {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText}`);
- }
+  }
 };
 
 export default class Api {
