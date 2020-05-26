@@ -21,7 +21,7 @@ export default class CommentAdapter {
     return new CommentAdapter(serverComment);
   }
 
-  static parseComments(serverComment) {
-    return serverComment.map(CommentAdapter.parseComment);
+  static parseComments(serverComments) {
+    return serverComments.map(CommentAdapter.parseComment);
   }
 }
