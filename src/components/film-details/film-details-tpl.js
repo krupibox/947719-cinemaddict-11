@@ -1,6 +1,6 @@
-import { createRatingTemplate } from './film-details-rating-tpl';
-import { getFormatDate } from '../../utils/get-format-date';
-import { getTimeFromMins } from '../../utils/get-time-from-mins';
+import {createRatingTemplate} from './film-details-rating-tpl';
+import {getFormatDate} from '../../utils/get-format-date';
+import {getTimeFromMins} from '../../utils/get-time-from-mins';
 
 export const createFilmDetailsTemplate = (details, options) => {
   const {
@@ -18,21 +18,21 @@ export const createFilmDetailsTemplate = (details, options) => {
     genres,
     poster,
     description,
-    comments } = details;
+    comments} = details;
 
   const {
     isRated,
     isWatched,
     isFavorite,
     isWatchlist,
-    userEmoji } = options;
+    userEmoji} = options;
 
   const userRatingMarkup = (isWatched && isRated) ? `Your rate ${userRating}` : ``;
   const ratedMarkup = isWatched ? createRatingTemplate(title, userRating) : ``;
-  const filmGenres = [...genres].map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
+  const filmGenres = [...genres].map((genre) => `<span class="film-details__genre">${genre}</span>`).join(``);
   const filmReleasedDate = getFormatDate(releaseDate);
-  const filmDuration = getTimeFromMins(duration);  
-  
+  const filmDuration = getTimeFromMins(duration);
+
   return `<section class="film-details">
               <form class="film-details__inner" action="" method="get">
                 <div class="form-details__top-container">

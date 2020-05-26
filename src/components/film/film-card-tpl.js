@@ -1,5 +1,5 @@
-import { DESCRIPTION_MAX_LENGTH } from '../../consts';
-import { getTimeFromMins } from '../../utils/get-time-from-mins.js';
+import {DESCRIPTION_MAX_LENGTH} from '../../consts';
+import {getTimeFromMins} from '../../utils/get-time-from-mins.js';
 
 export const createFilmCardTemplate = (film) => {
   const {
@@ -13,14 +13,14 @@ export const createFilmCardTemplate = (film) => {
     comments,
     isWatchlist,
     isWatched,
-    isFavorite } = film;
-    
+    isFavorite} = film;
+
   const ITEM_ACTIVE = `film-card__controls-item--active`;
 
-  const filmYear = new Date(year).getFullYear()
-  const filmDuration = getTimeFromMins(duration);  
+  const filmYear = new Date(year).getFullYear();
+  const filmDuration = getTimeFromMins(duration);
   const shortDescription = description.length > DESCRIPTION_MAX_LENGTH ?
-  `${[...description].slice(0, DESCRIPTION_MAX_LENGTH).join(``) + ` ...`}` : description;
+    `${[...description].slice(0, DESCRIPTION_MAX_LENGTH).join(``) + ` ...`}` : description;
   const filmGenres = [...genres][0] || ``;
 
   return `<article class="film-card">
