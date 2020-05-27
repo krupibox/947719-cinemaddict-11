@@ -250,7 +250,7 @@ export default class PageController {
         break;
     }
 
-    this._updateFilms(this._showingFilmCount, filmsSorted);
+    this._updateFilms(FilmCount.START, filmsSorted);
   }
 
   _onViewChange() {
