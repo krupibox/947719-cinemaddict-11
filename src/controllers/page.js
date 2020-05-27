@@ -2,6 +2,7 @@ import SortComponent from '../components/sort/sort';
 import NoFilmsComponent from '../components/no-films/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button/show-more-button';
 import FilmController from '../controllers/film';
+
 import CommentAdapter from '../adapters/comment-adapter';
 
 import {render, remove} from '../utils/render';
@@ -25,7 +26,6 @@ export default class PageController {
     this._showedMaxRatingFilmControllers = [];
     this._showedMostCommentedFilmControllers = [];
 
-
     this._filmsList = this._filmContainer.getFilmsListElement();
     this._filmsListContainer = this._filmContainer.getFilmsListContainerElement();
     this._filmsListContainerTopRated = this._filmContainer.getFilmsListContainerTopRatedElement();
@@ -42,7 +42,7 @@ export default class PageController {
     this._onViewChange = this._onViewChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
 
-    this._filmsModel.setOnDataChange(this._onFilterChange);
+    this._filmsModel.setOnFilterChange(this._onFilterChange);
     this._sortComponent.setClickHandler(this._onSortChange);
 
     this._showingFilmCount = FilmCount.START;
@@ -89,6 +89,9 @@ export default class PageController {
     this._showMoreButtonComponent.setClickHandler(this._onShowMoreButtonClick);
   }
 
+  setShowingFilmCountToDefault() {
+    this._showingFilmCount = FilmCount.START;
+  }
 
   sortFilmsByMaxRating() {
     const films = this._filmsModel.getFilms();
@@ -220,9 +223,16 @@ export default class PageController {
     }
   }
 
-  _onFilterChange() {
-    this._updateFilms(FilmCount.START);
-    this._sortComponent.setDefaultView();
+  _onFilterChange(countOnFilter) {
+
+    if (countOnFilter) {
+      this._updateFilms(countOnFilter);
+      this._sortComponent.setDefaultView();
+
+      return;
+    }
+
+    this._updateFilms(this._showingFilmCount);
   }
 
   _onSortChange(sortType) {

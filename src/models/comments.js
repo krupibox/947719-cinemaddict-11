@@ -20,14 +20,12 @@ export default class Comments {
   }
 
   deleteComment(deleteComment, indexFilm) {
-    // find commets by film index
     const indexComment = this._comments[indexFilm].findIndex((comment) => comment.id === deleteComment.id);
 
     if (indexComment === -1) {
       return false;
     }
 
-    // delete comment by its comment index
     this._comments[indexFilm] = [].concat(
         this._comments[indexFilm].slice(0, indexComment), this._comments[indexFilm].slice(indexComment + 1)
     );

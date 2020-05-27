@@ -1,5 +1,5 @@
 import {getFilmsByFilter} from '../utils/get-films-by-filter';
-import {FilterTypes} from '../consts';
+import {FilterTypes, FilmCount} from '../consts';
 
 export default class Films {
   constructor() {
@@ -23,16 +23,22 @@ export default class Films {
     this._films = [].concat(this._films, films);
   }
 
-  activateHandlers() {
+  activateHandlers(count) {
     this._dataChangeHandlers.forEach((handler) => handler());
-    this._filterChangeHandlers.forEach((handler) => handler());
+    this._filterChangeHandlers.forEach((handler) => {
+      if (count) {
+        handler(count);
+
+        return;
+      }
+
+      handler();
+    });
   }
 
   updateFilmById(oldFilmId, newFilm) {
     const index = this._films.findIndex((film) => film.id === oldFilmId);
-
     this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
-
     this.activateHandlers();
 
     return true;
@@ -40,7 +46,7 @@ export default class Films {
 
   setFilterType(filterType) {
     this._activeFilter = filterType;
-    this.activateHandlers();
+    this.activateHandlers(FilmCount.START);
   }
 
   setOnDataChange(cb) {
