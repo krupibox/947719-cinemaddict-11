@@ -13,7 +13,6 @@ export default class NavigationComponent extends AbstractComponent {
   }
 
   setOnFilterChange(handler) {
-
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
